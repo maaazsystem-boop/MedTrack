@@ -1337,7 +1337,24 @@ document.getElementById('SO').innerHTML=
 
 chkAuth();
 </script>
-  <button onclick="document.getElementById('SB').classList.toggle('open');document.getElementById('SBO').classList.toggle('on')" style="position:fixed;top:15px;left:15px;z-index:999;width:48px;height:48px;border-radius:50%;background:#6366f1;color:white;border:none;font-size:20px;box-shadow:0 4px 12px rgba(0,0,0,0.3);cursor:pointer">☰</button>
+ <button id="HMB" onclick="document.getElementById('SB').classList.toggle('open');document.getElementById('SBO').classList.toggle('on')" style="display:none;position:fixed;top:15px;left:15px;z-index:999;width:48px;height:48px;border-radius:50%;background:#6366f1;color:white;border:none;font-size:20px;box-shadow:0 4px 12px rgba(0,0,0,0.3);cursor:pointer">☰</button>
+
+<style>
+.sb{transform:translateX(-100%)!important;z-index:998!important}
+.sb.open{transform:translateX(0)!important}
+.mc{margin-left:0!important}
+.ql{left:0!important}
+.tb{padding-left:75px!important}
+</style>
+
+<script>
+setInterval(function(){
+var app=document.getElementById('APP');
+var hmb=document.getElementById('HMB');
+if(app && app.classList.contains('on')){hmb.style.display='flex';hmb.style.alignItems='center';hmb.style.justifyContent='center'}
+else{hmb.style.display='none'}
+},500);
+</script> 
 
 <style>
 .sb{transform:translateX(-100%)!important;z-index:998!important}
