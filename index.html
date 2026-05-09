@@ -2,412 +2,1358 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MedPath</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MedPath — Your path through medicine</title>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-body { background: #000; color: #fff; min-height: 100vh; padding-bottom: 80px; }
-.container { max-width: 500px; margin: 0 auto; padding: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; min-height: 100vh; overscroll-behavior: none; }
+body { padding-bottom: 90px; }
 
-/* Header */
-.header { padding: 40px 20px 20px; }
-.greeting { color: #888; font-size: 14px; }
-.name { font-size: 28px; font-weight: 800; margin-top: 4px; }
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes confettiFall { 0% { transform: translateY(-10px) rotate(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+@keyframes ringDraw { from { stroke-dashoffset: 283; } }
+
+.fade-in { animation: fadeIn 0.4s ease forwards; }
+.fade-up { animation: fadeInUp 0.5s ease forwards; }
+.float-anim { animation: float 3s ease-in-out infinite; }
+.pulse-anim { animation: pulse 2s ease-in-out infinite; }
+
+/* Container */
+.app-container { max-width: 500px; margin: 0 auto; min-height: 100vh; position: relative; }
 
 /* Cards */
 .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 20px; margin-bottom: 16px; }
-.card-gold { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05)); border: 1px solid rgba(245,158,11,0.3); }
+.card-gold { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(99,102,241,0.08)); border: 1px solid rgba(245,158,11,0.25); border-radius: 24px; padding: 20px; margin-bottom: 16px; }
+.card-purple { background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(99,102,241,0.04)); border: 1px solid rgba(99,102,241,0.25); border-radius: 24px; padding: 20px; margin-bottom: 16px; }
 
-/* Streak */
-.streak-row { display: flex; align-items: center; justify-content: space-between; }
-.streak-num { font-size: 56px; font-weight: 900; line-height: 1; }
-.streak-emoji { font-size: 40px; margin-left: 8px; }
-.streak-label { color: #888; font-size: 13px; margin-bottom: 8px; }
-.streak-best { background: rgba(245,158,11,0.15); padding: 12px 16px; border-radius: 16px; text-align: center; }
-.streak-best-num { color: #f59e0b; font-weight: 700; font-size: 20px; }
+/* Header */
+.app-header { display: flex; align-items: center; justify-content: space-between; padding: 50px 20px 16px; }
+.greeting-text { color: #888; font-size: 14px; margin-bottom: 2px; }
+.greeting-name { font-size: 26px; font-weight: 800; }
 
-/* Progress */
-.progress-bar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; margin: 12px 0; }
-.progress-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #fcd34d); border-radius: 4px; transition: width 1s ease; }
+/* Streak badge in header */
+.header-streak { display: flex; align-items: center; gap: 4px; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); padding: 8px 12px; border-radius: 16px; }
+.header-streak-num { color: #f59e0b; font-weight: 700; font-size: 14px; }
 
-/* Subjects */
-.subject-item { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; transition: transform 0.2s; }
-.subject-item:active { transform: scale(0.98); }
-.subject-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.subject-name { display: flex; align-items: center; gap: 10px; font-weight: 600; }
-.subject-icon { font-size: 24px; }
-.subject-percent { font-weight: 700; color: #f59e0b; }
+/* Menu button */
+.menu-btn { width: 40px; height: 40px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
 
-/* Button */
-.btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #f59e0b, #fcd34d); color: #000; border: none; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; }
-.btn:active { opacity: 0.8; }
+/* Buttons */
+.btn-primary { width: 100%; padding: 16px; background: linear-gradient(135deg, #f59e0b, #fcd34d); color: #000; border: none; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; transition: opacity 0.2s; }
+.btn-primary:active { opacity: 0.85; }
+.btn-secondary { width: 100%; padding: 14px; background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; font-size: 14px; font-weight: 600; cursor: pointer; }
 
-/* Bottom Nav */
-.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 12px 0; display: flex; justify-content: space-around; z-index: 100; }
-.nav-item { background: none; border: none; color: #666; font-size: 11px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 4px 12px; }
-.nav-item.active { color: #f59e0b; }
-.nav-icon { font-size: 22px; }
+/* Inputs */
+.input { width: 100%; padding: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; color: #fff; font-size: 16px; outline: none; }
+.input:focus { border-color: #f59e0b; }
+.input::placeholder { color: #555; }
 
-/* Onboarding */
-.onboard { min-height: 100vh; display: flex; flex-direction: column; padding: 40px 24px; }
-.onboard-header { padding-top: 60px; text-align: center; }
-.logo { font-size: 80px; margin-bottom: 20px; }
-.app-name { font-size: 42px; font-weight: 900; margin-bottom: 8px; }
-.tagline { color: #888; font-size: 16px; margin-bottom: 60px; }
-.input { width: 100%; padding: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; color: #fff; font-size: 16px; margin-bottom: 16px; }
-.input:focus { outline: none; border-color: #f59e0b; }
+/* Progress bar */
+.progress-bar { height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin: 8px 0; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #fcd34d); border-radius: 3px; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
 
 /* Pages */
-.page { display: none; }
+.page { display: none; padding: 0 0 20px; }
 .page.active { display: block; animation: fadeIn 0.3s; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Bottom Navigation */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.08); padding: 10px 0 14px; z-index: 100; }
+.bottom-nav-inner { max-width: 500px; margin: 0 auto; display: flex; justify-content: space-around; }
+.nav-tab { background: none; border: none; color: #555; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 16px; cursor: pointer; transition: color 0.2s; }
+.nav-tab.active { color: #f59e0b; }
+.nav-tab-icon { font-size: 22px; }
+.nav-tab-label { font-size: 10px; font-weight: 600; }
+
+/* Sidebar */
+.sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+.sidebar { position: fixed; top: 0; left: -320px; width: 280px; height: 100vh; background: #0a0a0a; border-right: 1px solid rgba(255,255,255,0.08); z-index: 300; transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; padding: 50px 20px 20px; }
+.sidebar.active { left: 0; }
+.sidebar-profile { display: flex; align-items: center; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 16px; }
+.sidebar-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #fcd34d); display: flex; align-items: center; justify-content: center; color: #000; font-weight: 800; font-size: 18px; }
+.sidebar-name { font-weight: 700; font-size: 15px; }
+.sidebar-meta { color: #666; font-size: 12px; margin-top: 2px; }
+.sidebar-item { display: flex; align-items: center; gap: 12px; padding: 14px 12px; border-radius: 12px; color: #ccc; text-decoration: none; cursor: pointer; transition: background 0.2s; background: none; border: none; width: 100%; text-align: left; font-size: 15px; font-family: inherit; }
+.sidebar-item:hover, .sidebar-item.active { background: rgba(255,255,255,0.05); color: #f59e0b; }
+.sidebar-icon { font-size: 18px; }
+
+/* ====== ONBOARDING ====== */
+.onboarding-screen { display: none; min-height: 100vh; flex-direction: column; padding: 40px 24px 32px; max-width: 500px; margin: 0 auto; }
+.onboarding-screen.active { display: flex; animation: fadeIn 0.4s; }
+
+.ob-progress { display: flex; gap: 6px; margin-bottom: 24px; padding-top: 20px; }
+.ob-dot { flex: 1; height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; transition: background 0.3s; }
+.ob-dot.active { background: #f59e0b; }
+
+.ob-step-label { color: #555; font-size: 12px; font-weight: 600; letter-spacing: 1.5px; margin-bottom: 8px; }
+.ob-title { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+.ob-subtitle { color: #888; font-size: 15px; margin-bottom: 28px; line-height: 1.4; }
+
+/* Logo */
+.logo-wrap { text-align: center; margin: 60px 0 30px; }
+.logo-svg { display: inline-block; }
+.brand-name { font-size: 44px; font-weight: 900; margin-bottom: 8px; letter-spacing: -1px; }
+.brand-tagline { color: #888; font-size: 16px; line-height: 1.4; margin-bottom: 60px; }
+
+/* Year buttons */
+.year-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+.year-btn { padding: 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; color: #888; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+.year-btn.selected { background: rgba(245,158,11,0.15); border-color: #f59e0b; color: #f59e0b; }
+
+/* College search */
+.college-wrap { position: relative; margin-bottom: 16px; }
+.college-dropdown { position: absolute; top: calc(100% + 4px); left: 0; right: 0; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; max-height: 220px; overflow-y: auto; z-index: 50; display: none; }
+.college-dropdown.show { display: block; }
+.college-option { padding: 14px 16px; color: #ddd; font-size: 14px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.college-option:hover, .college-option:active { background: rgba(245,158,11,0.1); color: #f59e0b; }
+.college-option:last-child { border-bottom: none; }
+
+/* Color picker */
+.color-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.color-card { display: flex; align-items: center; gap: 12px; padding: 14px; background: rgba(255,255,255,0.04); border: 2px solid rgba(255,255,255,0.08); border-radius: 14px; cursor: pointer; font-family: inherit; color: inherit; text-align: left; transition: all 0.2s; }
+.color-card.selected { border-color: var(--accent, #f59e0b); background: rgba(255,255,255,0.07); }
+.color-swatch { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
+.color-name { font-weight: 600; font-size: 14px; }
+.color-vibe { color: #666; font-size: 11px; margin-top: 2px; }
+
+/* Exam buttons */
+.exam-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+.exam-btn { display: flex; align-items: center; gap: 14px; padding: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; cursor: pointer; font-family: inherit; color: inherit; text-align: left; transition: all 0.2s; }
+.exam-btn.selected { border-color: #f59e0b; background: rgba(245,158,11,0.08); }
+.exam-emoji { font-size: 24px; }
+.exam-title { font-weight: 600; font-size: 15px; }
+.exam-desc { color: #666; font-size: 12px; margin-top: 2px; }
+
+/* ====== DASHBOARD ====== */
+/* Smart Plan Card */
+.plan-label { color: #f59e0b; font-size: 11px; font-weight: 700; letter-spacing: 2px; margin-bottom: 6px; }
+.plan-title { font-size: 17px; font-weight: 700; line-height: 1.3; }
+.plan-desc { color: #888; font-size: 13px; margin-top: 4px; }
+.plan-emoji { font-size: 28px; }
+.plan-list { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+.plan-item { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.plan-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.plan-tag { margin-left: auto; font-size: 10px; color: #888; }
+
+/* Activity Rings */
+.activity-section { display: flex; align-items: center; gap: 20px; }
+.rings-svg { width: 110px; height: 110px; flex-shrink: 0; }
+.ring-list { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.ring-row { display: flex; flex-direction: column; gap: 4px; }
+.ring-row-top { display: flex; align-items: center; justify-content: space-between; }
+.ring-row-label { display: flex; align-items: center; gap: 8px; color: #aaa; font-size: 13px; }
+.ring-dot { width: 10px; height: 10px; border-radius: 50%; }
+.ring-row-val { font-size: 13px; font-weight: 700; }
+
+/* Streak section */
+.streak-grid { display: flex; align-items: center; justify-content: space-between; }
+.streak-main { display: flex; align-items: baseline; gap: 8px; }
+.streak-num-big { font-size: 56px; font-weight: 900; line-height: 1; }
+.streak-emoji-big { font-size: 36px; }
+.streak-best-pill { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.2); padding: 10px 14px; border-radius: 14px; text-align: center; }
+.streak-best-num { color: #f59e0b; font-weight: 800; font-size: 18px; }
+.streak-best-label { color: #666; font-size: 10px; margin-top: 2px; }
+
+/* Week strip */
+.week-strip { display: flex; gap: 8px; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.05); }
+.week-day { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.week-circle { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+.week-label { color: #555; font-size: 10px; }
+
+/* Heatmap */
+.heatmap-wrap { overflow-x: auto; padding-bottom: 4px; }
+.heatmap-grid { display: flex; gap: 3px; }
+.heatmap-col { display: flex; flex-direction: column; gap: 3px; }
+.heatmap-cell { width: 12px; height: 12px; border-radius: 2px; }
 
 /* Stats grid */
-.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.stat { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 16px; }
-.stat-label { color: #888; font-size: 12px; }
-.stat-value { font-size: 24px; font-weight: 800; margin-top: 4px; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.stat-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 14px; }
+.stat-label-sm { color: #666; font-size: 11px; margin-bottom: 4px; }
+.stat-num { font-size: 22px; font-weight: 800; }
+.stat-sub { font-size: 11px; margin-top: 2px; }
 
-/* Topic */
-.topic-item { padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.03); margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
-.topic-check { width: 24px; height: 24px; border: 2px solid rgba(245,158,11,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.topic-check.done { background: #f59e0b; border-color: #f59e0b; color: #000; }
-.topic-name { flex: 1; font-size: 14px; }
-.topic-tier { font-size: 11px; padding: 2px 8px; border-radius: 6px; }
-.tier-essential { background: rgba(239,68,68,0.2); color: #ef4444; }
-.tier-pg { background: rgba(249,115,22,0.2); color: #f97316; }
-.tier-prof { background: rgba(234,179,8,0.2); color: #eab308; }
+/* Subject mini cards (dashboard) */
+.subj-mini { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 14px; margin-bottom: 10px; cursor: pointer; }
+.subj-mini-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.subj-mini-name { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.subj-mini-icon { font-size: 18px; }
+.subj-mini-pct { font-size: 13px; font-weight: 700; }
 
-/* Section title */
-.section-title { font-size: 18px; font-weight: 700; margin: 24px 0 12px; padding: 0 20px; }
+/* Section header */
+.section-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 20px 12px; }
+.section-title { font-size: 15px; font-weight: 700; }
+.section-link { color: #f59e0b; font-size: 13px; font-weight: 600; cursor: pointer; background: none; border: none; font-family: inherit; }
+
+/* Container padding */
+.px-section { padding: 0 20px; }
+
+/* ===== SUBJECTS PAGE ===== */
+.filter-row { display: flex; gap: 8px; padding: 0 20px 16px; overflow-x: auto; }
+.filter-btn { flex-shrink: 0; padding: 8px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: #888; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.filter-btn.active { background: #f59e0b; color: #000; border-color: #f59e0b; }
+
+.subject-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; margin-bottom: 14px; overflow: hidden; }
+.subject-head { padding: 16px; cursor: pointer; }
+.subject-head-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.subject-head-left { display: flex; align-items: center; gap: 12px; }
+.subject-icon-box { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+.subject-name-big { font-size: 16px; font-weight: 700; }
+.subject-meta-sm { color: #666; font-size: 11px; margin-top: 2px; }
+.subject-pct-big { font-size: 22px; font-weight: 900; }
+.subject-pct-sm { color: #666; font-size: 11px; }
+.subject-pace { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; font-size: 12px; color: #aaa; }
+.essential-tag { color: #ef4444; font-size: 11px; }
+
+.subject-expand { border-top: 1px solid rgba(255,255,255,0.05); padding: 8px; display: none; }
+.subject-expand.open { display: block; }
+.chapter-head { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 10px; cursor: pointer; }
+.chapter-head:hover { background: rgba(255,255,255,0.03); }
+.chapter-name { font-size: 14px; font-weight: 600; }
+.chapter-meta { color: #666; font-size: 11px; margin-top: 2px; }
+.chapter-arrow { color: #555; font-size: 12px; transition: transform 0.2s; }
+.chapter-arrow.open { transform: rotate(90deg); }
+.chapter-topics { padding: 4px 8px 8px; display: none; }
+.chapter-topics.open { display: block; }
+
+.topic-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; cursor: pointer; transition: background 0.15s; }
+.topic-row:hover { background: rgba(255,255,255,0.03); }
+.topic-status { font-size: 16px; flex-shrink: 0; width: 20px; text-align: center; }
+.topic-info { flex: 1; }
+.topic-title { font-size: 13px; font-weight: 500; }
+.topic-stars { color: #888; font-size: 10px; margin-top: 2px; }
+.tier-badge { font-size: 10px; padding: 3px 8px; border-radius: 6px; font-weight: 600; flex-shrink: 0; }
+.tier-essential { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
+.tier-pg { background: rgba(249,115,22,0.15); color: #f97316; border: 1px solid rgba(249,115,22,0.25); }
+.tier-prof { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.25); }
+.tier-extra { background: rgba(255,255,255,0.05); color: #888; border: 1px solid rgba(255,255,255,0.1); }
+
+/* ===== TOPIC PANEL ===== */
+.panel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 400; display: none; }
+.panel-overlay.active { display: block; animation: fadeIn 0.3s; }
+.panel-sheet { position: fixed; bottom: 0; left: 0; right: 0; background: #111; border-radius: 28px 28px 0 0; max-height: 88vh; overflow-y: auto; z-index: 500; display: none; max-width: 500px; margin: 0 auto; padding: 8px 24px 32px; }
+.panel-sheet.active { display: block; animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+.panel-handle { width: 40px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin: 8px auto 20px; }
+
+.panel-tier { display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 8px; font-weight: 700; margin-bottom: 8px; }
+.panel-title { font-size: 24px; font-weight: 800; line-height: 1.2; }
+.panel-subject { color: #888; font-size: 13px; margin-top: 4px; }
+
+.panel-section { background: rgba(255,255,255,0.04); border-radius: 16px; padding: 14px; margin-top: 12px; }
+.panel-section-label { color: #888; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 8px; }
+
+.status-row { display: flex; gap: 6px; margin-top: 8px; }
+.status-btn { flex: 1; padding: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; color: #888; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.status-btn.active { background: rgba(245,158,11,0.15); border-color: #f59e0b; color: #f59e0b; }
+
+.stars-row { display: flex; gap: 4px; justify-content: center; margin-top: 8px; }
+.star-btn { background: none; border: none; font-size: 28px; cursor: pointer; padding: 4px; transition: transform 0.15s; }
+.star-btn:active { transform: scale(0.85); }
+
+.competency-text { color: #ddd; font-size: 13px; line-height: 1.5; }
+.notes-area { width: 100%; background: transparent; border: none; color: #fff; font-size: 14px; resize: none; outline: none; font-family: inherit; min-height: 70px; }
+.notes-area::placeholder { color: #555; }
+
+.dates-row { display: flex; justify-content: space-between; gap: 16px; }
+.date-block { flex: 1; }
+.date-label { color: #666; font-size: 11px; }
+.date-value { color: #fff; font-size: 13px; margin-top: 2px; }
+
+/* Close button for panel */
+.panel-close { position: absolute; top: 24px; right: 20px; width: 32px; height: 32px; background: rgba(255,255,255,0.08); border: none; border-radius: 50%; color: #888; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+/* Confetti */
+.confetti-container { position: fixed; inset: 0; pointer-events: none; z-index: 1000; overflow: hidden; }
+.confetti-piece { position: absolute; width: 8px; height: 8px; animation: confettiFall 3s ease forwards; }
+
+/* Settings */
+.settings-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 18px; padding: 18px; margin-bottom: 12px; }
+.settings-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
+.settings-label { color: #aaa; font-size: 14px; }
+.settings-value { color: #fff; font-size: 14px; font-weight: 600; }
+
+.profile-display { display: flex; align-items: center; gap: 14px; }
+.profile-avatar-big { width: 56px; height: 56px; border-radius: 16px; background: linear-gradient(135deg, #f59e0b, #fcd34d); display: flex; align-items: center; justify-content: center; color: #000; font-weight: 800; font-size: 22px; }
+.profile-name-big { font-size: 18px; font-weight: 700; }
+.profile-meta-big { color: #888; font-size: 13px; margin-top: 2px; }
+
+.daily-control { display: flex; align-items: center; gap: 8px; }
+.daily-btn { width: 28px; height: 28px; background: rgba(255,255,255,0.08); border: none; color: #fff; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 700; }
+.daily-val { width: 30px; text-align: center; font-weight: 700; }
+
+.color-mini-row { display: flex; gap: 10px; margin-top: 12px; }
+.color-mini { width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+.color-mini.selected { border-color: #fff; }
+
+.danger-btn { width: 100%; padding: 14px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; border-radius: 14px; font-weight: 600; cursor: pointer; font-family: inherit; font-size: 14px; }
+
+/* Goals */
+.goal-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; }
+.goal-check { width: 24px; height: 24px; border: 2px solid rgba(245,158,11,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
+.goal-check.done { background: #f59e0b; border-color: #f59e0b; color: #000; font-weight: 800; }
+.goal-text { flex: 1; }
+.goal-title { font-size: 14px; }
+.goal-title.done { text-decoration: line-through; color: #555; }
+.goal-meta { color: #666; font-size: 11px; margin-top: 2px; }
+
+/* AI plan items */
+.ai-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(255,255,255,0.04); border-radius: 14px; margin-bottom: 8px; }
+.ai-emoji { font-size: 18px; flex-shrink: 0; }
+.ai-info { flex: 1; }
+.ai-title-sm { font-size: 14px; font-weight: 600; }
+.ai-meta-sm { color: #666; font-size: 11px; margin-top: 2px; }
+.ai-add { background: rgba(245,158,11,0.1); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); padding: 4px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: inherit; }
 </style>
 </head>
 <body>
+  
+<!-- Confetti Container -->
+<div class="confetti-container" id="confettiBox"></div>
 
-<!-- ONBOARDING -->
-<div id="onboarding" class="onboard">
-  <div class="onboard-header">
-    <div class="logo">🧭</div>
-    <div class="app-name">MedPath</div>
-    <div class="tagline">Your path through medicine,<br>perfectly tracked</div>
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-profile">
+    <div class="sidebar-avatar" id="sbAvatar">M</div>
+    <div>
+      <div class="sidebar-name" id="sbName">User</div>
+      <div class="sidebar-meta" id="sbMeta">Setup your profile</div>
+    </div>
   </div>
-  <div style="margin-top: auto;">
-    <input type="text" class="input" id="userName" placeholder="What's your name?">
-    <input type="text" class="input" id="userCollege" placeholder="Your college (optional)">
-    <select class="input" id="userYear">
-      <option value="1st Year">1st Year MBBS</option>
-      <option value="2nd Year" selected>2nd Year MBBS</option>
-      <option value="3rd Year">3rd Year MBBS</option>
-      <option value="Final Year">Final Year MBBS</option>
-    </select>
-    <button class="btn" onclick="completeOnboarding()">Start My Journey 🚀</button>
+  <button class="sidebar-item active" onclick="goPage('home')"><span class="sidebar-icon">🏠</span> Dashboard</button>
+  <button class="sidebar-item" onclick="goPage('subjects')"><span class="sidebar-icon">📚</span> Subjects</button>
+  <button class="sidebar-item" onclick="goPage('planner')"><span class="sidebar-icon">📅</span> Study Planner</button>
+  <button class="sidebar-item" onclick="goPage('progress')"><span class="sidebar-icon">📈</span> Progress</button>
+  <div style="height: 1px; background: rgba(255,255,255,0.05); margin: 12px 0;"></div>
+  <button class="sidebar-item" onclick="goPage('settings')"><span class="sidebar-icon">⚙️</span> Settings</button>
+  <button class="sidebar-item" onclick="exportData()"><span class="sidebar-icon">💾</span> Export Data</button>
+  <div style="text-align: center; margin-top: 30px; color: #444; font-size: 11px;">
+    <div>MedPath V3.0</div>
+    <div style="margin-top: 4px;">Built for future doctors 🩺</div>
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div id="app" style="display:none;">
+<!-- ============================================ -->
+<!-- ONBOARDING FLOW -->
+<!-- ============================================ -->
 
-  <!-- Dashboard -->
-  <div id="page-home" class="page active">
-    <div class="header">
-      <div class="greeting" id="greeting">Good morning</div>
-      <div class="name" id="userNameDisplay">Welcome 👋</div>
+<div id="onboardingFlow">
+
+  <!-- Step 1: Welcome -->
+  <div class="onboarding-screen active" id="ob-1">
+    <div class="logo-wrap float-anim">
+      <svg class="logo-svg" width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+        <circle cx="50" cy="50" r="22" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+        <path d="M50 30 L54 48 L50 50 L46 48 Z" fill="#f59e0b"/>
+        <path d="M50 70 L46 52 L50 50 L54 52 Z" fill="rgba(245,158,11,0.4)"/>
+        <path d="M30 50 L48 46 L50 50 L48 54 Z" fill="rgba(245,158,11,0.5)"/>
+        <path d="M70 50 L52 54 L50 50 L52 46 Z" fill="#6366f1"/>
+        <circle cx="50" cy="50" r="3" fill="#f59e0b"/>
+        <rect x="48" y="14" width="4" height="6" rx="1" fill="rgba(245,158,11,0.6)"/>
+        <rect x="46" y="16" width="8" height="2" rx="1" fill="rgba(245,158,11,0.6)"/>
+      </svg>
+    </div>
+    <div style="text-align: center;">
+      <div class="brand-name">MedPath</div>
+      <div class="brand-tagline">Your path through medicine,<br>perfectly tracked</div>
+    </div>
+    <div style="margin-top: auto;">
+      <button class="btn-primary" onclick="goStep(2)">Get Started</button>
+      <div style="text-align: center; color: #555; font-size: 12px; margin-top: 14px;">Free forever · No signup needed</div>
+    </div>
+  </div>
+
+  <!-- Step 2: Name -->
+  <div class="onboarding-screen" id="ob-2">
+    <div class="ob-progress">
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+      <div class="ob-dot"></div>
+      <div class="ob-dot"></div>
+    </div>
+    <div class="ob-step-label">STEP 1 OF 4</div>
+    <div class="ob-title">What should we<br>call you? 👋</div>
+    <div class="ob-subtitle">This is how MedPath will greet you every day.</div>
+    <input type="text" class="input" id="obName" placeholder="Your first name" maxlength="20">
+    <div style="margin-top: auto;">
+      <button class="btn-primary" onclick="saveStep2()">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Year + College -->
+  <div class="onboarding-screen" id="ob-3">
+    <div class="ob-progress">
+      <div class="ob-dot active"></div>
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+      <div class="ob-dot"></div>
+    </div>
+    <div class="ob-step-label">STEP 2 OF 4</div>
+    <div class="ob-title">Your Academic<br>Details 🏥</div>
+    <div class="ob-subtitle">Helps us personalize your study plan.</div>
+    
+    <div style="font-weight: 600; font-size: 14px; margin-bottom: 10px;">MBBS Year</div>
+    <div class="year-grid">
+      <button class="year-btn" data-year="1st Year" onclick="pickYear('1st Year')">1st Year</button>
+      <button class="year-btn selected" data-year="2nd Year" onclick="pickYear('2nd Year')">2nd Year</button>
+      <button class="year-btn" data-year="3rd Year" onclick="pickYear('3rd Year')">3rd Year</button>
+      <button class="year-btn" data-year="Final Year" onclick="pickYear('Final Year')">Final Year</button>
+    </div>
+    
+    <div style="font-weight: 600; font-size: 14px; margin-bottom: 10px;">College</div>
+    <div class="college-wrap">
+      <input type="text" class="input" id="obCollege" placeholder="Search your college..." oninput="searchColleges(this.value)" autocomplete="off">
+      <div class="college-dropdown" id="collegeDrop"></div>
+    </div>
+    
+    <div style="margin-top: auto;">
+      <button class="btn-primary" onclick="goStep(4)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Color -->
+  <div class="onboarding-screen" id="ob-4">
+    <div class="ob-progress">
+      <div class="ob-dot active"></div>
+      <div class="ob-dot active"></div>
+      <div class="ob-dot active"></div>
+      <div class="ob-dot"></div>
+    </div>
+    <div class="ob-step-label">STEP 3 OF 4</div>
+    <div class="ob-title">Choose Your<br>Color 🎨</div>
+    <div class="ob-subtitle">This becomes your personal MedPath accent.</div>
+    
+    <div class="color-grid">
+      <button class="color-card selected" data-color="gold" data-hex="#f59e0b" onclick="pickColor('gold','#f59e0b')">
+        <div class="color-swatch" style="background:#f59e0b;"></div>
+        <div>
+          <div class="color-name">Gold</div>
+          <div class="color-vibe">Premium luxury</div>
+        </div>
+      </button>
+      <button class="color-card" data-color="white" data-hex="#ffffff" onclick="pickColor('white','#ffffff')">
+        <div class="color-swatch" style="background:#fff; border:1px solid rgba(255,255,255,0.2);"></div>
+        <div>
+          <div class="color-name">Pure White</div>
+          <div class="color-vibe">Ultra minimal</div>
+        </div>
+      </button>
+      <button class="color-card" data-color="purple" data-hex="#6366f1" onclick="pickColor('purple','#6366f1')">
+        <div class="color-swatch" style="background:#6366f1;"></div>
+        <div>
+          <div class="color-name">Royal Purple</div>
+          <div class="color-vibe">Intelligence</div>
+        </div>
+      </button>
+      <button class="color-card" data-color="blue" data-hex="#0ea5e9" onclick="pickColor('blue','#0ea5e9')">
+        <div class="color-swatch" style="background:#0ea5e9;"></div>
+        <div>
+          <div class="color-name">Ocean Blue</div>
+          <div class="color-vibe">Medical trust</div>
+        </div>
+      </button>
+    </div>
+    
+    <div style="margin-top: auto;">
+      <button class="btn-primary" onclick="goStep(5)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Step 5: Exam -->
+  <div class="onboarding-screen" id="ob-5">
+    <div class="ob-progress">
+      <div class="ob-dot active"></div>
+      <div class="ob-dot active"></div>
+      <div class="ob-dot active"></div>
+      <div class="ob-dot active"></div>
+    </div>
+    <div class="ob-step-label">STEP 4 OF 4</div>
+    <div class="ob-title">When's Your<br>Next Exam? 📅</div>
+    <div class="ob-subtitle">We'll build your smart plan around it.</div>
+    
+    <div class="exam-list">
+      <button class="exam-btn selected" data-exam="University Prof" onclick="pickExam('University Prof')">
+        <div class="exam-emoji">🎓</div>
+        <div>
+          <div class="exam-title">University Prof Exam</div>
+          <div class="exam-desc">Annual university examination</div>
+        </div>
+      </button>
+      <button class="exam-btn" data-exam="NEET-PG" onclick="pickExam('NEET-PG')">
+        <div class="exam-emoji">🏆</div>
+        <div>
+          <div class="exam-title">NEET-PG</div>
+          <div class="exam-desc">Post-graduate entrance exam</div>
+        </div>
+      </button>
+      <button class="exam-btn" data-exam="Both" onclick="pickExam('Both')">
+        <div class="exam-emoji">⚡</div>
+        <div>
+          <div class="exam-title">Both</div>
+          <div class="exam-desc">Preparing for everything</div>
+        </div>
+      </button>
+    </div>
+    
+    <div style="color: #888; font-size: 13px; margin-bottom: 8px;">Exam date (optional)</div>
+    <input type="date" class="input" id="obExamDate">
+    
+    <div style="margin-top: auto;">
+      <button class="btn-primary" onclick="finishOnboarding()">Start My Journey 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================ -->
+<!-- MAIN APP -->
+<!-- ============================================ -->
+
+<div class="app-container" id="mainApp" style="display: none;">
+
+  <!-- ===== DASHBOARD PAGE ===== -->
+  <div class="page active" id="page-home">
+    <div class="app-header">
+      <div>
+        <div class="greeting-text" id="greetText">Good morning</div>
+        <div class="greeting-name" id="greetName">Welcome 👋</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="header-streak pulse-anim">
+          <span style="font-size: 16px;">🔥</span>
+          <span class="header-streak-num" id="hdrStreak">0</span>
+        </div>
+        <button class="menu-btn" onclick="openSidebar()">☰</button>
+      </div>
     </div>
 
-    <div class="container">
-      <!-- Streak -->
-      <div class="card">
-        <div class="streak-row">
-          <div>
-            <div class="streak-label">Current streak</div>
-            <div style="display: flex; align-items: center;">
-              <span class="streak-num" id="streakNum">0</span>
-              <span class="streak-emoji">🔥</span>
+    <div class="px-section">
+      <!-- Today's Smart Plan -->
+      <div class="card-gold fade-up">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+          <div style="flex: 1;">
+            <div class="plan-label">TODAY'S PLAN</div>
+            <div class="plan-title">3 topics · 2 revisions</div>
+            <div class="plan-desc">Based on your weak areas + exam timeline</div>
+          </div>
+          <div class="plan-emoji">🧠</div>
+        </div>
+        <div class="plan-list">
+          <div class="plan-item">
+            <div class="plan-dot" style="background: #ef4444;"></div>
+            <span>🔴 Inflammation — Pathology</span>
+            <span class="plan-tag" style="color: #f59e0b;">Essential</span>
+          </div>
+          <div class="plan-item">
+            <div class="plan-dot" style="background: #f59e0b;"></div>
+            <span>🟡 Cardiac cycle — Physiology</span>
+            <span class="plan-tag" style="color: #eab308;">Prof</span>
+          </div>
+          <div class="plan-item">
+            <div class="plan-dot" style="background: #6366f1;"></div>
+            <span>🟠 Brachial plexus — Anatomy</span>
+            <span class="plan-tag" style="color: #f97316;">PG</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity Rings -->
+      <div class="card fade-up">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <div style="font-weight: 700; font-size: 15px;">Today's Activity</div>
+          <div style="color: #666; font-size: 12px;" id="todayDate">Today</div>
+        </div>
+        <div class="activity-section">
+          <svg class="rings-svg" viewBox="0 0 110 110">
+            <!-- Background rings -->
+            <circle cx="55" cy="55" r="45" fill="none" stroke="rgba(245,158,11,0.12)" stroke-width="9"/>
+            <circle cx="55" cy="55" r="33" fill="none" stroke="rgba(99,102,241,0.12)" stroke-width="9"/>
+            <circle cx="55" cy="55" r="21" fill="none" stroke="rgba(16,185,129,0.12)" stroke-width="9"/>
+            <!-- Animated rings -->
+            <circle id="ringStudy" cx="55" cy="55" r="45" fill="none" stroke="#f59e0b" stroke-width="9" stroke-linecap="round" 
+              stroke-dasharray="282.7" stroke-dashoffset="282.7" transform="rotate(-90 55 55)"/>
+            <circle id="ringRev" cx="55" cy="55" r="33" fill="none" stroke="#6366f1" stroke-width="9" stroke-linecap="round" 
+              stroke-dasharray="207.3" stroke-dashoffset="207.3" transform="rotate(-90 55 55)"/>
+            <circle id="ringGoals" cx="55" cy="55" r="21" fill="none" stroke="#10b981" stroke-width="9" stroke-linecap="round" 
+              stroke-dasharray="131.9" stroke-dashoffset="131.9" transform="rotate(-90 55 55)"/>
+          </svg>
+          <div class="ring-list">
+            <div class="ring-row">
+              <div class="ring-row-top">
+                <div class="ring-row-label"><div class="ring-dot" style="background:#f59e0b;"></div>Study</div>
+                <div class="ring-row-val" id="studyVal">0/5</div>
+              </div>
+              <div class="progress-bar" style="height: 4px;">
+                <div class="progress-fill" id="studyBar" style="width:0%; background: linear-gradient(90deg,#f59e0b,#fcd34d);"></div>
+              </div>
+            </div>
+            <div class="ring-row">
+              <div class="ring-row-top">
+                <div class="ring-row-label"><div class="ring-dot" style="background:#6366f1;"></div>Revise</div>
+                <div class="ring-row-val" id="revVal">0/4</div>
+              </div>
+              <div class="progress-bar" style="height: 4px;">
+                <div class="progress-fill" id="revBar" style="width:0%; background: linear-gradient(90deg,#6366f1,#818cf8);"></div>
+              </div>
+            </div>
+            <div class="ring-row">
+              <div class="ring-row-top">
+                <div class="ring-row-label"><div class="ring-dot" style="background:#10b981;"></div>Goals</div>
+                <div class="ring-row-val" id="goalsVal">0/3</div>
+              </div>
+              <div class="progress-bar" style="height: 4px;">
+                <div class="progress-fill" id="goalsBar" style="width:0%; background: linear-gradient(90deg,#10b981,#34d399);"></div>
+              </div>
             </div>
           </div>
-          <div class="streak-best">
-            <div class="streak-best-num" id="bestStreak">0</div>
-            <div style="color:#888; font-size:11px;">Best</div>
+        </div>
+      </div>
+
+      <!-- Streak Card -->
+      <div class="card fade-up">
+        <div class="streak-grid">
+          <div>
+            <div style="color: #888; font-size: 12px; margin-bottom: 4px;">Current streak</div>
+            <div class="streak-main">
+              <div class="streak-num-big" id="streakBig">0</div>
+              <div class="streak-emoji-big" id="streakEmojiBig">💤</div>
+            </div>
+            <div style="color: #888; font-size: 12px; margin-top: 6px;" id="streakMsg">Start studying to begin your streak!</div>
+          </div>
+          <div class="streak-best-pill">
+            <div class="streak-best-num" id="streakBestNum">0</div>
+            <div class="streak-best-label">BEST</div>
+          </div>
+        </div>
+        <div class="week-strip" id="weekStrip"></div>
+      </div>
+
+      <!-- Overall Progress -->
+      <div class="card fade-up">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div style="font-weight: 700; font-size: 15px;">Overall Progress</div>
+          <div style="color: #f59e0b; font-weight: 800; font-size: 18px;" id="overallPct">0%</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="overallBar" style="width:0%;"></div></div>
+        <div style="color: #888; font-size: 13px; margin-top: 6px;" id="overallMsg">Start your journey!</div>
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); color: #666; font-size: 11px;" id="paceMsg">
+          🎯 Set your exam date to see pace prediction
+        </div>
+      </div>
+    </div>
+
+    <!-- Subjects Quick View -->
+    <div class="section-head">
+      <div class="section-title">Subjects</div>
+      <button class="section-link" onclick="goPage('subjects')">View all →</button>
+    </div>
+    <div class="px-section" id="subjQuick"></div>
+
+    <!-- Heatmap -->
+    <div class="px-section">
+      <div class="card fade-up">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div style="font-weight: 700; font-size: 15px;">Study Consistency</div>
+          <div style="color: #666; font-size: 11px;">Last 12 weeks</div>
+        </div>
+        <div class="heatmap-wrap">
+          <div class="heatmap-grid" id="heatmap"></div>
+        </div>
+        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: 10px;">
+          <span style="color: #555; font-size: 10px;">Less</span>
+          <div style="display: flex; gap: 2px;">
+            <div class="heatmap-cell" style="background: rgba(245,158,11,0.08);"></div>
+            <div class="heatmap-cell" style="background: rgba(245,158,11,0.3);"></div>
+            <div class="heatmap-cell" style="background: rgba(245,158,11,0.55);"></div>
+            <div class="heatmap-cell" style="background: rgba(245,158,11,0.8);"></div>
+            <div class="heatmap-cell" style="background: #f59e0b;"></div>
+          </div>
+          <span style="color: #555; font-size: 10px;">More</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="px-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label-sm">Topics Done</div>
+          <div class="stat-num" id="kpiDone">0</div>
+          <div class="stat-sub" style="color: #f59e0b;">Building up</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label-sm">In Progress</div>
+          <div class="stat-num" id="kpiProgress">0</div>
+          <div class="stat-sub" style="color: #6366f1;">Active topics</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label-sm">Days to Exam</div>
+          <div class="stat-num" id="kpiExam">—</div>
+          <div class="stat-sub" style="color: #888;" id="kpiExamSub">Set exam date</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label-sm">Avg Confidence</div>
+          <div class="stat-num" id="kpiConf">⭐</div>
+          <div class="stat-sub" style="color: #888;">Foundation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SUBJECTS PAGE ===== -->
+  <div class="page" id="page-subjects">
+    <div class="app-header">
+      <div>
+        <div class="greeting-text">Your vast ocean</div>
+        <div class="greeting-name">Subjects 📚</div>
+      </div>
+      <button class="menu-btn" onclick="openSidebar()">☰</button>
+    </div>
+    
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="all" onclick="filterSubj('all')">All</button>
+      <button class="filter-btn" data-filter="1st" onclick="filterSubj('1st')">1st Year</button>
+      <button class="filter-btn" data-filter="2nd" onclick="filterSubj('2nd')">2nd Year</button>
+      <button class="filter-btn" data-filter="3rd" onclick="filterSubj('3rd')">3rd Year</button>
+      <button class="filter-btn" data-filter="final" onclick="filterSubj('final')">Final</button>
+    </div>
+    
+    <div class="px-section" id="subjFull"></div>
+  </div>
+
+  <!-- ===== PLANNER PAGE ===== -->
+  <div class="page" id="page-planner">
+    <div class="app-header">
+      <div>
+        <div class="greeting-text">AI + Manual hybrid</div>
+        <div class="greeting-name">Study Plan 🎯</div>
+      </div>
+      <button class="menu-btn" onclick="openSidebar()">☰</button>
+    </div>
+    
+    <div class="px-section">
+      <div class="card-purple fade-up">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 14px;">
+          <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(99,102,241,0.2); display: flex; align-items: center; justify-content: center; font-size: 20px;">🧠</div>
+          <div>
+            <div style="font-weight: 700; font-size: 15px;">AI Recommendation</div>
+            <div style="color: #888; font-size: 12px;">Based on your progress</div>
+          </div>
+        </div>
+        <div id="aiList">
+          <div class="ai-item">
+            <div class="ai-emoji">🔴</div>
+            <div class="ai-info">
+              <div class="ai-title-sm">Hemodynamics</div>
+              <div class="ai-meta-sm">Pathology · Not studied recently</div>
+            </div>
+            <button class="ai-add">Add</button>
+          </div>
+          <div class="ai-item">
+            <div class="ai-emoji">🟠</div>
+            <div class="ai-info">
+              <div class="ai-title-sm">Brachial Plexus</div>
+              <div class="ai-meta-sm">Anatomy · High PG weightage</div>
+            </div>
+            <button class="ai-add">Add</button>
+          </div>
+          <div class="ai-item">
+            <div class="ai-emoji">🔴</div>
+            <div class="ai-info">
+              <div class="ai-title-sm">Cardiac Output</div>
+              <div class="ai-meta-sm">Physiology · Due for revision</div>
+            </div>
+            <button class="ai-add">Add</button>
           </div>
         </div>
       </div>
-
-      <!-- Today's Plan -->
-      <div class="card card-gold">
-        <div style="color:#f59e0b; font-size:11px; font-weight:700; letter-spacing:2px; margin-bottom:8px;">TODAY'S PLAN 🧠</div>
-        <div style="font-size:18px; font-weight:700;">3 topics suggested</div>
-        <div style="color:#888; font-size:13px; margin-top:4px;">Based on your weak areas</div>
-      </div>
-
-      <!-- Progress -->
-      <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div style="font-weight:600;">Overall Progress</div>
-          <div style="color:#f59e0b; font-weight:700; font-size:20px;" id="overallPercent">0%</div>
+      
+      <div class="card fade-up">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+          <div style="font-weight: 700; font-size: 15px;">Today's Goals</div>
+          <button class="ai-add" onclick="addGoal()">+ Add</button>
         </div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="overallBar" style="width: 0%;"></div>
-        </div>
-        <div style="color:#888; font-size:13px;" id="progressMsg">Start your journey!</div>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-label">Topics Done</div>
-          <div class="stat-value" id="topicsDone">0</div>
-        </div>
-        <div class="stat">
-          <div class="stat-label">In Progress</div>
-          <div class="stat-value" id="topicsProgress">0</div>
+        <div id="goalsList">
+          <div class="goal-row">
+            <div class="goal-check" onclick="toggleGoal(this)"></div>
+            <div class="goal-text">
+              <div class="goal-title">Study Inflammation chapter</div>
+              <div class="goal-meta">Pathology · 🔴 Essential</div>
+            </div>
+          </div>
+          <div class="goal-row">
+            <div class="goal-check" onclick="toggleGoal(this)"></div>
+            <div class="goal-text">
+              <div class="goal-title">Revise upper limb muscles</div>
+              <div class="goal-meta">Anatomy · Revision due</div>
+            </div>
+          </div>
+          <div class="goal-row">
+            <div class="goal-check" onclick="toggleGoal(this)"></div>
+            <div class="goal-text">
+              <div class="goal-title">Complete Krebs cycle notes</div>
+              <div class="goal-meta">Biochemistry · 🟡 Prof</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Subjects -->
-  <div id="page-subjects" class="page">
-    <div class="header">
-      <div class="greeting">Your vast ocean</div>
-      <div class="name">Subjects 📚</div>
-    </div>
-    <div class="container" id="subjectsList"></div>
-  </div>
-
-  <!-- Topics (when subject clicked) -->
-  <div id="page-topics" class="page">
-    <div class="header">
-      <button onclick="showPage('subjects')" style="background:none;border:none;color:#f59e0b;font-size:14px;margin-bottom:8px;">← Back</button>
-      <div class="name" id="currentSubjectName">Subject</div>
-    </div>
-    <div class="container" id="topicsList"></div>
-  </div>
-
-  <!-- Settings -->
-  <div id="page-settings" class="page">
-    <div class="header">
-      <div class="name">Settings ⚙️</div>
-    </div>
-    <div class="container">
-      <div class="card">
-        <div style="font-weight:600; margin-bottom:12px;" id="settingsName">Your Profile</div>
-        <div style="color:#888; font-size:14px;" id="settingsCollege">College</div>
-        <div style="color:#888; font-size:14px;" id="settingsYear">Year</div>
+  <!-- ===== PROGRESS PAGE ===== -->
+  <div class="page" id="page-progress">
+    <div class="app-header">
+      <div>
+        <div class="greeting-text">Your journey</div>
+        <div class="greeting-name">Progress 📈</div>
       </div>
-      <button class="btn" style="background:#ef4444; color:#fff;" onclick="resetApp()">Reset All Data</button>
-      <div style="text-align:center; color:#444; font-size:12px; margin-top:24px;">MedPath V3.0 Lite</div>
+      <button class="menu-btn" onclick="openSidebar()">☰</button>
+    </div>
+    
+    <div class="px-section">
+      <div class="card-gold fade-up">
+        <div class="plan-label">OVERALL COMPLETION</div>
+        <div style="display: flex; align-items: baseline; gap: 8px; margin: 8px 0;">
+          <div style="font-size: 44px; font-weight: 900;" id="progBig">0%</div>
+          <div style="color: #888; font-size: 13px;">of MBBS syllabus</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progBar" style="width:0%;"></div></div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label-sm">🔴 Essential</div>
+          <div class="stat-num" id="essPct">0%</div>
+          <div class="stat-sub" style="color: #666;">High priority</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label-sm">🟠 PG Focus</div>
+          <div class="stat-num" id="pgPct">0%</div>
+          <div class="stat-sub" style="color: #666;">NEET-PG</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label-sm">🟡 Prof</div>
+          <div class="stat-num" id="profPct">0%</div>
+          <div class="stat-sub" style="color: #666;">University</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label-sm">⭐ Mastered</div>
+          <div class="stat-num" id="masteredCount">0</div>
+          <div class="stat-sub" style="color: #666;">5-star confidence</div>
+        </div>
+      </div>
+      
+      <div class="card fade-up">
+        <div style="font-weight: 700; font-size: 15px; margin-bottom: 14px;">Strength Analysis</div>
+        <div class="settings-row">
+          <span class="settings-label">💪 Strongest</span>
+          <span class="settings-value" style="color: #f59e0b;" id="strongSubj">—</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">📉 Needs work</span>
+          <span class="settings-value" style="color: #ef4444;" id="weakSubj">—</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">🎯 This week</span>
+          <span class="settings-value" style="color: #10b981;" id="weekTopics">+0 topics</span>
+        </div>
+      </div>
+      
+      <div class="card fade-up">
+        <div style="font-weight: 700; font-size: 15px; margin-bottom: 14px;">Yearly Consistency</div>
+        <div class="heatmap-wrap">
+          <div class="heatmap-grid" id="progHeatmap"></div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Bottom Nav -->
+  <!-- ===== SETTINGS PAGE ===== -->
+  <div class="page" id="page-settings">
+    <div class="app-header">
+      <div>
+        <div class="greeting-name">Settings ⚙️</div>
+      </div>
+      <button class="menu-btn" onclick="openSidebar()">☰</button>
+    </div>
+    
+    <div class="px-section">
+      <div class="settings-card">
+        <div class="profile-display">
+          <div class="profile-avatar-big" id="setAvatar">M</div>
+          <div>
+            <div class="profile-name-big" id="setName">User</div>
+            <div class="profile-meta-big" id="setYear">Year</div>
+            <div class="profile-meta-big" id="setCollege" style="font-size: 12px; color: #666;">College</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-card">
+        <div style="font-weight: 700; font-size: 15px; margin-bottom: 8px;">Exam Settings</div>
+        <div class="settings-row">
+          <span class="settings-label">Exam Goal</span>
+          <span class="settings-value" id="setExamGoal">Not set</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Exam Date</span>
+          <span class="settings-value" id="setExamDate">Not set</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Daily Goal</span>
+          <div class="daily-control">
+            <button class="daily-btn" onclick="changeDaily(-1)">−</button>
+            <span class="daily-val" id="dailyVal">5</span>
+            <button class="daily-btn" onclick="changeDaily(1)">+</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="settings-card">
+        <div style="font-weight: 700; font-size: 15px;">Accent Color</div>
+        <div class="color-mini-row">
+          <button class="color-mini selected" style="background:#f59e0b;" onclick="changeAccent('gold','#f59e0b')"></button>
+          <button class="color-mini" style="background:#fff;" onclick="changeAccent('white','#ffffff')"></button>
+          <button class="color-mini" style="background:#6366f1;" onclick="changeAccent('purple','#6366f1')"></button>
+          <button class="color-mini" style="background:#0ea5e9;" onclick="changeAccent('blue','#0ea5e9')"></button>
+        </div>
+      </div>
+      
+      <div class="settings-card">
+        <div style="font-weight: 700; font-size: 15px; margin-bottom: 12px;">Data</div>
+        <button class="btn-secondary" onclick="exportData()" style="margin-bottom: 8px;">💾 Export Data</button>
+        <button class="danger-btn" onclick="resetApp()">🗑️ Reset All Data</button>
+      </div>
+      
+      <div style="text-align: center; color: #444; font-size: 11px; padding: 20px;">
+        <div>MedPath V3.0</div>
+        <div style="margin-top: 4px;">All data stored locally on your device</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
   <div class="bottom-nav">
-    <button class="nav-item active" id="nav-home" onclick="showPage('home')">
-      <div class="nav-icon">🏠</div>
-      <div>Home</div>
-    </button>
-    <button class="nav-item" id="nav-subjects" onclick="showPage('subjects')">
-      <div class="nav-icon">📚</div>
-      <div>Subjects</div>
-    </button>
-    <button class="nav-item" id="nav-settings" onclick="showPage('settings')">
-      <div class="nav-icon">⚙️</div>
-      <div>Settings</div>
-    </button>
+    <div class="bottom-nav-inner">
+      <button class="nav-tab active" id="nav-home" onclick="goPage('home')">
+        <div class="nav-tab-icon">🏠</div>
+        <div class="nav-tab-label">Home</div>
+      </button>
+      <button class="nav-tab" id="nav-subjects" onclick="goPage('subjects')">
+        <div class="nav-tab-icon">📚</div>
+        <div class="nav-tab-label">Subjects</div>
+      </button>
+      <button class="nav-tab" id="nav-planner" onclick="goPage('planner')">
+        <div class="nav-tab-icon">📅</div>
+        <div class="nav-tab-label">Planner</div>
+      </button>
+      <button class="nav-tab" id="nav-progress" onclick="goPage('progress')">
+        <div class="nav-tab-icon">📈</div>
+        <div class="nav-tab-label">Progress</div>
+      </button>
+    </div>
   </div>
 </div>
 
+<!-- Topic Detail Panel -->
+<div class="panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+<div class="panel-sheet" id="panelSheet">
+  <div class="panel-handle"></div>
+  <button class="panel-close" onclick="closePanel()">✕</button>
+  
+  <div class="panel-tier" id="pTier">🔴 Essential</div>
+  <div class="panel-title" id="pTitle">Topic</div>
+  <div class="panel-subject" id="pSubject">Subject</div>
+  
+  <div class="panel-section">
+    <div class="panel-section-label">STATUS</div>
+    <div class="status-row">
+      <button class="status-btn" data-status="not-started" onclick="setStatus('not-started')">Not Started</button>
+      <button class="status-btn" data-status="in-progress" onclick="setStatus('in-progress')">In Progress</button>
+      <button class="status-btn" data-status="done" onclick="setStatus('done')">Done ✓</button>
+    </div>
+  </div>
+  
+  <div class="panel-section">
+    <div class="panel-section-label">CONFIDENCE</div>
+    <div class="stars-row" id="starsRow">
+      <button class="star-btn" data-stars="1" onclick="setStars(1)">☆</button>
+      <button class="star-btn" data-stars="2" onclick="setStars(2)">☆</button>
+      <button class="star-btn" data-stars="3" onclick="setStars(3)">☆</button>
+      <button class="star-btn" data-stars="4" onclick="setStars(4)">☆</button>
+      <button class="star-btn" data-stars="5" onclick="setStars(5)">☆</button>
+    </div>
+  </div>
+  
+  <div class="panel-section">
+    <div class="panel-section-label">NMC COMPETENCY</div>
+    <div class="competency-text" id="pComp">—</div>
+  </div>
+  
+  <div class="panel-section">
+    <div class="panel-section-label">MY NOTES</div>
+    <textarea class="notes-area" id="pNotes" placeholder="Add your personal notes here..."></textarea>
+  </div>
+  
+  <div class="panel-section">
+    <div class="dates-row">
+      <div class="date-block">
+        <div class="date-label">First studied</div>
+        <div class="date-value" id="pFirst">—</div>
+      </div>
+      <div class="date-block" style="text-align: right;">
+        <div class="date-label">Last revised</div>
+        <div class="date-value" id="pLast">—</div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-top: 16px;">
+    <button class="btn-primary" onclick="markDone()" id="markBtn">Mark as Done ✓</button>
+    <button class="btn-secondary" onclick="markRevise()" style="margin-top: 8px;">📌 Mark for Revision</button>
+  </div>
+</div>
 <script>
-// State
+// ============================================
+// STATE MANAGEMENT
+// ============================================
 let state = {
   onboarded: false,
-  user: { name: '', college: '', year: '2nd Year' },
-  streak: { current: 0, best: 0, lastDate: null },
-  topics: {}
+  user: { name: '', college: '', year: '2nd Year', accentColor: 'gold', accentHex: '#f59e0b', examGoal: 'University Prof', examDate: null, dailyGoal: 5 },
+  streak: { current: 0, best: 0, lastDate: null, startDate: null },
+  topics: {},
+  goals: [],
+  studyLog: []
 };
 
-// Subjects data
+let onboardData = { name: '', college: '', year: '2nd Year', accentColor: 'gold', accentHex: '#f59e0b', examGoal: 'University Prof' };
+let currentTopic = null;
+let currentSubjectFilter = 'all';
+
+// ============================================
+// SUBJECTS DATA
+// ============================================
 const subjects = [
-  { id: 'anatomy', name: 'Anatomy', icon: '🦴', topics: [
-    { id: 'a1', name: 'Shoulder Joint', tier: 'essential' },
-    { id: 'a2', name: 'Brachial Plexus', tier: 'pg' },
-    { id: 'a3', name: 'Cubital Fossa', tier: 'essential' },
-    { id: 'a4', name: 'Femoral Triangle', tier: 'essential' },
-    { id: 'a5', name: 'Knee Joint', tier: 'essential' },
-    { id: 'a6', name: 'Heart Chambers', tier: 'essential' },
-    { id: 'a7', name: 'Mediastinum', tier: 'prof' }
-  ]},
-  { id: 'physio', name: 'Physiology', icon: '⚡', topics: [
-    { id: 'p1', name: 'Blood Groups', tier: 'essential' },
-    { id: 'p2', name: 'Hemoglobin', tier: 'essential' },
-    { id: 'p3', name: 'Cardiac Cycle', tier: 'essential' },
-    { id: 'p4', name: 'Cardiac Output', tier: 'essential' },
-    { id: 'p5', name: 'Action Potential', tier: 'essential' }
-  ]},
-  { id: 'biochem', name: 'Biochemistry', icon: '🧬', topics: [
-    { id: 'b1', name: 'Glycolysis', tier: 'essential' },
-    { id: 'b2', name: 'Krebs Cycle', tier: 'essential' },
-    { id: 'b3', name: 'Electron Transport', tier: 'pg' },
-    { id: 'b4', name: 'Enzyme Kinetics', tier: 'essential' }
-  ]},
-  { id: 'patho', name: 'Pathology', icon: '🔬', topics: [
-    { id: 'pa1', name: 'Inflammation', tier: 'essential' },
-    { id: 'pa2', name: 'Cell Injury', tier: 'essential' },
-    { id: 'pa3', name: 'Healing & Repair', tier: 'essential' },
-    { id: 'pa4', name: 'Neoplasia', tier: 'pg' },
-    { id: 'pa5', name: 'Hemodynamics', tier: 'essential' }
-  ]},
-  { id: 'micro', name: 'Microbiology', icon: '🦠', topics: [
-    { id: 'm1', name: 'Staphylococcus', tier: 'essential' },
-    { id: 'm2', name: 'Streptococcus', tier: 'essential' },
-    { id: 'm3', name: 'Mycobacterium TB', tier: 'pg' },
-    { id: 'm4', name: 'HIV', tier: 'essential' }
-  ]},
-  { id: 'pharma', name: 'Pharmacology', icon: '💊', topics: [
-    { id: 'ph1', name: 'Pharmacokinetics', tier: 'essential' },
-    { id: 'ph2', name: 'Pharmacodynamics', tier: 'essential' },
-    { id: 'ph3', name: 'Cholinergic Drugs', tier: 'essential' },
-    { id: 'ph4', name: 'Adrenergic Drugs', tier: 'pg' }
-  ]}
+  {
+    id: 'anatomy', name: 'Anatomy', icon: '🦴', year: '1st', color: '#ef4444',
+    chapters: [
+      { id: 'upper', name: 'Upper Limb', topics: [
+        { id: 'an-shoulder', name: 'Shoulder Joint', tier: 'essential', comp: 'AN 1.1 — Describe the shoulder joint with clinical significance' },
+        { id: 'an-brachial', name: 'Brachial Plexus', tier: 'pg', comp: 'AN 1.2 — Describe formation and distribution of brachial plexus' },
+        { id: 'an-cubital', name: 'Cubital Fossa', tier: 'essential', comp: 'AN 1.3 — Describe boundaries and contents of cubital fossa' },
+        { id: 'an-carpal', name: 'Carpal Tunnel', tier: 'pg', comp: 'AN 1.4 — Describe carpal tunnel syndrome and clinical features' },
+      ]},
+      { id: 'lower', name: 'Lower Limb', topics: [
+        { id: 'an-femoral', name: 'Femoral Triangle', tier: 'essential', comp: 'AN 2.1 — Describe femoral triangle boundaries and contents' },
+        { id: 'an-knee', name: 'Knee Joint', tier: 'essential', comp: 'AN 2.2 — Describe knee joint anatomy and common injuries' },
+        { id: 'an-sciatic', name: 'Sciatic Nerve', tier: 'pg', comp: 'AN 2.3 — Describe course and distribution of sciatic nerve' },
+      ]},
+      { id: 'thorax', name: 'Thorax', topics: [
+        { id: 'an-heart', name: 'Heart Chambers', tier: 'essential', comp: 'AN 3.1 — Describe anatomy of heart chambers' },
+        { id: 'an-medias', name: 'Mediastinum', tier: 'prof', comp: 'AN 3.2 — Describe divisions and contents of mediastinum' },
+        { id: 'an-lungs', name: 'Lungs & Pleura', tier: 'essential', comp: 'AN 3.3 — Describe anatomy of lungs and pleural cavity' },
+      ]}
+    ]
+  },
+  {
+    id: 'physio', name: 'Physiology', icon: '⚡', year: '1st', color: '#0ea5e9',
+    chapters: [
+      { id: 'blood', name: 'Blood & Immunity', topics: [
+        { id: 'py-bgroups', name: 'Blood Groups', tier: 'essential', comp: 'PY 2.1 — Describe blood groups and transfusion reactions' },
+        { id: 'py-hb', name: 'Hemoglobin & O2 transport', tier: 'essential', comp: 'PY 2.2 — Explain oxygen-hemoglobin dissociation curve' },
+        { id: 'py-coag', name: 'Coagulation', tier: 'pg', comp: 'PY 2.3 — Describe mechanism of coagulation' },
+      ]},
+      { id: 'cvs', name: 'CVS Physiology', topics: [
+        { id: 'py-cycle', name: 'Cardiac Cycle', tier: 'essential', comp: 'PY 3.1 — Describe cardiac cycle with pressure-volume changes' },
+        { id: 'py-output', name: 'Cardiac Output', tier: 'essential', comp: 'PY 3.2 — Describe cardiac output, measurement and regulation' },
+        { id: 'py-bp', name: 'BP Regulation', tier: 'pg', comp: 'PY 3.3 — Explain regulation of blood pressure' },
+      ]},
+      { id: 'nerve', name: 'Nervous System', topics: [
+        { id: 'py-rmp', name: 'Resting Membrane Potential', tier: 'essential', comp: 'PY 4.1 — Explain ionic basis of resting membrane potential' },
+        { id: 'py-ap', name: 'Action Potential', tier: 'essential', comp: 'PY 4.2 — Describe generation and propagation of action potential' },
+        { id: 'py-syn', name: 'Synaptic Transmission', tier: 'pg', comp: 'PY 4.3 — Describe mechanisms of synaptic transmission' },
+      ]}
+    ]
+  },
+  {
+    id: 'biochem', name: 'Biochemistry', icon: '🧬', year: '1st', color: '#10b981',
+    chapters: [
+      { id: 'metab', name: 'Metabolism', topics: [
+        { id: 'bi-glyco', name: 'Glycolysis', tier: 'essential', comp: 'BI 1.1 — Describe steps of glycolysis and regulation' },
+        { id: 'bi-krebs', name: 'Krebs Cycle', tier: 'essential', comp: 'BI 1.2 — Describe TCA cycle and significance' },
+        { id: 'bi-etc', name: 'Electron Transport Chain', tier: 'pg', comp: 'BI 1.3 — Explain oxidative phosphorylation' },
+        { id: 'bi-fatty', name: 'Fatty Acid Oxidation', tier: 'prof', comp: 'BI 1.4 — Describe beta-oxidation of fatty acids' },
+      ]},
+      { id: 'enzymes', name: 'Proteins & Enzymes', topics: [
+        { id: 'bi-kinetics', name: 'Enzyme Kinetics', tier: 'essential', comp: 'BI 2.1 — Explain Michaelis-Menten kinetics' },
+        { id: 'bi-protein', name: 'Protein Structure', tier: 'prof', comp: 'BI 2.2 — Describe levels of protein structure' },
+      ]}
+    ]
+  },
+  {
+    id: 'patho', name: 'Pathology', icon: '🔬', year: '2nd', color: '#f59e0b',
+    chapters: [
+      { id: 'general', name: 'General Pathology', topics: [
+        { id: 'pa-inflam', name: 'Inflammation', tier: 'essential', comp: 'PA 1.1 — Describe etiology, pathogenesis of inflammation' },
+        { id: 'pa-injury', name: 'Cell Injury & Necrosis', tier: 'essential', comp: 'PA 1.2 — Describe mechanisms of cell injury' },
+        { id: 'pa-heal', name: 'Healing & Repair', tier: 'essential', comp: 'PA 1.3 — Explain wound healing and factors affecting it' },
+        { id: 'pa-neo', name: 'Neoplasia', tier: 'pg', comp: 'PA 1.4 — Describe hallmarks of cancer' },
+        { id: 'pa-hemo', name: 'Hemodynamics', tier: 'essential', comp: 'PA 1.5 — Describe hemodynamic disorders' },
+      ]},
+      { id: 'systemic', name: 'Systemic Pathology', topics: [
+        { id: 'pa-cvs', name: 'CVS Pathology', tier: 'essential', comp: 'PA 2.1 — Describe IHD, rheumatic heart disease' },
+        { id: 'pa-resp', name: 'Respiratory Pathology', tier: 'pg', comp: 'PA 2.2 — Describe pneumonia, TB, lung carcinoma' },
+        { id: 'pa-gi', name: 'GI Pathology', tier: 'prof', comp: 'PA 2.3 — Describe peptic ulcer, liver cirrhosis' },
+      ]}
+    ]
+  },
+  {
+    id: 'micro', name: 'Microbiology', icon: '🦠', year: '2nd', color: '#8b5cf6',
+    chapters: [
+      { id: 'bact', name: 'Bacteriology', topics: [
+        { id: 'mi-staph', name: 'Staphylococcus', tier: 'essential', comp: 'MI 1.1 — Describe staphylococci and infections' },
+        { id: 'mi-strep', name: 'Streptococcus', tier: 'essential', comp: 'MI 1.2 — Classify streptococci and diseases' },
+        { id: 'mi-tb', name: 'Mycobacterium TB', tier: 'pg', comp: 'MI 1.3 — Describe TB bacillus, pathogenesis' },
+      ]},
+      { id: 'virus', name: 'Virology', topics: [
+        { id: 'mi-hiv', name: 'HIV & AIDS', tier: 'essential', comp: 'MI 2.1 — Describe HIV structure, pathogenesis' },
+        { id: 'mi-hep', name: 'Hepatitis Viruses', tier: 'pg', comp: 'MI 2.2 — Describe hepatitis viruses' },
+      ]}
+    ]
+  },
+  {
+    id: 'pharma', name: 'Pharmacology', icon: '💊', year: '2nd', color: '#ec4899',
+    chapters: [
+      { id: 'gen-pharm', name: 'General Pharmacology', topics: [
+        { id: 'ph-pk', name: 'Pharmacokinetics', tier: 'essential', comp: 'PH 1.1 — Describe ADME of drugs' },
+        { id: 'ph-pd', name: 'Pharmacodynamics', tier: 'essential', comp: 'PH 1.2 — Explain drug-receptor interactions' },
+        { id: 'ph-adr', name: 'Adverse Drug Reactions', tier: 'pg', comp: 'PH 1.3 — Classify and describe ADRs' },
+      ]},
+      { id: 'ans', name: 'ANS Pharmacology', topics: [
+        { id: 'ph-chol', name: 'Cholinergic Drugs', tier: 'essential', comp: 'PH 2.1 — Describe cholinergic drugs' },
+        { id: 'ph-adr2', name: 'Adrenergic Drugs', tier: 'pg', comp: 'PH 2.2 — Describe adrenergic drugs' },
+      ]}
+    ]
+  }
 ];
 
-let currentSubject = null;
+// ============================================
+// COLLEGES
+// ============================================
+const colleges = [
+  "AIIMS New Delhi","AIIMS Mumbai","AIIMS Bhopal","AIIMS Jodhpur","AIIMS Patna","AIIMS Raipur","AIIMS Rishikesh","AIIMS Bhubaneswar","AIIMS Nagpur","AIIMS Bibinagar","AIIMS Mangalagiri","AIIMS Gorakhpur","AIIMS Kalyani","AIIMS Deoghar","AIIMS Bilaspur","AIIMS Rajkot","AIIMS Vijaypur","AIIMS Madurai","AIIMS Guwahati",
+  "Maulana Azad Medical College","Lady Hardinge Medical College","Vardhman Mahavir Medical College","University College of Medical Sciences",
+  "Grant Medical College Mumbai","Seth GS Medical College Mumbai","KEM Hospital Medical College","Lokmanya Tilak Medical College","Topiwala National Medical College","BJ Medical College Pune","Armed Forces Medical College Pune",
+  "Osmania Medical College Hyderabad","Gandhi Medical College Hyderabad","Kakatiya Medical College","NIMS Hyderabad",
+  "JIPMER Puducherry","Madras Medical College Chennai","Stanley Medical College Chennai","Kilpauk Medical College Chennai","Coimbatore Medical College","Government Mohan Kumaramangalam Medical College",
+  "Medical College Kolkata","NRS Medical College Kolkata","RG Kar Medical College","Calcutta National Medical College","Burdwan Medical College",
+  "Bangalore Medical College","MS Ramaiah Medical College","St. John's Medical College","Manipal KMC","Kasturba Medical College Mangalore","JSS Medical College Mysore","Karnataka Institute of Medical Sciences","Bowring Medical College",
+  "Sri Ramachandra Medical College","PSG Institute of Medical Sciences","Amrita Institute of Medical Sciences","SRM Medical College","Government Medical College Thiruvananthapuram","Government Medical College Kottayam","T. D. Medical College Alappuzha",
+  "Andhra Medical College","Guntur Medical College","Siddhartha Medical College Vijayawada","Kurnool Medical College",
+  "King George Medical University Lucknow","GSVM Medical College Kanpur","BHU Institute of Medical Sciences","MLN Medical College Allahabad","SN Medical College Agra","LLRM Medical College Meerut",
+  "Gandhi Medical College Bhopal","MGMMC Indore","SS Medical College Rewa","Netaji Subhash Chandra Bose Medical College Jabalpur",
+  "Government Medical College Nagpur","NKP Salve Institute","Dr. Vasantrao Pawar Medical College Nashik","Government Medical College Aurangabad",
+  "BJ Medical College Ahmedabad","Government Medical College Surat","NHL Municipal Medical College","MP Shah Medical College Jamnagar","Smt. NHL Municipal Medical College",
+  "SMS Medical College Jaipur","Dr. SN Medical College Jodhpur","RNT Medical College Udaipur","JLN Medical College Ajmer","SP Medical College Bikaner",
+  "Government Medical College Chandigarh","PGIMER Chandigarh","Dayanand Medical College Ludhiana","Government Medical College Amritsar","Government Medical College Patiala","Christian Medical College Ludhiana",
+  "Government Medical College Jammu","SKIMS Srinagar","Government Medical College Srinagar","SMGS Hospital Jammu",
+  "IGIMS Patna","Patna Medical College","Darbhanga Medical College","Nalanda Medical College",
+  "Other / Not Listed"
+];
 
-// Load
-function load() {
-  const saved = localStorage.getItem('medpath');
-  if (saved) {
-    try { state = JSON.parse(saved); } catch(e) {}
-  }
+// ============================================
+// INIT
+// ============================================
+function init() {
+  loadState();
   if (state.onboarded) {
     showApp();
+  } else {
+    document.getElementById('onboardingFlow').style.display = 'block';
+    document.getElementById('mainApp').style.display = 'none';
   }
 }
 
-function save() {
-  localStorage.setItem('medpath', JSON.stringify(state));
+function loadState() {
+  try {
+    const s = localStorage.getItem('medpath-v3');
+    if (s) state = { ...state, ...JSON.parse(s) };
+  } catch(e) { console.log(e); }
 }
 
-function completeOnboarding() {
-  const name = document.getElementById('userName').value.trim();
+function saveState() {
+  try {
+    localStorage.setItem('medpath-v3', JSON.stringify(state));
+  } catch(e) { console.log(e); }
+}
+
+// ============================================
+// ONBOARDING
+// ============================================
+function goStep(n) {
+  document.querySelectorAll('.onboarding-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('ob-' + n).classList.add('active');
+}
+
+function saveStep2() {
+  const name = document.getElementById('obName').value.trim();
   if (!name) {
     alert('Please enter your name');
+    document.getElementById('obName').focus();
     return;
   }
-  state.user.name = name;
-  state.user.college = document.getElementById('userCollege').value.trim();
-  state.user.year = document.getElementById('userYear').value;
-  state.onboarded = true;
-  save();
-  showApp();
+  onboardData.name = name;
+  goStep(3);
 }
 
-function showApp() {
-  document.getElementById('onboarding').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
+function pickYear(year) {
+  document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.year-btn[data-year="${year}"]`).classList.add('selected');
+  onboardData.year = year;
+}
+
+function searchColleges(query) {
+  const drop = document.getElementById('collegeDrop');
+  if (!query || query.length < 2) {
+    drop.classList.remove('show');
+    return;
+  }
+  const q = query.toLowerCase();
+  const matches = colleges.filter(c => c.toLowerCase().includes(q)).slice(0, 6);
+  if (matches.length === 0) {
+    drop.classList.remove('show');
+    return;
+  }
+  drop.innerHTML = matches.map(c => `<div class="college-option" onclick="pickCollege('${c.replace(/'/g, "\\'")}')">${c}</div>`).join('');
+  drop.classList.add('show');
+}
+
+function pickCollege(name) {
+  document.getElementById('obCollege').value = name;
+  document.getElementById('collegeDrop').classList.remove('show');
+  onboardData.college = name;
+}
+
+function pickColor(key, hex) {
+  document.querySelectorAll('.color-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`.color-card[data-color="${key}"]`).classList.add('selected');
+  onboardData.accentColor = key;
+  onboardData.accentHex = hex;
+}
+
+function pickExam(type) {
+  document.querySelectorAll('.exam-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelector(`.exam-btn[data-exam="${type}"]`).classList.add('selected');
+  onboardData.examGoal = type;
+}
+
+function finishOnboarding() {
+  const collegeVal = document.getElementById('obCollege').value.trim();
+  if (collegeVal) onboardData.college = collegeVal;
   
-  // Greeting
+  state.user = {
+    name: onboardData.name,
+    college: onboardData.college || '',
+    year: onboardData.year,
+    accentColor: onboardData.accentColor,
+    accentHex: onboardData.accentHex,
+    examGoal: onboardData.examGoal,
+    examDate: document.getElementById('obExamDate').value || null,
+    dailyGoal: 5
+  };
+  state.onboarded = true;
+  state.streak.startDate = new Date().toISOString().split('T')[0];
+  saveState();
+  showApp();
+  setTimeout(() => triggerConfetti(), 300);
+}
+
+// ============================================
+// SHOW MAIN APP
+// ============================================
+function showApp() {
+  document.getElementById('onboardingFlow').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  
+  updateAll();
+}
+
+function updateAll() {
+  updateHeader();
+  updateSidebar();
+  updateStreak();
+  updateRings();
+  updateProgress();
+  updateStats();
+  renderWeekStrip();
+  renderHeatmap('heatmap');
+  renderHeatmap('progHeatmap');
+  renderSubjectsQuick();
+  renderSubjectsFull();
+  updateSettings();
+  updateProgressPage();
+}
+
+function updateHeader() {
   const hour = new Date().getHours();
   let g = 'Good morning';
   if (hour >= 12 && hour < 17) g = 'Good afternoon';
-  if (hour >= 17) g = 'Good evening';
-  document.getElementById('greeting').textContent = g;
-  document.getElementById('userNameDisplay').textContent = state.user.name + ' 👋';
+  else if (hour >= 17 && hour < 22) g = 'Good evening';
+  else if (hour >= 22 || hour < 5) g = 'Late night studies?';
   
-  // Settings
-  document.getElementById('settingsName').textContent = state.user.name;
-  document.getElementById('settingsCollege').textContent = state.user.college || 'No college set';
-  document.getElementById('settingsYear').textContent = state.user.year;
+  document.getElementById('greetText').textContent = g;
+  document.getElementById('greetName').textContent = state.user.name + ' 👋';
   
-  updateStats();
-  renderSubjects();
+  // Today's date
+  document.getElementById('todayDate').textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
-function updateStats() {
-  const done = Object.values(state.topics).filter(t => t === 'done').length;
-  const progress = Object.values(state.topics).filter(t => t === 'progress').length;
-  const total = subjects.reduce((acc, s) => acc + s.topics.length, 0);
-  const percent = Math.round((done / total) * 100);
-  
-  document.getElementById('topicsDone').textContent = done;
-  document.getElementById('topicsProgress').textContent = progress;
-  document.getElementById('overallPercent').textContent = percent + '%';
-  document.getElementById('overallBar').style.width = percent + '%';
-  document.getElementById('streakNum').textContent = state.streak.current;
-  document.getElementById('bestStreak').textContent = state.streak.best;
-  
-  let msg = 'Start your journey!';
-  if (done > 0 && done < 10) msg = 'Building your foundation 🌱';
-  else if (done >= 10 && done < 30) msg = 'Great pace! Keep going 🚀';
-  else if (done >= 30) msg = 'You\'re crushing it! 🔥';
-  document.getElementById('progressMsg').textContent = msg;
+function updateSidebar() {
+  document.getElementById('sbAvatar').textContent = (state.user.name || 'U').charAt(0).toUpperCase();
+  document.getElementById('sbName').textContent = state.user.name || 'User';
+  document.getElementById('sbMeta').textContent = `${state.user.college || 'No college'} · ${state.user.year}`;
 }
 
-function renderSubjects() {
-  const container = document.getElementById('subjectsList');
-  container.innerHTML = subjects.map(s => {
-    const done = s.topics.filter(t => state.topics[t.id] === 'done').length;
-    const percent = Math.round((done / s.topics.length) * 100);
-    return `
-      <div class="subject-item" onclick="openSubject('${s.id}')">
-        <div class="subject-row">
-          <div class="subject-name">
-            <span class="subject-icon">${s.icon}</span>
-            <span>${s.name}</span>
-          </div>
-          <div class="subject-percent">${percent}%</div>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" style="width:${percent}%"></div>
-        </div>
-        <div style="color:#666; font-size:12px; margin-top:4px;">${done}/${s.topics.length} topics</div>
-      </div>
-    `;
-  }).join('');
-}
-
-function openSubject(id) {
-  currentSubject = subjects.find(s => s.id === id);
-  document.getElementById('currentSubjectName').textContent = currentSubject.icon + ' ' + currentSubject.name;
-  renderTopics();
-  showPage('topics');
-}
-
-function renderTopics() {
-  const container = document.getElementById('topicsList');
-  const tierLabels = { essential: '🔴 Essential', pg: '🟠 PG Focus', prof: '🟡 Prof' };
-  container.innerHTML = currentSubject.topics.map(t => {
-    const done = state.topics[t.id] === 'done';
-    return `
-      <div class="topic-item" onclick="toggleTopic('${t.id}')">
-        <div class="topic-check ${done ? 'done' : ''}">${done ? '✓' : ''}</div>
-        <div class="topic-name" style="${done ? 'text-decoration:line-through;color:#666;' : ''}">${t.name}</div>
-        <span class="topic-tier tier-${t.tier}">${tierLabels[t.tier]}</span>
-      </div>
-    `;
-  }).join('');
-}
-
-function toggleTopic(id) {
-  if (state.topics[id] === 'done') {
-    delete state.topics[id];
-  } else {
-    state.topics[id] = 'done';
-    updateStreak();
-  }
-  save();
-  renderTopics();
-  updateStats();
-  renderSubjects();
-}
-
+// ============================================
+// STREAK
+// ============================================
 function updateStreak() {
+  document.getElementById('streakBig').textContent = state.streak.current;
+  document.getElementById('streakBestNum').textContent = state.streak.best;
+  document.getElementById('hdrStreak').textContent = state.streak.current;
+  
+  let emoji = '💤';
+  if (state.streak.current >= 1) emoji = '🔥';
+  if (state.streak.current >= 30) emoji = '⚡';
+  if (state.streak.current >= 50) emoji = '💎';
+  if (state.streak.current >= 100) emoji = '👑';
+  document.getElementById('streakEmojiBig').textContent = emoji;
+  
+  let msg = 'Start studying to begin your streak!';
+  if (state.streak.current > 0) {
+    const milestones = [5, 10, 15, 20, 30, 50, 100];
+    const next = milestones.find(m => m > state.streak.current) || 200;
+    msg = `${next - state.streak.current} more days to next badge 🏅`;
+  }
+  document.getElementById('streakMsg').textContent = msg;
+}
+
+function bumpStreak() {
   const today = new Date().toDateString();
   if (state.streak.lastDate === today) return;
   
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
+  const yStr = yesterday.toDateString();
   
-  if (state.streak.lastDate === yesterday.toDateString()) {
+  if (state.streak.lastDate === yStr || !state.streak.lastDate) {
     state.streak.current++;
   } else {
     state.streak.current = 1;
@@ -417,24 +1363,596 @@ function updateStreak() {
     state.streak.best = state.streak.current;
   }
   state.streak.lastDate = today;
+  
+  if (!state.studyLog.includes(today)) {
+    state.studyLog.push(today);
+  }
+  
+  // Milestone confetti
+  if ([5, 10, 15, 20, 30, 50, 100].includes(state.streak.current)) {
+    triggerConfetti();
+  }
 }
 
-function showPage(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const nav = document.getElementById('nav-' + page);
-  if (nav) nav.classList.add('active');
+function renderWeekStrip() {
+  const container = document.getElementById('weekStrip');
+  const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  const today = new Date();
+  const todayDow = (today.getDay() + 6) % 7; // Monday = 0
+  
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const isToday = i === todayDow;
+    const isPast = i < todayDow;
+    const dayDate = new Date(today);
+    dayDate.setDate(today.getDate() - (todayDow - i));
+    const studied = state.studyLog.includes(dayDate.toDateString());
+    
+    let bg = 'rgba(255,255,255,0.04)', color = '#444', content = '·';
+    if (isToday) {
+      bg = '#f59e0b'; color = '#000'; content = studied ? '✓' : '🔥';
+    } else if (studied) {
+      bg = 'rgba(245,158,11,0.2)'; color = '#f59e0b'; content = '✓';
+    } else if (isPast) {
+      bg = 'rgba(255,255,255,0.04)'; color = '#555'; content = '·';
+    }
+    
+    html += `<div class="week-day">
+      <div class="week-circle" style="background:${bg}; color:${color};">${content}</div>
+      <div class="week-label">${days[i]}</div>
+    </div>`;
+  }
+  container.innerHTML = html;
+}
+
+// ============================================
+// RINGS
+// ============================================
+function updateRings() {
+  const todayStr = new Date().toDateString();
+  const todayDone = Object.values(state.topics).filter(t => t.status === 'done' && t.lastDate === todayStr).length;
+  const todayRev = Object.values(state.topics).filter(t => t.status === 'done' && t.revisedToday).length;
+  const todayGoals = state.goals.filter(g => g.done).length;
+  
+  const studyGoal = state.user.dailyGoal || 5;
+  const revGoal = 4;
+  const goalGoal = 3;
+  
+  const studyPct = Math.min(todayDone / studyGoal, 1);
+  const revPct = Math.min(todayRev / revGoal, 1);
+  const goalPct = Math.min(todayGoals / goalGoal, 1);
+  
+  setTimeout(() => {
+    document.getElementById('ringStudy').style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    document.getElementById('ringStudy').style.strokeDashoffset = 282.7 * (1 - studyPct);
+    document.getElementById('ringRev').style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    document.getElementById('ringRev').style.strokeDashoffset = 207.3 * (1 - revPct);
+    document.getElementById('ringGoals').style.transition = 'stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1)';
+    document.getElementById('ringGoals').style.strokeDashoffset = 131.9 * (1 - goalPct);
+  }, 200);
+  
+  document.getElementById('studyVal').textContent = `${todayDone}/${studyGoal}`;
+  document.getElementById('studyBar').style.width = (studyPct * 100) + '%';
+  document.getElementById('revVal').textContent = `${todayRev}/${revGoal}`;
+  document.getElementById('revBar').style.width = (revPct * 100) + '%';
+  document.getElementById('goalsVal').textContent = `${todayGoals}/${goalGoal}`;
+  document.getElementById('goalsBar').style.width = (goalPct * 100) + '%';
+}
+
+// ============================================
+// PROGRESS
+// ============================================
+function getTotalTopics() {
+  return subjects.reduce((acc, s) => acc + s.chapters.reduce((a, c) => a + c.topics.length, 0), 0);
+}
+
+function updateProgress() {
+  const totalDone = Object.values(state.topics).filter(t => t.status === 'done').length;
+  const totalTopics = getTotalTopics();
+  const pct = totalTopics > 0 ? Math.round((totalDone / totalTopics) * 100) : 0;
+  
+  document.getElementById('overallPct').textContent = pct + '%';
+  document.getElementById('overallBar').style.width = pct + '%';
+  
+  let msg = 'Just starting your journey 🌱';
+  if (totalDone > 0 && totalDone < 10) msg = `${totalDone} topics done · Building foundation`;
+  else if (totalDone >= 10 && totalDone < 30) msg = `${totalDone} topics done · Great pace! 🚀`;
+  else if (totalDone >= 30 && totalDone < 60) msg = `${totalDone} topics done · You're on fire! 🔥`;
+  else if (totalDone >= 60) msg = `${totalDone} topics done · Mastering it! 🏆`;
+  document.getElementById('overallMsg').textContent = msg;
+  
+  // Pace prediction
+  if (state.user.examDate) {
+    const days = Math.ceil((new Date(state.user.examDate) - new Date()) / (1000 * 60 * 60 * 24));
+    const remaining = totalTopics - totalDone;
+    const perDay = remaining / Math.max(days, 1);
+    if (days > 0) {
+      document.getElementById('paceMsg').textContent = `🎯 ${days} days to exam · Need ~${Math.ceil(perDay)} topics/day`;
+    } else {
+      document.getElementById('paceMsg').textContent = `🎯 Exam day! All the best!`;
+    }
+  }
+}
+
+function updateStats() {
+  const done = Object.values(state.topics).filter(t => t.status === 'done').length;
+  const inProg = Object.values(state.topics).filter(t => t.status === 'in-progress').length;
+  
+  document.getElementById('kpiDone').textContent = done;
+  document.getElementById('kpiProgress').textContent = inProg;
+  
+  if (state.user.examDate) {
+    const days = Math.ceil((new Date(state.user.examDate) - new Date()) / (1000 * 60 * 60 * 24));
+    document.getElementById('kpiExam').textContent = Math.max(0, days);
+    document.getElementById('kpiExamSub').textContent = days > 0 ? 'days remaining' : 'Today!';
+  }
+  
+  // Avg confidence
+  const conf = Object.values(state.topics).filter(t => t.confidence).map(t => t.confidence);
+  if (conf.length > 0) {
+    const avg = Math.round(conf.reduce((a, b) => a + b, 0) / conf.length);
+    document.getElementById('kpiConf').textContent = '⭐'.repeat(avg);
+  }
+}
+
+// ============================================
+// HEATMAP
+// ============================================
+function renderHeatmap(id) {
+  const container = document.getElementById(id);
+  if (!container) return;
+  container.innerHTML = '';
+  
+  const weeks = 12;
+  for (let w = 0; w < weeks; w++) {
+    const col = document.createElement('div');
+    col.className = 'heatmap-col';
+    for (let d = 0; d < 7; d++) {
+      const cell = document.createElement('div');
+      cell.className = 'heatmap-cell';
+      
+      const daysAgo = (weeks - w - 1) * 7 + (6 - d);
+      const date = new Date();
+      date.setDate(date.getDate() - daysAgo);
+      const dateStr = date.toDateString();
+      const isToday = daysAgo === 0;
+      
+      // Check if studied
+      let intensity = 0;
+      if (state.studyLog.includes(dateStr)) {
+        // Count topics done that day (approximation)
+        intensity = 0.7;
+      }
+      
+      if (isToday) {
+        cell.style.background = '#f59e0b';
+        cell.style.boxShadow = '0 0 6px rgba(245,158,11,0.5)';
+      } else if (intensity > 0) {
+        cell.style.background = `rgba(245,158,11,${0.3 + intensity * 0.5})`;
+      } else {
+        cell.style.background = 'rgba(255,255,255,0.04)';
+      }
+      
+      cell.title = date.toLocaleDateString();
+      col.appendChild(cell);
+    }
+    container.appendChild(col);
+  }
+}
+
+// ============================================
+// SUBJECTS - QUICK VIEW (Dashboard)
+// ============================================
+function renderSubjectsQuick() {
+  const container = document.getElementById('subjQuick');
+  const top = subjects.slice(0, 4);
+  container.innerHTML = top.map(s => {
+    const all = s.chapters.flatMap(c => c.topics);
+    const done = all.filter(t => state.topics[t.id]?.status === 'done').length;
+    const pct = all.length ? Math.round((done / all.length) * 100) : 0;
+    return `
+      <div class="subj-mini" onclick="goPage('subjects')">
+        <div class="subj-mini-row">
+          <div class="subj-mini-name">
+            <span class="subj-mini-icon">${s.icon}</span>
+            <span>${s.name}</span>
+          </div>
+          <div class="subj-mini-pct" style="color: ${s.color};">${pct}%</div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%; background: linear-gradient(90deg, ${s.color}, ${s.color}cc);"></div></div>
+        <div style="color:#666; font-size:11px; margin-top:4px;">${done}/${all.length} topics</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============================================
+// SUBJECTS - FULL PAGE
+// ============================================
+function renderSubjectsFull() {
+  const container = document.getElementById('subjFull');
+  const filtered = currentSubjectFilter === 'all' ? subjects : subjects.filter(s => s.year === currentSubjectFilter);
+  
+  container.innerHTML = filtered.map(s => {
+    const all = s.chapters.flatMap(c => c.topics);
+    const done = all.filter(t => state.topics[t.id]?.status === 'done').length;
+    const pct = all.length ? Math.round((done / all.length) * 100) : 0;
+    const essTotal = all.filter(t => t.tier === 'essential').length;
+    const essDone = all.filter(t => t.tier === 'essential' && state.topics[t.id]?.status === 'done').length;
+    
+    let pace = '🌱 Just starting';
+    if (pct >= 80) pace = '🏆 Nearly complete';
+    else if (pct >= 60) pace = '🚀 Great progress';
+    else if (pct >= 40) pace = '⚡ Above average';
+    else if (pct >= 20) pace = '📈 Building momentum';
+    
+    const chaptersHTML = s.chapters.map(ch => {
+      const chDone = ch.topics.filter(t => state.topics[t.id]?.status === 'done').length;
+      const topicsHTML = ch.topics.map(t => {
+        const tState = state.topics[t.id] || {};
+        const tierClass = `tier-${t.tier}`;
+        const tierLabel = { essential: '🔴 Essential', pg: '🟠 PG', prof: '🟡 Prof', extra: '⚪ Extra' }[t.tier] || '⚪';
+        const statusIcon = tState.status === 'done' ? '✅' : tState.status === 'in-progress' ? '🔄' : '⚪';
+        const stars = tState.confidence ? '⭐'.repeat(tState.confidence) : '';
+        return `
+          <div class="topic-row" onclick="openTopic('${t.id}','${t.name.replace(/'/g, "\\'")}', '${s.name}', '${t.tier}', '${t.comp.replace(/'/g, "\\'")}')">
+            <div class="topic-status">${statusIcon}</div>
+            <div class="topic-info">
+              <div class="topic-title">${t.name}</div>
+              ${stars ? `<div class="topic-stars">${stars}</div>` : ''}
+            </div>
+            <div class="tier-badge ${tierClass}">${tierLabel}</div>
+          </div>
+        `;
+      }).join('');
+      
+      return `
+        <div class="chapter-head" onclick="toggleChapter('${s.id}-${ch.id}')">
+          <div>
+            <div class="chapter-name">${ch.name}</div>
+            <div class="chapter-meta">${chDone}/${ch.topics.length} topics</div>
+          </div>
+          <div class="chapter-arrow" id="arr-${s.id}-${ch.id}">▶</div>
+        </div>
+        <div class="chapter-topics" id="ch-${s.id}-${ch.id}">${topicsHTML}</div>
+      `;
+    }).join('');
+    
+    return `
+      <div class="subject-card fade-up">
+        <div class="subject-head" onclick="toggleSubject('${s.id}')">
+          <div class="subject-head-row">
+            <div class="subject-head-left">
+              <div class="subject-icon-box" style="background: ${s.color}25;">${s.icon}</div>
+              <div>
+                <div class="subject-name-big">${s.name}</div>
+                <div class="subject-meta-sm">${s.year} Year · ${all.length} topics</div>
+              </div>
+            </div>
+            <div style="text-align: right;">
+              <div class="subject-pct-big" style="color: ${s.color};">${pct}%</div>
+              <div class="subject-pct-sm">${done}/${all.length}</div>
+            </div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${pct}%; background: linear-gradient(90deg, ${s.color}, ${s.color}cc);"></div></div>
+          <div class="subject-pace">
+            <span>${pace}</span>
+            <span class="essential-tag">🔴 ${essDone}/${essTotal} essential</span>
+          </div>
+        </div>
+        <div class="subject-expand" id="exp-${s.id}">${chaptersHTML}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleSubject(id) {
+  document.getElementById('exp-' + id).classList.toggle('open');
+}
+
+function toggleChapter(id) {
+  document.getElementById('ch-' + id).classList.toggle('open');
+  document.getElementById('arr-' + id).classList.toggle('open');
+}
+
+function filterSubj(f) {
+  currentSubjectFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.filter-btn[data-filter="${f}"]`).classList.add('active');
+  renderSubjectsFull();
+}
+
+// ============================================
+// TOPIC PANEL
+// ============================================
+function openTopic(id, name, subject, tier, comp) {
+  currentTopic = { id, name, subject, tier, comp };
+  const t = state.topics[id] || { status: 'not-started', confidence: 0, notes: '', firstDate: null, lastDate: null };
+  
+  document.getElementById('pTitle').textContent = name;
+  document.getElementById('pSubject').textContent = subject;
+  document.getElementById('pComp').textContent = comp;
+  document.getElementById('pNotes').value = t.notes || '';
+  document.getElementById('pFirst').textContent = t.firstDate ? new Date(t.firstDate).toLocaleDateString() : '—';
+  document.getElementById('pLast').textContent = t.lastDate ? new Date(t.lastDate).toLocaleDateString() : '—';
+  
+  const tierConfig = {
+    essential: { label: '🔴 Essential', cls: 'tier-essential' },
+    pg: { label: '🟠 PG Focus', cls: 'tier-pg' },
+    prof: { label: '🟡 Prof Focus', cls: 'tier-prof' },
+    extra: { label: '⚪ Extra', cls: 'tier-extra' }
+  };
+  const tc = tierConfig[tier] || tierConfig.extra;
+  const tEl = document.getElementById('pTier');
+  tEl.textContent = tc.label;
+  tEl.className = 'panel-tier ' + tc.cls;
+  
+  // Status buttons
+  document.querySelectorAll('.status-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.status === t.status);
+  });
+  
+  // Stars
+  updateStarsUI(t.confidence || 0);
+  
+  document.getElementById('panelOverlay').classList.add('active');
+  document.getElementById('panelSheet').classList.add('active');
+}
+
+function closePanel() {
+  // Save notes
+  if (currentTopic) {
+    if (!state.topics[currentTopic.id]) state.topics[currentTopic.id] = {};
+    state.topics[currentTopic.id].notes = document.getElementById('pNotes').value;
+    saveState();
+  }
+  document.getElementById('panelOverlay').classList.remove('active');
+  document.getElementById('panelSheet').classList.remove('active');
+  updateAll();
+}
+
+function setStatus(status) {
+  if (!currentTopic) return;
+  if (!state.topics[currentTopic.id]) state.topics[currentTopic.id] = { confidence: 0 };
+  
+  const wasNotDone = state.topics[currentTopic.id].status !== 'done';
+  state.topics[currentTopic.id].status = status;
+  state.topics[currentTopic.id].lastDate = new Date().toDateString();
+  
+  if (status === 'done' && wasNotDone) {
+    if (!state.topics[currentTopic.id].firstDate) {
+      state.topics[currentTopic.id].firstDate = new Date().toDateString();
+    }
+    bumpStreak();
+    
+    const total = Object.values(state.topics).filter(t => t.status === 'done').length;
+    if ([10, 25, 50, 100, 150, 200].includes(total)) {
+      triggerConfetti();
+    }
+  }
+  
+  document.querySelectorAll('.status-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.status === status);
+  });
+  
+  document.getElementById('pFirst').textContent = state.topics[currentTopic.id].firstDate ? new Date(state.topics[currentTopic.id].firstDate).toLocaleDateString() : '—';
+  document.getElementById('pLast').textContent = new Date().toLocaleDateString();
+  
+  saveState();
+}
+
+function setStars(n) {
+  if (!currentTopic) return;
+  if (!state.topics[currentTopic.id]) state.topics[currentTopic.id] = { status: 'not-started' };
+  state.topics[currentTopic.id].confidence = n;
+  updateStarsUI(n);
+  saveState();
+}
+
+function updateStarsUI(n) {
+  document.querySelectorAll('.star-btn').forEach((b, i) => {
+    b.textContent = i < n ? '⭐' : '☆';
+  });
+}
+
+function markDone() {
+  setStatus('done');
+  const btn = document.getElementById('markBtn');
+  btn.textContent = '✅ Marked Done!';
+  btn.style.background = 'linear-gradient(135deg, #10b981, #34d399)';
+  setTimeout(() => {
+    btn.textContent = 'Mark as Done ✓';
+    btn.style.background = 'linear-gradient(135deg, #f59e0b, #fcd34d)';
+  }, 1500);
+}
+
+function markRevise() {
+  if (!currentTopic) return;
+  if (!state.topics[currentTopic.id]) state.topics[currentTopic.id] = { status: 'not-started', confidence: 0 };
+  state.topics[currentTopic.id].lastDate = new Date().toDateString();
+  state.topics[currentTopic.id].revisedToday = true;
+  saveState();
+}
+
+// ============================================
+// PROGRESS PAGE
+// ============================================
+function updateProgressPage() {
+  const allTopics = subjects.flatMap(s => s.chapters.flatMap(c => c.topics));
+  const totalDone = allTopics.filter(t => state.topics[t.id]?.status === 'done').length;
+  const total = allTopics.length;
+  const pct = total > 0 ? Math.round((totalDone / total) * 100) : 0;
+  
+  document.getElementById('progBig').textContent = pct + '%';
+  document.getElementById('progBar').style.width = pct + '%';
+  
+  // Tier breakdowns
+  const ess = allTopics.filter(t => t.tier === 'essential');
+  const essDone = ess.filter(t => state.topics[t.id]?.status === 'done').length;
+  document.getElementById('essPct').textContent = ess.length ? Math.round(essDone/ess.length*100) + '%' : '0%';
+  
+  const pg = allTopics.filter(t => t.tier === 'pg');
+  const pgDone = pg.filter(t => state.topics[t.id]?.status === 'done').length;
+  document.getElementById('pgPct').textContent = pg.length ? Math.round(pgDone/pg.length*100) + '%' : '0%';
+  
+  const pr = allTopics.filter(t => t.tier === 'prof');
+  const prDone = pr.filter(t => state.topics[t.id]?.status === 'done').length;
+  document.getElementById('profPct').textContent = pr.length ? Math.round(prDone/pr.length*100) + '%' : '0%';
+  
+  // Mastered
+  const mastered = Object.values(state.topics).filter(t => t.confidence === 5).length;
+  document.getElementById('masteredCount').textContent = mastered;
+  
+  // Strongest/weakest
+  let bestSubj = '—', bestPct = 0, worstSubj = '—', worstPct = 100, hasWorst = false;
+  subjects.forEach(s => {
+    const all = s.chapters.flatMap(c => c.topics);
+    const done = all.filter(t => state.topics[t.id]?.status === 'done').length;
+    const p = all.length ? (done / all.length) * 100 : 0;
+    if (p > bestPct) { bestPct = p; bestSubj = s.name; }
+    if (done > 0 && p < worstPct) { worstPct = p; worstSubj = s.name; hasWorst = true; }
+  });
+  document.getElementById('strongSubj').textContent = bestPct > 0 ? bestSubj : '—';
+  document.getElementById('weakSubj').textContent = hasWorst ? worstSubj : '—';
+  
+  // This week
+  const weekAgo = new Date();
+  weekAgo.setDate(weekAgo.getDate() - 7);
+  const recent = Object.values(state.topics).filter(t => {
+    if (!t.firstDate || t.status !== 'done') return false;
+    return new Date(t.firstDate) >= weekAgo;
+  }).length;
+  document.getElementById('weekTopics').textContent = `+${recent} topics`;
+}
+
+// ============================================
+// SETTINGS
+// ============================================
+function updateSettings() {
+  document.getElementById('setAvatar').textContent = (state.user.name || 'U').charAt(0).toUpperCase();
+  document.getElementById('setName').textContent = state.user.name || 'User';
+  document.getElementById('setYear').textContent = state.user.year + ' · MBBS';
+  document.getElementById('setCollege').textContent = state.user.college || 'No college set';
+  document.getElementById('setExamGoal').textContent = state.user.examGoal || 'Not set';
+  document.getElementById('setExamDate').textContent = state.user.examDate ? new Date(state.user.examDate).toLocaleDateString() : 'Not set';
+  document.getElementById('dailyVal').textContent = state.user.dailyGoal || 5;
+}
+
+function changeDaily(d) {
+  state.user.dailyGoal = Math.max(1, Math.min(20, (state.user.dailyGoal || 5) + d));
+  document.getElementById('dailyVal').textContent = state.user.dailyGoal;
+  saveState();
+  updateRings();
+}
+
+function changeAccent(key, hex) {
+  state.user.accentColor = key;
+  state.user.accentHex = hex;
+  document.querySelectorAll('.color-mini').forEach(m => m.classList.remove('selected'));
+  event.target.classList.add('selected');
+  saveState();
+}
+
+function exportData() {
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `medpath-backup-${new Date().toISOString().split('T')[0]}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 function resetApp() {
-  if (confirm('Delete ALL your progress?')) {
-    localStorage.removeItem('medpath');
+  if (confirm('⚠️ This will delete ALL your progress. Are you sure?')) {
+    localStorage.removeItem('medpath-v3');
     location.reload();
   }
 }
 
-load();
+// ============================================
+// NAVIGATION
+// ============================================
+function goPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  const navBtn = document.getElementById('nav-' + page);
+  if (navBtn) navBtn.classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  closeSidebar();
+  window.scrollTo(0, 0);
+  
+  if (page === 'home') updateAll();
+  if (page === 'subjects') renderSubjectsFull();
+  if (page === 'progress') updateProgressPage();
+  if (page === 'settings') updateSettings();
+}
+
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('active');
+  document.getElementById('sidebarOverlay').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('active');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+
+// ============================================
+// GOALS
+// ============================================
+function toggleGoal(el) {
+  el.classList.toggle('done');
+  if (el.classList.contains('done')) {
+    el.innerHTML = '✓';
+    el.parentElement.querySelector('.goal-title').classList.add('done');
+  } else {
+    el.innerHTML = '';
+    el.parentElement.querySelector('.goal-title').classList.remove('done');
+  }
+}
+
+function addGoal() {
+  const text = prompt('What\'s your goal?');
+  if (!text || !text.trim()) return;
+  const container = document.getElementById('goalsList');
+  const div = document.createElement('div');
+  div.className = 'goal-row';
+  div.innerHTML = `
+    <div class="goal-check" onclick="toggleGoal(this)"></div>
+    <div class="goal-text">
+      <div class="goal-title">${text.trim()}</div>
+      <div class="goal-meta">Personal goal</div>
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+// ============================================
+// CONFETTI
+// ============================================
+function triggerConfetti() {
+  const container = document.getElementById('confettiBox');
+  const colors = ['#f59e0b', '#fcd34d', '#6366f1', '#10b981', '#fff'];
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2 + Math.random() * 2) + 's';
+      container.appendChild(piece);
+      setTimeout(() => piece.remove(), 4000);
+    }, i * 30);
+  }
+}
+
+// ============================================
+// START
+// ============================================
+init();
 </script>
 
 </body>
