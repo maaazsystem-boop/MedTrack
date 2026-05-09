@@ -3,269 +3,427 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0f172a">
 <title>MedTrack Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 <style>
-  .mt{display:flex !important;align-items:center;justify-content:center;width:42px;height:42px;border:1px solid var(--br);background:var(--bg);color:var(--tx);font-size:18px;cursor:pointer;border-radius:8px;margin-right:4px}
-.sb{transform:translateX(-100%)}
-.sb.open{transform:translateX(0) !important}
-.mc{margin-left:0 !important}
-.ql{left:0 !important}
-:root{--bg:#f8fafc;--bg2:#fff;--tx:#0f172a;--tx2:#475569;--tx3:#94a3b8;--br:#e2e8f0;--ac:#6366f1;--acl:#e0e7ff;--ok:#10b981;--okl:#d1fae5;--wn:#f59e0b;--wnl:#fef3c7;--dn:#ef4444;--dnl:#fee2e2;--in:#3b82f6;--inl:#dbeafe;--r:12px}
-[data-theme="dark"]{--bg:#0f172a;--bg2:#1e293b;--tx:#f1f5f9;--tx2:#94a3b8;--tx3:#64748b;--br:#334155;--ac:#818cf8;--acl:#1e1b4b;--okl:#064e3b;--wnl:#78350f;--dnl:#7f1d1d;--inl:#1e3a5f}
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx)}
-.login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea,#764ba2);padding:20px}
-.lc{background:var(--bg2);border-radius:20px;padding:36px 28px;width:100%;max-width:400px;text-align:center}
-.lc h1{font-size:24px;font-weight:800;margin:14px 0 4px}
-.lc p{color:var(--tx2);font-size:13px;margin-bottom:24px}
-.ll{width:60px;height:60px;background:linear-gradient(135deg,var(--ac),#a855f7);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto;font-size:26px;color:#fff}
-.fg{margin-bottom:16px;text-align:left}
-.fg label{display:block;font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:5px}
-.fi{width:100%;padding:11px 13px;border:2px solid var(--br);border-radius:var(--r);font-size:14px;font-family:inherit;background:var(--bg);color:var(--tx);outline:none}
-.fi:focus{border-color:var(--ac)}
-.btn{padding:12px 24px;border:none;border-radius:var(--r);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
-.bp{background:linear-gradient(135deg,var(--ac),#a855f7);color:#fff;width:100%;justify-content:center}
-.bs{background:var(--bg);color:var(--tx);border:2px solid var(--br)}
-.bsm{padding:7px 14px;font-size:12px}
-  .app{display:none;min-height:100vh}
-.app.on{display:flex}
-.sb{width:260px;background:var(--bg2);border-right:1px solid var(--br);height:100vh;position:fixed;left:0;top:0;z-index:100;display:flex;flex-direction:column;transition:transform .3s}
-.sbh{padding:20px;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:10px}
-.sbl{width:36px;height:36px;background:linear-gradient(135deg,var(--ac),#a855f7);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
-.sbt{font-size:16px;font-weight:800}
-.sbs{font-size:10px;color:var(--tx3)}
-.sbn{flex:1;overflow-y:auto;padding:14px 10px}
-.nst{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tx3);padding:10px 10px 6px}
-.ni{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:8px;cursor:pointer;color:var(--tx2);font-size:13px;font-weight:500;transition:all .15s;margin-bottom:2px}
-.ni:hover{background:var(--bg);color:var(--tx)}
+:root{
+--bg:#fafafa;--bg2:#fff;--bg3:#f4f4f5;--tx:#09090b;--tx2:#52525b;--tx3:#a1a1aa;
+--br:#e4e4e7;--ac:#6366f1;--ac2:#4f46e5;--acl:#eef2ff;
+--ok:#10b981;--okl:#d1fae5;--wn:#f59e0b;--wnl:#fef3c7;
+--dn:#ef4444;--dnl:#fee2e2;--in:#3b82f6;--inl:#dbeafe;
+--pg:#a855f7;--pgl:#f3e8ff;--pf:#ec4899;--pfl:#fce7f3;
+--r:14px;--rs:10px;--rl:20px;
+--sh:0 1px 3px rgba(0,0,0,.04),0 1px 2px rgba(0,0,0,.06);
+--shl:0 4px 6px -1px rgba(0,0,0,.05),0 2px 4px -1px rgba(0,0,0,.03);
+--shx:0 20px 25px -5px rgba(0,0,0,.08);
+}
+[data-theme="dark"]{
+--bg:#09090b;--bg2:#18181b;--bg3:#27272a;--tx:#fafafa;--tx2:#a1a1aa;--tx3:#71717a;
+--br:#27272a;--ac:#818cf8;--ac2:#a5b4fc;--acl:#1e1b4b;
+--okl:#064e3b;--wnl:#78350f;--dnl:#7f1d1d;--inl:#1e3a5f;
+--pgl:#581c87;--pfl:#831843;
+--sh:0 1px 3px rgba(0,0,0,.3);--shl:0 4px 6px rgba(0,0,0,.3);--shx:0 20px 25px rgba(0,0,0,.5);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--tx);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+.h{display:none!important}
+
+/* ONBOARDING */
+.ob{position:fixed;inset:0;background:linear-gradient(160deg,#6366f1,#a855f7,#ec4899);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.obc{background:var(--bg2);border-radius:24px;padding:36px 28px;width:100%;max-width:440px;text-align:center;box-shadow:var(--shx);max-height:90vh;overflow-y:auto}
+.obi{width:72px;height:72px;background:linear-gradient(135deg,var(--ac),#a855f7);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:32px;color:#fff}
+.obc h1{font-size:26px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.obc h2{font-size:20px;font-weight:700;margin-bottom:6px}
+.obc p{color:var(--tx2);font-size:14px;margin-bottom:24px;line-height:1.6}
+.obs{display:flex;justify-content:center;gap:6px;margin-bottom:20px}
+.obd{width:8px;height:8px;border-radius:50%;background:var(--bg3)}
+.obd.on{background:var(--ac);width:24px;border-radius:4px}
+
+/* LOGIN */
+.lg{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#6366f1,#a855f7);padding:20px}
+.lgc{background:var(--bg2);border-radius:24px;padding:40px 30px;width:100%;max-width:400px;text-align:center;box-shadow:var(--shx)}
+
+.fg{margin-bottom:18px;text-align:left}
+.fg label{display:block;font-size:12px;font-weight:600;color:var(--tx2);margin-bottom:7px;text-transform:uppercase;letter-spacing:0.5px}
+.fi{width:100%;padding:14px 16px;border:1.5px solid var(--br);border-radius:var(--r);background:var(--bg);color:var(--tx);outline:none;transition:all .2s;font-size:15px}
+.fi:focus{border-color:var(--ac);box-shadow:0 0 0 4px var(--acl)}
+.bt{padding:14px 28px;border:none;border-radius:var(--r);font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .2s;font-size:15px}
+.bp{background:var(--ac);color:#fff;width:100%}
+.bp:active{transform:scale(.98);background:var(--ac2)}
+.bs{background:var(--bg3);color:var(--tx);border:1.5px solid var(--br)}
+.bs:active{background:var(--br)}
+.bsm{padding:9px 16px;font-size:13px;border-radius:var(--rs)}
+.bx{padding:7px 12px;font-size:12px;border-radius:8px}
+.bgr{background:linear-gradient(135deg,var(--ac),#a855f7);color:#fff}
+
+/* APP */
+.app{display:none;min-height:100vh}
+.app.on{display:block}
+.tb{position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--br);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:50;backdrop-filter:blur(10px)}
+.tbL{display:flex;align-items:center;gap:12px}
+.mb{width:42px;height:42px;border:none;background:var(--bg3);color:var(--tx);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px}
+.pt{font-size:18px;font-weight:700;letter-spacing:-0.3px}
+.tbR{display:flex;align-items:center;gap:8px}
+.sd{display:flex;align-items:center;gap:6px;padding:8px 12px;background:linear-gradient(135deg,#f97316,#ef4444);color:#fff;border-radius:12px;font-weight:700;font-size:13px}
+.tt{width:42px;height:42px;border:none;background:var(--bg3);color:var(--tx);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
+
+/* SIDEBAR */
+.sb{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--bg2);border-right:1px solid var(--br);transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);z-index:200;display:flex;flex-direction:column}
+.sb.open{transform:translateX(0)}
+.sbo{position:fixed;inset:0;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);z-index:199;display:none}
+.sbo.on{display:block}
+.sbh{padding:24px 20px 16px;border-bottom:1px solid var(--br);display:flex;align-items:center;gap:12px}
+.sbl{width:40px;height:40px;background:linear-gradient(135deg,var(--ac),#a855f7);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+.sbt{font-size:18px;font-weight:800;letter-spacing:-0.3px}
+.sbs{font-size:11px;color:var(--tx3);font-weight:500}
+.sbn{flex:1;overflow-y:auto;padding:12px}
+.nst{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tx3);padding:14px 12px 6px}
+.ni{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;cursor:pointer;color:var(--tx2);font-size:14px;font-weight:500;transition:all .15s;margin-bottom:2px}
+.ni:active{background:var(--bg3)}
 .ni.on{background:var(--acl);color:var(--ac);font-weight:600}
-.ni i{width:18px;text-align:center;font-size:14px}
-.ni .bd{margin-left:auto;background:var(--ac);color:#fff;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:600}
+.ni i{width:18px;text-align:center;font-size:15px}
+.bd{margin-left:auto;background:var(--ac);color:#fff;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;min-width:20px;text-align:center}
 .sbf{padding:14px;border-top:1px solid var(--br)}
-.ui{display:flex;align-items:center;gap:10px;padding:10px}
-.ua{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#f97316,#ef4444);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px}
+.ui{display:flex;align-items:center;gap:10px;padding:8px}
+.ua{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#f97316,#ef4444);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
 .un{font-size:13px;font-weight:600}
-.ur{font-size:10px;color:var(--tx3)}
-.mc{margin-left:260px;flex:1;min-height:100vh}
-.tb{background:var(--bg2);border-bottom:1px solid var(--br);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
-.tl{display:flex;align-items:center;gap:14px}
-.mt{display:none;width:36px;height:36px;border:none;background:none;font-size:18px;color:var(--tx);cursor:pointer}
-.pt{font-size:20px;font-weight:700}
-.tr{display:flex;align-items:center;gap:10px}
-  .tt{width:40px;height:40px;border-radius:8px;border:1px solid var(--br);background:var(--bg);color:var(--tx2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.sd{display:flex;align-items:center;gap:7px;padding:7px 14px;background:linear-gradient(135deg,#f97316,#ef4444);color:#fff;border-radius:var(--r);font-weight:700;font-size:13px}
-.pc{padding:24px;padding-bottom:90px}
-.pg{display:none}
+.ur{font-size:11px;color:var(--tx3)}
+
+/* PAGES */
+.pc{padding:20px;padding-bottom:100px;max-width:1200px;margin:0 auto}
+.pg{display:none;animation:fi .3s ease}
 .pg.on{display:block}
-.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:24px}
-.sc{background:var(--bg2);border-radius:14px;padding:18px;border:1px solid var(--br);transition:all .2s}
-.sc:hover{transform:translateY(-2px)}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* TODAY HERO */
+.hero{background:linear-gradient(135deg,var(--ac),#a855f7);color:#fff;padding:24px;border-radius:var(--rl);margin-bottom:20px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:rgba(255,255,255,.08);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;background:rgba(255,255,255,.05);border-radius:50%}
+.hd{font-size:13px;font-weight:600;opacity:.9;margin-bottom:4px;letter-spacing:0.5px;text-transform:uppercase}
+.hg{font-size:24px;font-weight:800;margin-bottom:14px;letter-spacing:-0.5px;line-height:1.2}
+.hi{display:flex;gap:14px;flex-wrap:wrap;position:relative;z-index:1}
+.hii{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);padding:7px 12px;border-radius:10px;font-size:12px;font-weight:600;backdrop-filter:blur(10px)}
+
+/* COUNTDOWN */
+.cd{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.cdi{background:var(--bg2);border:1px solid var(--br);border-radius:var(--r);padding:14px;text-align:center}
+.cdv{font-size:24px;font-weight:800;color:var(--ac)}
+.cdl{font-size:11px;color:var(--tx2);font-weight:600;margin-top:2px}
+.cdn{font-size:10px;color:var(--tx3);margin-top:2px}
+
+/* STATS */
+.sg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.sc{background:var(--bg2);border:1px solid var(--br);border-radius:var(--r);padding:18px;transition:all .2s;cursor:pointer}
+.sc:active{transform:scale(.98)}
 .si{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
 .si.pu{background:var(--acl);color:var(--ac)}
 .si.gr{background:var(--okl);color:var(--ok)}
 .si.or{background:var(--wnl);color:var(--wn)}
 .si.re{background:var(--dnl);color:var(--dn)}
 .si.bl{background:var(--inl);color:var(--in)}
-.sv{font-size:26px;font-weight:800;line-height:1;margin-bottom:3px}
-.sl{font-size:11px;color:var(--tx2);font-weight:500}
-.cd{background:var(--bg2);border-radius:14px;border:1px solid var(--br);overflow:hidden;margin-bottom:20px}
-.ch{padding:16px 20px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between}
-.ct{font-size:14px;font-weight:700}
-.cb{padding:18px}
-.ys{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.yc{padding:9px 20px;border-radius:20px;border:2px solid var(--br);background:var(--bg2);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-.yc:hover{border-color:var(--ac)}
+.si.pg{background:var(--pgl);color:var(--pg)}
+.sv{font-size:24px;font-weight:800;line-height:1;letter-spacing:-0.5px}
+.sl{font-size:11px;color:var(--tx2);font-weight:600;margin-top:4px}
+
+/* CARDS */
+.cg{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:20px}
+.crd{background:var(--bg2);border:1px solid var(--br);border-radius:var(--r);overflow:hidden}
+.crh{padding:16px 18px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between}
+.crt{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.crb{padding:18px}
+
+/* MODE TOGGLE */
+.mt{display:flex;gap:6px;margin-bottom:18px;background:var(--bg3);padding:5px;border-radius:12px;overflow-x:auto}
+.mti{flex:1;min-width:90px;padding:9px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:var(--tx2);text-align:center;white-space:nowrap;transition:all .2s}
+.mti.on{background:var(--bg2);color:var(--tx);box-shadow:var(--sh)}
+
+/* YEAR CHIPS */
+.yr{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.yc{padding:9px 18px;border-radius:20px;border:1.5px solid var(--br);background:var(--bg2);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
 .yc.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-.xg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-  .xc{background:var(--bg2);border-radius:14px;border:1px solid var(--br);padding:20px;cursor:pointer;transition:all .2s}
-.xc:hover{box-shadow:0 8px 20px rgba(0,0,0,.06);transform:translateY(-2px);border-color:var(--ac)}
+
+/* SUBJECT CARDS */
+.xg{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.xc{background:var(--bg2);border:1px solid var(--br);border-radius:var(--r);padding:18px;cursor:pointer;transition:all .2s}
+.xc:active{transform:scale(.98)}
 .xh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.xi{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
-.xn{font-size:16px;font-weight:700;margin-bottom:4px}
-.xm{font-size:12px;color:var(--tx2);margin-bottom:12px}
-.pbc{background:var(--bg);border-radius:100px;height:7px;overflow:hidden;margin-bottom:6px}
+.xi{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.xn{font-size:17px;font-weight:700;letter-spacing:-0.3px;margin-bottom:3px}
+.xm{font-size:12px;color:var(--tx2);margin-bottom:14px}
+.pbc{background:var(--bg3);border-radius:100px;height:7px;overflow:hidden;margin-bottom:8px}
 .pbf{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--ac),#a855f7);transition:width .5s}
-.pt{font-size:11px;color:var(--tx3);font-weight:600;display:flex;justify-content:space-between}
-.ptg{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.ptc{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:600}
-.ptc.mk{background:var(--dnl);color:var(--dn)}
-.ptc.gk{background:var(--wnl);color:var(--wn)}
-.ptc.nk{background:var(--okl);color:var(--ok)}
-.tg{margin-bottom:6px}
-.tgh{padding:11px 16px;background:var(--bg);border-radius:8px;font-weight:700;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between}
-.tgh:hover{background:var(--acl)}
+.ppt{font-size:12px;color:var(--tx3);font-weight:600;display:flex;justify-content:space-between}
+.tg{display:flex;gap:5px;margin-top:10px;flex-wrap:wrap}
+.tag{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px}
+.tag.mk{background:var(--dnl);color:var(--dn)}
+.tag.gk{background:var(--wnl);color:var(--wn)}
+.tag.nk{background:var(--okl);color:var(--ok)}
+.tag.pg{background:var(--pgl);color:var(--pg)}
+.tag.pf{background:var(--pfl);color:var(--pf)}
+
+/* TOPICS */
+.tcc{max-height:65vh;overflow-y:auto}
+.tgrp{margin-bottom:6px}
+.tgh{padding:13px 16px;background:var(--bg3);border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
 .tgh i{transition:transform .2s}
 .tgh.on i{transform:rotate(90deg)}
-.tl{display:none;padding:4px 0 4px 16px}
-.tl.on{display:block}
-.ti{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:8px;transition:all .15s;border-bottom:1px solid var(--br)}
-.ti:last-child{border-bottom:none}
-.ti:hover{background:var(--bg)}
-.tcb{width:20px;height:20px;border-radius:6px;border:2px solid var(--br);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.tlst{display:none;padding:4px 0 4px 12px}
+.tlst.on{display:block}
+.tit{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;border-bottom:1px solid var(--br);transition:all .15s}
+.tit:last-child{border-bottom:none}
+.tcb{width:22px;height:22px;border-radius:7px;border:2px solid var(--br);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;margin-top:2px}
 .tcb.ok{background:var(--ok);border-color:var(--ok);color:#fff}
-.tcb.ok::after{content:'✓';font-size:11px;font-weight:700}
-.tin{flex:1;min-width:0}
-  .tn{font-size:13px;font-weight:500;margin-bottom:3px}
-.tn.done{text-decoration:line-through;color:var(--tx3)}
-.td{display:flex;gap:6px;flex-wrap:wrap}
-.tdt{font-size:10px;color:var(--tx3);display:flex;align-items:center;gap:2px}
-.ta{display:flex;gap:5px;flex-shrink:0}
-.rb{font-size:10px;font-weight:700;width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center}
-.rb.r0{background:var(--bg);color:var(--tx3)}
+.tcb.ok::after{content:'✓';font-size:12px;font-weight:800}
+.tin{flex:1;min-width:0;cursor:pointer}
+.tnm{font-size:13px;font-weight:600;margin-bottom:5px;line-height:1.4}
+.tnm.dn{text-decoration:line-through;color:var(--tx3)}
+.tdt{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tdi{font-size:10px;color:var(--tx3);display:flex;align-items:center;gap:3px}
+.nmc{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;background:var(--acl);color:var(--ac);font-family:'SF Mono',monospace}
+.tac{display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex-shrink:0}
+.rb{font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px}
+.rb.r0{background:var(--bg3);color:var(--tx3)}
 .rb.r1{background:var(--dnl);color:var(--dn)}
 .rb.r2{background:var(--wnl);color:var(--wn)}
 .rb.r3{background:var(--okl);color:var(--ok)}
-.hys{color:var(--tx3);cursor:pointer;font-size:14px;transition:all .2s}
+.str{display:flex;gap:1px}
+.str i{font-size:11px;color:var(--tx3);cursor:pointer}
+.str i.on{color:#f59e0b}
+.hys{font-size:14px;color:var(--tx3);cursor:pointer}
 .hys.on{color:#f59e0b}
-.nmc{font-size:10px;font-weight:600;padding:2px 6px;border-radius:5px;background:var(--acl);color:var(--ac);font-family:monospace}
-.sb2{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
-.sb2.on{display:block}
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
-.mo.on{display:flex}
-.md{background:var(--bg2);border-radius:20px;width:100%;max-width:480px;max-height:80vh;overflow-y:auto}
-.mh{padding:20px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between}
-.mh h3{font-size:16px;font-weight:700}
-.mc2{width:32px;height:32px;border-radius:8px;border:none;background:var(--bg);color:var(--tx2);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.mb{padding:20px}
-.mf{padding:14px 20px;border-top:1px solid var(--br);display:flex;justify-content:flex-end;gap:8px}
-.ri{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:8px;margin-bottom:6px;background:var(--bg)}
+
+/* COMPETENCY HEADER */
+.cph{background:linear-gradient(135deg,var(--ac),#a855f7);color:#fff;padding:24px;border-radius:var(--rl);margin-bottom:18px;position:relative;overflow:hidden}
+.cph::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:rgba(255,255,255,.08);border-radius:50%}
+.cph h2{font-size:22px;margin-bottom:4px;letter-spacing:-0.3px;font-weight:800;position:relative;z-index:1}
+.cph p{opacity:.85;font-size:13px;position:relative;z-index:1}
+.cph .pbc{background:rgba(255,255,255,.2);margin-top:14px;position:relative;z-index:1}
+.cph .pbf{background:#fff}
+
+/* SEARCH & FILTERS */
+.sr{position:relative;margin-bottom:14px}
+.sr input{width:100%;padding:13px 16px 13px 42px;border:1.5px solid var(--br);border-radius:var(--r);background:var(--bg2);color:var(--tx);outline:none;font-size:14px}
+.sr input:focus{border-color:var(--ac);box-shadow:0 0 0 4px var(--acl)}
+.sr i{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--tx3)}
+.fr{display:flex;gap:7px;margin-bottom:16px;flex-wrap:wrap}
+.fc{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1.5px solid var(--br);background:var(--bg2);cursor:pointer;transition:all .2s}
+.fc.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+/* TABS */
+.tbs{display:flex;gap:4px;margin-bottom:16px;background:var(--bg3);padding:4px;border-radius:12px;width:fit-content;flex-wrap:wrap}
+.tab{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:var(--tx2);transition:all .2s}
+.tab.on{background:var(--bg2);color:var(--tx);box-shadow:var(--sh)}
+
+/* REVISION ITEMS */
+.ri{display:flex;align-items:center;gap:10px;padding:13px 14px;border-radius:10px;margin-bottom:6px;background:var(--bg3);transition:all .2s}
 .ri.ov{background:var(--dnl)}
 .ri.td2{background:var(--wnl)}
-.db{font-size:10px;font-weight:600;padding:3px 8px;border-radius:20px;white-space:nowrap}
-.db.ov{background:var(--dn);color:#fff}
-.db.td{background:var(--wn);color:#fff}
-.db.up{background:var(--inl);color:var(--in)}
-  .gi{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--br)}
+.dbb{font-size:10px;font-weight:700;padding:4px 8px;border-radius:20px;white-space:nowrap}
+.dbb.ov{background:var(--dn);color:#fff}
+.dbb.td{background:var(--wn);color:#fff}
+.dbb.up{background:var(--inl);color:var(--in)}
+
+/* GOALS */
+.gi{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--br)}
 .gi:last-child{border-bottom:none}
-.gc{width:20px;height:20px;border-radius:50%;border:2px solid var(--br);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.gc{width:22px;height:22px;border-radius:50%;border:2px solid var(--br);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .gc.ok{background:var(--ok);border-color:var(--ok);color:#fff}
-.gc.ok::after{content:'✓';font-size:10px;font-weight:700}
+.gc.ok::after{content:'✓';font-size:11px;font-weight:800}
 .gt{flex:1;font-size:13px;font-weight:500}
-.gt.done{text-decoration:line-through;color:var(--tx3)}
-.gir{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--br);flex-wrap:wrap}
-.gir .fi{flex:1;min-width:180px}
-.is{padding:6px 10px;border:1px solid var(--br);border-radius:8px;font-size:11px;font-family:inherit;background:var(--bg);color:var(--tx);cursor:pointer}
-.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.chc{padding:8px;text-align:center;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase}
-.cc{aspect-ratio:1;padding:5px;border-radius:7px;font-size:11px;font-weight:500;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--bg2);border:1px solid var(--br)}
-.cc:hover{border-color:var(--ac)}
-.cc.to{border-color:var(--ac);background:var(--acl);font-weight:700}
+.gt.dn{text-decoration:line-through;color:var(--tx3)}
+.gir{display:flex;gap:8px;padding:14px 16px;border-top:1px solid var(--br);flex-wrap:wrap}
+.gir .fi{flex:1;min-width:160px;padding:11px 14px}
+.is{padding:9px 12px;border:1.5px solid var(--br);border-radius:10px;background:var(--bg);color:var(--tx);cursor:pointer;font-size:12px}
+
+/* CALENDAR */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.chc{padding:8px;text-align:center;font-size:10px;font-weight:700;color:var(--tx3);text-transform:uppercase;letter-spacing:0.5px}
+.cc{aspect-ratio:1;padding:6px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:var(--bg2);border:1px solid var(--br);transition:all .15s}
+.cc.to{border-color:var(--ac);background:var(--acl);color:var(--ac)}
 .cc.hs{background:var(--okl)}
 .cc.em{background:transparent;border-color:transparent;cursor:default}
-.cdt{width:4px;height:4px;border-radius:50%;background:var(--ok)}
-.ql{position:fixed;bottom:0;left:260px;right:0;background:var(--bg2);border-top:1px solid var(--br);padding:12px 20px;display:flex;align-items:center;gap:8px;z-index:50}
-.ql .fi{flex:1}
-.es{text-align:center;padding:40px 16px;color:var(--tx3)}
-.es i{font-size:36px;margin-bottom:10px;display:block}
-.es h3{font-size:15px;margin-bottom:5px;color:var(--tx2)}
-.sr{position:relative;margin-bottom:18px}
-.sr input{width:100%;padding:11px 14px 11px 40px;border:2px solid var(--br);border-radius:var(--r);font-size:13px;font-family:inherit;background:var(--bg2);color:var(--tx);outline:none}
-.sr input:focus{border-color:var(--ac)}
-.sr i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--tx3)}
-.fr{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.fc{padding:6px 12px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid var(--br);background:var(--bg2);cursor:pointer}
-.fc:hover,.fc.on{background:var(--ac);color:#fff;border-color:var(--ac)}
-  .tabs{display:flex;gap:3px;margin-bottom:18px;background:var(--bg);padding:3px;border-radius:var(--r);width:fit-content;flex-wrap:wrap}
-.tab{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:var(--tx2)}
-.tab.on{background:var(--bg2);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.cph{background:linear-gradient(135deg,var(--ac),#a855f7);color:#fff;padding:24px;border-radius:14px;margin-bottom:18px}
-.cph h2{font-size:20px;margin-bottom:3px}
-.cph p{opacity:.8;font-size:12px}
-.cph .pbc{background:rgba(255,255,255,.2);margin-top:12px}
-.cph .pbf{background:#fff}
-.bk{display:flex;align-items:center;gap:7px;color:var(--tx2);font-size:13px;font-weight:500;cursor:pointer;padding:7px 0;margin-bottom:12px;border:none;background:none;font-family:inherit}
-.bk:hover{color:var(--ac)}
-.tc{position:fixed;top:16px;right:16px;z-index:300}
-.tst{background:var(--bg2);border-radius:var(--r);padding:12px 16px;border:1px solid var(--br);margin-bottom:6px;display:flex;align-items:center;gap:8px;min-width:240px;animation:fi .3s ease;box-shadow:0 8px 20px rgba(0,0,0,.08)}
-.tst.ok2{border-left:4px solid var(--ok)}
-.tst.er{border-left:4px solid var(--dn)}
-@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:900px){
-.sb{transform:translateX(-100%)}
-.sb.open{transform:translateX(0)}
-.mc{margin-left:0}
-.mt{display:flex;align-items:center;justify-content:center}
-.ql{left:0}
+.cdt{width:5px;height:5px;border-radius:50%;background:var(--ok)}
+
+/* QUICK LOG */
+.ql{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--br);padding:12px 16px;display:flex;align-items:center;gap:8px;z-index:50;box-shadow:0 -4px 20px rgba(0,0,0,.05)}
+.ql .fi{flex:1;padding:11px 14px}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);z-index:300;display:none;align-items:flex-end;justify-content:center}
+.mo.on{display:flex}
+.md{background:var(--bg2);border-radius:24px 24px 0 0;width:100%;max-width:500px;max-height:88vh;overflow-y:auto;box-shadow:var(--shx);animation:su .3s ease}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mh{padding:18px 20px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1}
+.mh h3{font-size:17px;font-weight:700;letter-spacing:-0.3px}
+.mc2{width:34px;height:34px;border-radius:10px;border:none;background:var(--bg3);color:var(--tx);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px}
+.mb{padding:20px}
+.mf{padding:14px 20px;border-top:1px solid var(--br);display:flex;justify-content:flex-end;gap:8px;position:sticky;bottom:0;background:var(--bg2)}
+
+/* TOAST */
+.tc{position:fixed;top:20px;right:20px;left:20px;z-index:400;display:flex;flex-direction:column;gap:6px;align-items:center;pointer-events:none}
+.tst{background:var(--bg2);border:1px solid var(--br);border-radius:12px;padding:13px 18px;box-shadow:var(--shx);display:flex;align-items:center;gap:10px;min-width:240px;max-width:400px;animation:to .3s ease;pointer-events:auto;font-size:13px;font-weight:500}
+.tst.ok2{border-left:3px solid var(--ok)}
+.tst.er{border-left:3px solid var(--dn)}
+@keyframes to{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+/* EMPTY */
+.es{text-align:center;padding:48px 20px;color:var(--tx3)}
+.es i{font-size:36px;margin-bottom:14px;display:block;opacity:.5}
+.es h3{font-size:15px;margin-bottom:5px;color:var(--tx2);font-weight:600}
+.es p{font-size:13px}
+
+/* BACK BUTTON */
+.bk{display:inline-flex;align-items:center;gap:6px;color:var(--tx2);font-size:13px;font-weight:500;cursor:pointer;padding:8px 0;margin-bottom:10px;border:none;background:none}
+
+/* SETTINGS */
+.stg{padding:14px 16px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.stg:last-child{border-bottom:none}
+.stl{font-size:14px;font-weight:500}
+.sts{font-size:11px;color:var(--tx3);margin-top:2px}
+
+/* RESPONSIVE */
+@media(min-width:1024px){
+.sb{transform:translateX(0)}
+.app.on .pc,.app.on .tb{margin-left:280px}
+.mb{display:none}
+.sbo{display:none!important}
+.ql{left:280px}
 }
 @media(max-width:600px){
-.pc{padding:14px;padding-bottom:80px}
-.tb{padding:10px 14px}
+.pc{padding:14px;padding-bottom:90px}
+.tb{padding:12px 14px}
 .xg{grid-template-columns:1fr}
 .sg{grid-template-columns:repeat(2,1fr)}
-.ql{padding:8px 12px}
-.lc{padding:28px 20px}
+.cg{grid-template-columns:1fr}
+.cd{grid-template-columns:repeat(2,1fr)}
+.hg{font-size:20px}
+.pt{font-size:16px}
 }
-::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-thumb{background:var(--br);border-radius:10px}
+.skel{background:linear-gradient(90deg,var(--bg3) 0%,var(--bg2) 50%,var(--bg3) 100%);background-size:200% 100%;animation:sk 1.5s infinite}
+@keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
 </style>
 </head>
 <body>
-<div class="tc" id="TC"></div>
-<div class="login" id="LS">
-<div class="lc">
-<div class="ll"><i class="fas fa-graduation-cap"></i></div>
-<h1>MedTrack Pro</h1>
-<p>Your MBBS study companion — NMC competency based</p>
-<div class="fg"><label>Your Name</label>
-<input type="text" class="fi" id="LN" placeholder="Enter your name"></div>
-<div class="fg"><label>PIN (4 digits)</label>
-<input type="password" class="fi" id="LP" placeholder="4-digit PIN" maxlength="4"></div>
-<button class="btn bp" onclick="doLogin()">
-<i class="fas fa-arrow-right"></i> Enter MedTrack</button>
-<p style="margin-top:14px;font-size:11px;color:var(--tx3)">Data stored privately on your device</p>
-</div></div>
 
-<div class="app" id="APP">
-<div class="sb2" id="SBO" onclick="tgSB()"></div>
+<div class="tc" id="TC"></div>
+
+<!-- ONBOARDING -->
+<div class="ob h" id="OB">
+<div class="obc">
+<div class="obs">
+<div class="obd on" id="od1"></div>
+<div class="obd" id="od2"></div>
+<div class="obd" id="od3"></div>
+</div>
+<div id="ob1">
+<div class="obi"><i class="fas fa-graduation-cap"></i></div>
+<h1>Welcome to MedTrack Pro</h1>
+<p>Your personal MBBS study tracker. Built for NMC competency-based curriculum and NEET-PG preparation.</p>
+<div class="fg"><label>Your Name</label><input type="text" class="fi" id="obName" placeholder="e.g. Maaaz"></div>
+<div class="fg"><label>4-digit PIN</label><input type="password" class="fi" id="obPin" placeholder="••••" maxlength="4"></div>
+<button class="bt bp" onclick="obNext(1)">Continue <i class="fas fa-arrow-right"></i></button>
+</div>
+<div id="ob2" class="h">
+<div class="obi"><i class="fas fa-user-md"></i></div>
+<h2>Tell us about you</h2>
+<p>This helps personalize your tracker</p>
+<div class="fg"><label>Current Year</label>
+<select class="fi" id="obYear">
+<option value="1st Year">1st Year MBBS</option>
+<option value="2nd Year" selected>2nd Year MBBS</option>
+<option value="3rd Year">3rd Year MBBS</option>
+<option value="Final Year">Final Year MBBS</option>
+</select></div>
+<div class="fg"><label>College Name</label><input type="text" class="fi" id="obCollege" value="ASMC Gonda"></div>
+<div class="fg"><label>University</label><input type="text" class="fi" id="obUni" value="ABV Medical University"></div>
+<button class="bt bp" onclick="obNext(2)">Continue <i class="fas fa-arrow-right"></i></button>
+</div>
+<div id="ob3" class="h">
+<div class="obi"><i class="fas fa-calendar-check"></i></div>
+<h2>Important Dates</h2>
+<p>So we can track your countdown</p>
+<div class="fg"><label>Next Terminal Exam</label><input type="date" class="fi" id="obTerm" value="2025-05-18"></div>
+<div class="fg"><label>Pre-Prof Exam</label><input type="date" class="fi" id="obPre" value="2025-08-15"></div>
+<div class="fg"><label>Prof Exam</label><input type="date" class="fi" id="obProf" value="2025-09-15"></div>
+<button class="bt bp" onclick="obFinish()">Get Started <i class="fas fa-rocket"></i></button>
+</div>
+</div>
+</div>
+
+<!-- LOGIN -->
+<div class="lg h" id="LG">
+<div class="lgc">
+<div class="obi" style="margin-bottom:18px"><i class="fas fa-graduation-cap"></i></div>
+<h1 style="font-size:24px;font-weight:800;margin-bottom:6px">Welcome Back</h1>
+<p style="color:var(--tx2);font-size:13px;margin-bottom:24px" id="lgWelcome">Enter your PIN to continue</p>
+<div class="fg"><label>PIN</label><input type="password" class="fi" id="lgPin" placeholder="••••" maxlength="4"></div>
+<button class="bt bp" onclick="doLogin()">Unlock <i class="fas fa-unlock"></i></button>
+<p style="margin-top:14px;font-size:11px;color:var(--tx3)">Forgot PIN? <span style="color:var(--ac);cursor:pointer" onclick="resetAll()">Reset App</span></p>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sbo" id="SBO" onclick="tgSB()"></div>
 <aside class="sb" id="SB">
 <div class="sbh">
 <div class="sbl"><i class="fas fa-graduation-cap"></i></div>
-<div><div class="sbt">MedTrack</div>
-<div class="sbs">MBBS Study Tracker</div></div></div>
+<div><div class="sbt">MedTrack</div><div class="sbs" id="sbsCollege">ASMC Gonda</div></div>
+</div>
 <nav class="sbn">
-<div class="nst">Main</div>
-<div class="ni on" data-p="dash" onclick="go('dash')">
-<i class="fas fa-th-large"></i> Dashboard</div>
-<div class="ni" data-p="subs" onclick="go('subs')">
-<i class="fas fa-book-medical"></i> Subjects</div>
-<div class="ni" data-p="revs" onclick="go('revs')">
-<i class="fas fa-redo-alt"></i> Revisions
-<span class="bd" id="RB">0</span></div>
-<div class="nst">Planning</div>
-<div class="ni" data-p="goals" onclick="go('goals')">
-<i class="fas fa-bullseye"></i> Goals</div>
-<div class="ni" data-p="cal" onclick="go('cal')">
-<i class="fas fa-calendar-alt"></i> Calendar</div>
+<div class="nst">Study</div>
+<div class="ni on" data-p="dash" onclick="go('dash')"><i class="fas fa-home"></i> Dashboard</div>
+<div class="ni" data-p="subs" onclick="go('subs')"><i class="fas fa-book-medical"></i> Subjects</div>
+<div class="ni" data-p="revs" onclick="go('revs')"><i class="fas fa-redo-alt"></i> Revisions <span class="bd" id="RB">0</span></div>
+<div class="nst">Plan</div>
+<div class="ni" data-p="goals" onclick="go('goals')"><i class="fas fa-bullseye"></i> Goals</div>
+<div class="ni" data-p="cal" onclick="go('cal')"><i class="fas fa-calendar-alt"></i> Calendar</div>
 <div class="nst">More</div>
-<div class="ni" data-p="hy" onclick="go('hy')">
-<i class="fas fa-star"></i> High Yield</div>
-<div class="ni" data-p="share" onclick="go('share')">
-<i class="fas fa-share-alt"></i> Share</div>
+<div class="ni" data-p="hy" onclick="go('hy')"><i class="fas fa-star"></i> High Yield</div>
+<div class="ni" data-p="share" onclick="go('share')"><i class="fas fa-share-alt"></i> Share</div>
+<div class="ni" data-p="set" onclick="go('set')"><i class="fas fa-cog"></i> Settings</div>
 </nav>
 <div class="sbf"><div class="ui">
 <div class="ua" id="UAV">M</div>
-<div><div class="un" id="UNM">Maaaz</div>
-<div class="ur">2nd Year • ASMC Gonda</div>
-</div></div></div>
+<div><div class="un" id="UNM">Maaaz</div><div class="ur" id="URole">2nd Year</div></div>
+</div></div>
 </aside>
-<main class="mc">
+
+<!-- APP -->
+<div class="app" id="APP">
 <header class="tb">
-<div class="tl">
-<button class="mt" onclick="tgSB()"><i class="fas fa-bars"></i></button>
-<h1 class="pt" id="PT">Dashboard</h1></div>
-<div class="tr">
-<div class="sd"><i class="fas fa-fire"></i>
-<span id="SK">0</span> day streak</div>
-<button class="tt" onclick="tgTH()">
-<i class="fas fa-moon" id="THI"></i></button>
-</div></header>
+<div class="tbL">
+<button class="mb" onclick="tgSB()"><i class="fas fa-bars"></i></button>
+<h1 class="pt" id="PT">Dashboard</h1>
+</div>
+<div class="tbR">
+<div class="sd"><i class="fas fa-fire"></i><span id="SK">0</span></div>
+<button class="tt" onclick="tgTH()"><i class="fas fa-moon" id="THI"></i></button>
+</div>
+</header>
 
 <div class="pc">
 
+<!-- DASHBOARD -->
 <div class="pg on" id="pg-dash">
+<div class="hero">
+<div class="hd">Today's Focus</div>
+<div class="hg" id="heroGreet">Ready to study?</div>
+<div class="hi">
+<div class="hii"><i class="fas fa-bullseye"></i> <span id="heroGoals">0 goals</span></div>
+<div class="hii"><i class="fas fa-redo"></i> <span id="heroRev">0 revisions</span></div>
+<div class="hii"><i class="fas fa-fire"></i> <span id="heroStreak">0 streak</span></div>
+</div>
+</div>
+
+<div class="cd" id="cdGrid"></div>
+
 <div class="sg">
 <div class="sc"><div class="si pu"><i class="fas fa-book-open"></i></div>
 <div class="sv" id="s-tot">0</div><div class="sl">Total Topics</div></div>
@@ -273,645 +431,507 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx)}
 <div class="sv" id="s-don">0</div><div class="sl">Completed</div></div>
 <div class="sc"><div class="si or"><i class="fas fa-redo"></i></div>
 <div class="sv" id="s-rev">0</div><div class="sl">Revisions Due</div></div>
-<div class="sc"><div class="si re"><i class="fas fa-fire"></i></div>
-<div class="sv" id="s-str">0</div><div class="sl">Day Streak</div></div>
 <div class="sc"><div class="si bl"><i class="fas fa-star"></i></div>
 <div class="sv" id="s-hy">0</div><div class="sl">High Yield</div></div>
 </div>
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:18px">
-<div class="cd"><div class="ch">
-<span class="ct"><i class="fas fa-chart-bar" style="margin-right:7px;color:var(--ac)"></i>Subject Progress</span></div>
-<div class="cb" id="DP"></div></div>
-<div class="cd"><div class="ch">
-<span class="ct"><i class="fas fa-clock" style="margin-right:7px;color:var(--wn)"></i>Revisions Due</span></div>
-<div class="cb" id="DR"></div></div>
-</div></div>
 
+<div class="cg">
+<div class="crd"><div class="crh"><span class="crt"><i class="fas fa-chart-bar" style="color:var(--ac)"></i> Subject Progress</span></div>
+<div class="crb" id="DP"></div></div>
+<div class="crd"><div class="crh"><span class="crt"><i class="fas fa-clock" style="color:var(--wn)"></i> Today's Revisions</span></div>
+<div class="crb" id="DR"></div></div>
+</div>
+</div>
+
+<!-- SUBJECTS -->
 <div class="pg" id="pg-subs">
-<div class="ys" id="YS"></div>
-<div class="xg" id="SG"></div></div>
+<div class="mt">
+<div class="mti on" data-m="daily" onclick="setMode('daily',this)">📚 Daily Mode</div>
+<div class="mti" data-m="exam" onclick="setMode('exam',this)">🔥 Exam Mode</div>
+<div class="mti" data-m="rev" onclick="setMode('rev',this)">🔄 Revision Mode</div>
+</div>
+<div class="yr" id="YS"></div>
+<div class="xg" id="SG"></div>
+</div>
 
+<!-- SUBJECT DETAIL -->
 <div class="pg" id="pg-det">
-<button class="bk" onclick="go('subs')">
-<i class="fas fa-arrow-left"></i> Back to Subjects</button>
+<button class="bk" onclick="go('subs')"><i class="fas fa-arrow-left"></i> Back to Subjects</button>
 <div id="DH"></div>
-<div class="sr"><i class="fas fa-search"></i>
-<input type="text" id="TS" placeholder="Search topics or NMC codes..." oninput="fltT()"></div>
+<div class="sr"><i class="fas fa-search"></i><input type="text" id="TS" placeholder="Search topics or NMC codes..." oninput="fltT()"></div>
 <div class="fr">
 <div class="fc on" data-f="all" onclick="setF('all',this)">All</div>
-<div class="fc" data-f="must-know" onclick="setF('must-know',this)">Must Know</div>
-<div class="fc" data-f="good-know" onclick="setF('good-know',this)">Good to Know</div>
-<div class="fc" data-f="incomplete" onclick="setF('incomplete',this)">Incomplete</div>
+<div class="fc" data-f="must-know" onclick="setF('must-know',this)">🔴 Must Know</div>
+<div class="fc" data-f="good-know" onclick="setF('good-know',this)">🟡 Good</div>
+<div class="fc" data-f="incomplete" onclick="setF('incomplete',this)">📕 Pending</div>
 <div class="fc" data-f="high-yield" onclick="setF('high-yield',this)">⭐ High Yield</div>
 </div>
-<div class="cd"><div class="cb" style="max-height:60vh;overflow-y:auto" id="TL"></div></div>
+<div class="crd"><div class="crb tcc" id="TL"></div></div>
 </div>
+
+<!-- REVISIONS -->
 <div class="pg" id="pg-revs">
-<div class="tabs">
+<div class="tbs">
 <div class="tab on" onclick="setRT('overdue',this)">Overdue</div>
 <div class="tab" onclick="setRT('today',this)">Today</div>
 <div class="tab" onclick="setRT('week',this)">This Week</div>
 <div class="tab" onclick="setRT('all',this)">All</div>
 </div>
-<div class="cd"><div class="cb" id="RL"></div></div></div>
+<div class="crd"><div class="crb" id="RL"></div></div>
+</div>
 
+<!-- GOALS -->
 <div class="pg" id="pg-goals">
-<div class="tabs">
-<div class="tab on" onclick="setGT('daily',this)">Daily</div>
-<div class="tab" onclick="setGT('weekly',this)">Weekly</div>
+<div class="tbs">
+<div class="tab on" onclick="setGT('daily',this)">Today</div>
+<div class="tab" onclick="setGT('weekly',this)">This Week</div>
 </div>
-<div class="cd">
-<div class="cb" id="GL"></div>
+<div class="crd">
+<div class="crb" id="GL"></div>
 <div class="gir">
-<input type="text" class="fi" id="GI" placeholder="Add topic goal...">
-<select class="is" id="GTY">
-<option value="daily">Today</option>
-<option value="weekly">This Week</option></select>
-<button class="btn bp bsm" onclick="addG()">
-<i class="fas fa-plus"></i> Add</button>
-</div></div></div>
-
-<div class="pg" id="pg-cal">
-<div class="cd"><div class="ch">
-<button class="btn bs bsm" onclick="chM(-1)"><i class="fas fa-chevron-left"></i></button>
-<span class="ct" id="CMT"></span>
-<button class="btn bs bsm" onclick="chM(1)"><i class="fas fa-chevron-right"></i></button>
+<input type="text" class="fi" id="GI" placeholder="Add goal e.g. Complete Inflammation">
+<select class="is" id="GTY"><option value="daily">Today</option><option value="weekly">Week</option></select>
+<button class="bt bp bsm" onclick="addG()"><i class="fas fa-plus"></i></button>
+</div></div>
 </div>
-<div class="cb"><div class="cg" id="CG"></div></div></div>
-<div class="cd" style="margin-top:18px"><div class="ch">
-<span class="ct" id="CDT">Select a day</span></div>
-<div class="cb" id="CDD">
-<div class="es"><i class="fas fa-calendar-day"></i>
-<h3>No day selected</h3></div></div></div></div>
 
+<!-- CALENDAR -->
+<div class="pg" id="pg-cal">
+<div class="crd"><div class="crh">
+<button class="bt bs bx" onclick="chM(-1)"><i class="fas fa-chevron-left"></i></button>
+<span class="crt" id="CMT"></span>
+<button class="bt bs bx" onclick="chM(1)"><i class="fas fa-chevron-right"></i></button>
+</div>
+<div class="crb"><div class="cal" id="CG"></div></div></div>
+<div class="crd" style="margin-top:14px"><div class="crh"><span class="crt" id="CDT">Select a day</span></div>
+<div class="crb" id="CDD"><div class="es"><i class="fas fa-calendar-day"></i><h3>No day selected</h3></div></div></div>
+</div>
+
+<!-- HIGH YIELD -->
 <div class="pg" id="pg-hy">
 <div class="fr" id="HYF"></div>
-<div class="cd"><div class="ch">
-<span class="ct"><i class="fas fa-star" style="color:#f59e0b;margin-right:7px"></i>High Yield — Prof Exams (ABV Medical University)</span></div>
-<div class="cb" id="HYL"></div></div></div>
+<div class="crd"><div class="crh"><span class="crt"><i class="fas fa-star" style="color:#f59e0b"></i> High Yield Topics</span></div>
+<div class="crb" id="HYL"></div></div>
+</div>
 
+<!-- SHARE -->
 <div class="pg" id="pg-share">
-<div class="cd"><div class="ch">
-<span class="ct"><i class="fas fa-share-alt" style="margin-right:7px;color:var(--ac)"></i>Share Progress</span></div>
-<div class="cb">
-<p style="color:var(--tx2);margin-bottom:18px;font-size:13px">Generate a read-only snapshot. Your data stays private.</p>
-<button class="btn bp" onclick="genShare()" style="width:auto">
-<i class="fas fa-camera"></i> Generate Snapshot</button>
+<div class="crd"><div class="crh"><span class="crt"><i class="fas fa-share-alt" style="color:var(--ac)"></i> Share Progress</span></div>
+<div class="crb">
+<p style="color:var(--tx2);margin-bottom:18px;font-size:13px">Generate read-only snapshot. Friends can view but not edit.</p>
+<button class="bt bp" onclick="genShare()" style="width:auto"><i class="fas fa-camera"></i> Generate Snapshot</button>
 <div id="SO" style="margin-top:18px"></div>
-</div></div></div>
+</div></div>
+</div>
+
+<!-- SETTINGS -->
+<div class="pg" id="pg-set">
+<div class="crd"><div class="crh"><span class="crt">Account</span></div>
+<div class="crb" style="padding:0">
+<div class="stg" onclick="editProfile()"><div><div class="stl">Profile</div><div class="sts" id="setProfile">Edit name, college</div></div><i class="fas fa-chevron-right" style="color:var(--tx3)"></i></div>
+<div class="stg" onclick="editDates()"><div><div class="stl">Exam Dates</div><div class="sts">Update countdown dates</div></div><i class="fas fa-chevron-right" style="color:var(--tx3)"></i></div>
+<div class="stg" onclick="changePin()"><div><div class="stl">Change PIN</div><div class="sts">Update your 4-digit PIN</div></div><i class="fas fa-chevron-right" style="color:var(--tx3)"></i></div>
+</div></div>
+<div class="crd" style="margin-top:14px"><div class="crh"><span class="crt">Data</span></div>
+<div class="crb" style="padding:0">
+<div class="stg" onclick="exportData()"><div><div class="stl">Export Data</div><div class="sts">Download as JSON</div></div><i class="fas fa-download" style="color:var(--tx3)"></i></div>
+<div class="stg" onclick="importData()"><div><div class="stl">Import Data</div><div class="sts">Restore from backup</div></div><i class="fas fa-upload" style="color:var(--tx3)"></i></div>
+<div class="stg" onclick="confirmReset()"><div><div class="stl" style="color:var(--dn)">Reset Everything</div><div class="sts">Delete all data</div></div><i class="fas fa-trash" style="color:var(--dn)"></i></div>
+</div></div>
+<div class="crd" style="margin-top:14px"><div class="crh"><span class="crt">About</span></div>
+<div class="crb" style="padding:18px"><p style="font-size:13px;color:var(--tx2)">MedTrack Pro v2.0</p><p style="font-size:11px;color:var(--tx3);margin-top:4px">Built for MBBS students by an MBBS student</p></div></div>
+</div>
 
 </div>
-<div class="ql" id="QL" style="display:none">
-<i class="fas fa-bolt" style="color:var(--ac);font-size:16px"></i>
-<input type="text" class="fi" id="QLI" placeholder="Quick log: e.g. Patho - Inflammation">
-<button class="btn bp bsm" onclick="qLog()">Log</button>
+
+<div class="ql" id="QL"><i class="fas fa-bolt" style="color:var(--ac);font-size:16px"></i>
+<input type="text" class="fi" id="QLI" placeholder="Quick log study activity">
+<button class="bt bp bsm" onclick="qLog()">Log</button></div>
 </div>
-</main></div>
+
+<!-- TOPIC MODAL -->
 <div class="mo" id="TM">
 <div class="md">
 <div class="mh"><h3 id="MN">Topic</h3>
 <button class="mc2" onclick="clM()"><i class="fas fa-times"></i></button></div>
 <div class="mb" id="MB"></div>
 <div class="mf">
-<button class="btn bs bsm" onclick="clM()">Close</button>
-<button class="btn bp bsm" onclick="savM()">Save</button>
+<button class="bt bs bsm" onclick="clM()">Cancel</button>
+<button class="bt bp bsm" onclick="savM()">Save</button>
 </div></div></div>
 
 <script>
-var D={years:{"1st Year":{subjects:{
+// ============= DATA =============
+var D={years:{
+"1st Year":{subjects:{
 "Anatomy":{icon:"🦴",color:"#ef4444",chapters:{
 "General Anatomy":{topics:[
-{name:"Introduction & terms of position",nmc:"AN1.1",pr:"must-know",hy:1},
-{name:"Planes & movements",nmc:"AN1.2",pr:"must-know",hy:1},
-{name:"Classification of bones",nmc:"AN2.1",pr:"must-know",hy:1},
-{name:"Classification of joints",nmc:"AN2.3",pr:"must-know",hy:1},
-{name:"Synovial joint types",nmc:"AN2.4",pr:"must-know",hy:1},
-{name:"Blood supply of long bones",nmc:"AN2.6",pr:"good-know",hy:1}
+{name:"Introduction & terms of position",nmc:"AN1.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Planes & movements",nmc:"AN1.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Classification of bones",nmc:"AN2.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Classification of joints",nmc:"AN2.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Synovial joint types",nmc:"AN2.4",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Upper Limb":{topics:[
-{name:"Pectoral region & breast",nmc:"AN3.1",pr:"must-know",hy:1},
-{name:"Axilla boundaries & contents",nmc:"AN3.2",pr:"must-know",hy:1},
-{name:"Brachial plexus",nmc:"AN3.3",pr:"must-know",hy:1},
-{name:"Arm muscles & compartments",nmc:"AN4.1",pr:"must-know",hy:1},
-{name:"Cubital fossa",nmc:"AN4.2",pr:"must-know",hy:1},
-{name:"Hand muscles & spaces",nmc:"AN5.1",pr:"must-know",hy:1},
-{name:"Shoulder joint",nmc:"AN6.1",pr:"must-know",hy:1},
-{name:"Elbow joint",nmc:"AN6.2",pr:"must-know",hy:1},
-{name:"Dermatomes upper limb",nmc:"AN7.1",pr:"must-know",hy:1},
-{name:"Nerve injuries upper limb",nmc:"AN7.2",pr:"must-know",hy:1}
+{name:"Brachial plexus",nmc:"AN3.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Axilla & contents",nmc:"AN3.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Cubital fossa",nmc:"AN4.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Hand muscles & spaces",nmc:"AN5.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Shoulder joint",nmc:"AN6.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Nerve injuries upper limb",nmc:"AN7.2",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Lower Limb":{topics:[
-{name:"Femoral triangle",nmc:"AN8.1",pr:"must-know",hy:1},
-{name:"Gluteal region",nmc:"AN9.1",pr:"must-know",hy:1},
-{name:"Sciatic nerve",nmc:"AN9.2",pr:"must-know",hy:1},
-{name:"Popliteal fossa",nmc:"AN10.1",pr:"must-know",hy:1},
-{name:"Knee joint",nmc:"AN11.1",pr:"must-know",hy:1},
-{name:"Hip joint",nmc:"AN11.2",pr:"must-know",hy:1},
-{name:"Arches of foot",nmc:"AN11.4",pr:"must-know",hy:1},
-{name:"Nerve injuries lower limb",nmc:"AN12.1",pr:"must-know",hy:1}
+{name:"Femoral triangle",nmc:"AN8.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Sciatic nerve",nmc:"AN9.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Knee joint",nmc:"AN11.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Hip joint",nmc:"AN11.2",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-  "Thorax":{topics:[
-{name:"Pleura & lungs",nmc:"AN13.2",pr:"must-know",hy:1},
-{name:"Mediastinum subdivisions",nmc:"AN13.3",pr:"must-know",hy:1},
-{name:"Heart chambers & valves",nmc:"AN14.2",pr:"must-know",hy:1},
-{name:"Coronary arteries",nmc:"AN14.3",pr:"must-know",hy:1},
-{name:"Conducting system of heart",nmc:"AN14.4",pr:"must-know",hy:1}
+"Thorax":{topics:[
+{name:"Heart chambers & valves",nmc:"AN14.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Coronary arteries",nmc:"AN14.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Conducting system",nmc:"AN14.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Mediastinum",nmc:"AN13.3",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Abdomen":{topics:[
-{name:"Anterior abdominal wall",nmc:"AN15.1",pr:"must-know",hy:1},
-{name:"Inguinal canal",nmc:"AN15.2",pr:"must-know",hy:1},
-{name:"Peritoneum & its folds",nmc:"AN16.1",pr:"must-know",hy:1},
-{name:"Stomach",nmc:"AN16.2",pr:"must-know",hy:1},
-{name:"Liver & portal system",nmc:"AN16.3",pr:"must-know",hy:1},
-{name:"Spleen",nmc:"AN16.4",pr:"must-know",hy:1},
-{name:"Pancreas",nmc:"AN16.5",pr:"must-know",hy:1},
-{name:"Kidneys & suprarenal",nmc:"AN17.1",pr:"must-know",hy:1},
-{name:"Duodenum",nmc:"AN16.6",pr:"must-know",hy:1},
-{name:"Diaphragm",nmc:"AN17.2",pr:"must-know",hy:1}
-]},
-"Head & Neck":{topics:[
-{name:"Scalp layers",nmc:"AN18.1",pr:"must-know",hy:1},
-{name:"Parotid gland",nmc:"AN18.3",pr:"must-know",hy:1},
-{name:"Triangles of neck",nmc:"AN19.1",pr:"must-know",hy:1},
-{name:"Thyroid gland",nmc:"AN19.2",pr:"must-know",hy:1},
-{name:"Pharynx",nmc:"AN20.1",pr:"must-know",hy:1},
-{name:"Larynx",nmc:"AN20.2",pr:"must-know",hy:1},
-{name:"Cranial nerves overview",nmc:"AN21.1",pr:"must-know",hy:1},
-{name:"Orbit & eyeball",nmc:"AN22.1",pr:"must-know",hy:1},
-{name:"Tongue",nmc:"AN23.1",pr:"must-know",hy:1},
-{name:"Nasal cavity & sinuses",nmc:"AN23.2",pr:"must-know",hy:1}
+{name:"Inguinal canal",nmc:"AN15.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Liver & portal system",nmc:"AN16.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Kidneys",nmc:"AN17.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Diaphragm",nmc:"AN17.2",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Neuroanatomy":{topics:[
-{name:"Spinal cord cross section",nmc:"AN24.1",pr:"must-know",hy:1},
-{name:"Ascending tracts",nmc:"AN24.2",pr:"must-know",hy:1},
-{name:"Descending tracts",nmc:"AN24.3",pr:"must-know",hy:1},
-{name:"Cerebellum",nmc:"AN25.2",pr:"must-know",hy:1},
-{name:"Cerebral cortex areas",nmc:"AN26.1",pr:"must-know",hy:1},
-{name:"Basal ganglia",nmc:"AN26.2",pr:"must-know",hy:1},
-{name:"Ventricular system & CSF",nmc:"AN26.3",pr:"must-know",hy:1},
-{name:"Circle of Willis",nmc:"AN27.2",pr:"must-know",hy:1},
-{name:"Thalamus & hypothalamus",nmc:"AN26.4",pr:"must-know",hy:1}
-]},
-  "Embryology":{topics:[
-{name:"Gametogenesis",nmc:"AN28.1",pr:"must-know",hy:1},
-{name:"Fertilization & implantation",nmc:"AN28.2",pr:"must-know",hy:1},
-{name:"Placenta & fetal membranes",nmc:"AN28.3",pr:"must-know",hy:1},
-{name:"Development of heart",nmc:"AN29.1",pr:"must-know",hy:1},
-{name:"Development of GIT",nmc:"AN29.2",pr:"must-know",hy:1},
-{name:"Development of kidney",nmc:"AN29.3",pr:"must-know",hy:1},
-{name:"Congenital anomalies",nmc:"AN30.1",pr:"must-know",hy:1}
-]},
-"Histology":{topics:[
-{name:"Epithelial tissue",nmc:"AN31.1",pr:"must-know",hy:1},
-{name:"Connective tissue",nmc:"AN31.2",pr:"must-know",hy:1},
-{name:"Cartilage & bone",nmc:"AN31.3",pr:"must-know",hy:1},
-{name:"Muscle tissue types",nmc:"AN31.4",pr:"must-know",hy:1},
-{name:"Blood cells histology",nmc:"AN31.6",pr:"must-know",hy:1}
+{name:"Cerebral cortex areas",nmc:"AN26.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Circle of Willis",nmc:"AN27.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Spinal cord tracts",nmc:"AN24.2",pr:"must-know",hy:1,pg:1,pf:1}
 ]}
 }},
 "Physiology":{icon:"⚡",color:"#3b82f6",chapters:{
-"General Physiology":{topics:[
-{name:"Body fluid compartments",nmc:"PY1.1",pr:"must-know",hy:1},
-{name:"Homeostasis",nmc:"PY1.2",pr:"must-know",hy:1},
-{name:"Transport across cell membrane",nmc:"PY1.3",pr:"must-know",hy:1},
-{name:"Resting membrane potential",nmc:"PY1.4",pr:"must-know",hy:1},
-{name:"Action potential",nmc:"PY1.5",pr:"must-know",hy:1}
+"General":{topics:[
+{name:"Action potential",nmc:"PY1.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Body fluids",nmc:"PY1.1",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"Hematology":{topics:[
-{name:"Composition of blood",nmc:"PY2.1",pr:"must-know",hy:1},
-{name:"RBC formation & destruction",nmc:"PY2.2",pr:"must-know",hy:1},
-{name:"Hemoglobin structure",nmc:"PY2.3",pr:"must-know",hy:1},
-{name:"Anemia classification",nmc:"PY2.4",pr:"must-know",hy:1},
-{name:"WBC types & functions",nmc:"PY2.5",pr:"must-know",hy:1},
-{name:"Coagulation cascade",nmc:"PY2.6",pr:"must-know",hy:1},
-{name:"Blood groups & transfusion",nmc:"PY2.7",pr:"must-know",hy:1}
+"CVS":{topics:[
+{name:"Cardiac cycle",nmc:"PY3.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"ECG",nmc:"PY3.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"BP regulation",nmc:"PY3.6",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Shock",nmc:"PY3.7",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"CVS Physiology":{topics:[
-{name:"Cardiac muscle properties",nmc:"PY3.1",pr:"must-know",hy:1},
-{name:"Cardiac cycle",nmc:"PY3.2",pr:"must-know",hy:1},
-{name:"ECG normal & abnormal",nmc:"PY3.3",pr:"must-know",hy:1},
-{name:"Heart sounds",nmc:"PY3.4",pr:"must-know",hy:1},
-{name:"Cardiac output",nmc:"PY3.5",pr:"must-know",hy:1},
-{name:"BP regulation",nmc:"PY3.6",pr:"must-know",hy:1},
-{name:"Shock types",nmc:"PY3.7",pr:"must-know",hy:1}
-]},
-  "Respiratory":{topics:[
-{name:"Mechanics of respiration",nmc:"PY4.1",pr:"must-know",hy:1},
-{name:"Lung volumes & capacities",nmc:"PY4.2",pr:"must-know",hy:1},
-{name:"Gas exchange & transport",nmc:"PY4.3",pr:"must-know",hy:1},
-{name:"Oxygen dissociation curve",nmc:"PY4.4",pr:"must-know",hy:1},
-{name:"Regulation of respiration",nmc:"PY4.5",pr:"must-know",hy:1},
-{name:"Hypoxia types",nmc:"PY4.6",pr:"must-know",hy:1}
+"Respiratory":{topics:[
+{name:"O2 dissociation curve",nmc:"PY4.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Lung volumes",nmc:"PY4.2",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Renal":{topics:[
-{name:"GFR & measurement",nmc:"PY5.1",pr:"must-know",hy:1},
-{name:"Tubular reabsorption",nmc:"PY5.2",pr:"must-know",hy:1},
-{name:"Urine concentration & dilution",nmc:"PY5.3",pr:"must-know",hy:1},
-{name:"Acid-base balance",nmc:"PY5.4",pr:"must-know",hy:1},
-{name:"Renal function tests",nmc:"PY5.5",pr:"must-know",hy:1},
-{name:"Micturition reflex",nmc:"PY5.6",pr:"must-know",hy:1}
+{name:"GFR",nmc:"PY5.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Acid-base balance",nmc:"PY5.4",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"GI Physiology":{topics:[
-{name:"Salivary secretion",nmc:"PY6.1",pr:"must-know",hy:1},
-{name:"Gastric secretion",nmc:"PY6.2",pr:"must-know",hy:1},
-{name:"Pancreatic & biliary secretion",nmc:"PY6.3",pr:"must-know",hy:1},
-{name:"Digestion & absorption",nmc:"PY6.5",pr:"must-know",hy:1},
-{name:"Liver functions",nmc:"PY6.6",pr:"must-know",hy:1}
-]},
-"Endocrinology":{topics:[
-{name:"Pituitary hormones",nmc:"PY7.1",pr:"must-know",hy:1},
-{name:"Thyroid hormones",nmc:"PY7.2",pr:"must-know",hy:1},
-{name:"Adrenal cortex hormones",nmc:"PY7.3",pr:"must-know",hy:1},
-{name:"Insulin & glucagon",nmc:"PY7.5",pr:"must-know",hy:1},
-{name:"Calcium metabolism",nmc:"PY7.6",pr:"must-know",hy:1},
-{name:"Growth hormone",nmc:"PY7.7",pr:"must-know",hy:1}
-]},
-"Neurophysiology":{topics:[
-{name:"Sensory receptors & pathways",nmc:"PY8.1",pr:"must-know",hy:1},
-{name:"Pain physiology",nmc:"PY8.2",pr:"must-know",hy:1},
-{name:"Motor pathways UMN LMN",nmc:"PY8.3",pr:"must-know",hy:1},
-{name:"Reflexes",nmc:"PY8.4",pr:"must-know",hy:1},
-{name:"Cerebellum functions",nmc:"PY8.5",pr:"must-know",hy:1},
-{name:"Basal ganglia functions",nmc:"PY8.6",pr:"must-know",hy:1},
-{name:"EEG & sleep",nmc:"PY8.7",pr:"must-know",hy:1},
-{name:"Autonomic nervous system",nmc:"PY8.9",pr:"must-know",hy:1}
-]},
-"Reproductive":{topics:[
-{name:"Male reproductive functions",nmc:"PY9.1",pr:"must-know",hy:1},
-{name:"Female reproductive functions",nmc:"PY9.2",pr:"must-know",hy:1},
-{name:"Menstrual cycle",nmc:"PY9.3",pr:"must-know",hy:1},
-{name:"Pregnancy & lactation",nmc:"PY9.4",pr:"must-know",hy:1}
+"Endocrine":{topics:[
+{name:"Insulin & glucagon",nmc:"PY7.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Thyroid hormones",nmc:"PY7.2",pr:"must-know",hy:1,pg:1,pf:1}
 ]}
 }},
-  "Biochemistry":{icon:"🧬",color:"#10b981",chapters:{
-"Biomolecules":{topics:[
-{name:"Amino acids classification",nmc:"BI1.1",pr:"must-know",hy:1},
-{name:"Protein structure levels",nmc:"BI1.2",pr:"must-know",hy:1},
-{name:"Carbohydrate classification",nmc:"BI2.1",pr:"must-know",hy:1},
-{name:"Lipid classification",nmc:"BI3.1",pr:"must-know",hy:1},
-{name:"Nucleotide structure",nmc:"BI4.1",pr:"must-know",hy:1}
-]},
-"Enzymes":{topics:[
-{name:"Enzyme classification",nmc:"BI5.1",pr:"must-know",hy:1},
-{name:"Enzyme kinetics Km Vmax",nmc:"BI5.2",pr:"must-know",hy:1},
-{name:"Enzyme inhibition types",nmc:"BI5.3",pr:"must-know",hy:1},
-{name:"Clinical enzymology",nmc:"BI5.4",pr:"must-know",hy:1},
-{name:"Isoenzymes",nmc:"BI5.5",pr:"must-know",hy:1}
-]},
+"Biochemistry":{icon:"🧬",color:"#10b981",chapters:{
 "Carbohydrate Metabolism":{topics:[
-{name:"Glycolysis",nmc:"BI6.1",pr:"must-know",hy:1},
-{name:"TCA cycle",nmc:"BI6.2",pr:"must-know",hy:1},
-{name:"Gluconeogenesis",nmc:"BI6.3",pr:"must-know",hy:1},
-{name:"Glycogen metabolism",nmc:"BI6.4",pr:"must-know",hy:1},
-{name:"HMP shunt",nmc:"BI6.5",pr:"must-know",hy:1},
-{name:"ETC & oxidative phosphorylation",nmc:"BI6.6",pr:"must-know",hy:1},
-{name:"Blood glucose regulation",nmc:"BI6.7",pr:"must-know",hy:1},
-{name:"Diabetes mellitus biochem",nmc:"BI6.8",pr:"must-know",hy:1}
+{name:"Glycolysis",nmc:"BI6.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"TCA cycle",nmc:"BI6.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Diabetes biochem",nmc:"BI6.8",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Lipid Metabolism":{topics:[
-{name:"Beta oxidation",nmc:"BI7.1",pr:"must-know",hy:1},
-{name:"Ketone body metabolism",nmc:"BI7.2",pr:"must-know",hy:1},
-{name:"Fatty acid synthesis",nmc:"BI7.3",pr:"must-know",hy:1},
-{name:"Cholesterol metabolism",nmc:"BI7.4",pr:"must-know",hy:1},
-{name:"Lipoproteins",nmc:"BI7.5",pr:"must-know",hy:1},
-{name:"Lipid storage diseases",nmc:"BI7.6",pr:"must-know",hy:1}
-]},
-"Protein Metabolism":{topics:[
-{name:"Transamination & deamination",nmc:"BI8.1",pr:"must-know",hy:1},
-{name:"Urea cycle",nmc:"BI8.2",pr:"must-know",hy:1},
-{name:"Amino acid disorders",nmc:"BI8.3",pr:"must-know",hy:1},
-{name:"Heme synthesis & degradation",nmc:"BI8.4",pr:"must-know",hy:1},
-{name:"Porphyrias",nmc:"BI8.5",pr:"must-know",hy:1}
+{name:"Beta oxidation",nmc:"BI7.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Cholesterol metabolism",nmc:"BI7.4",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Molecular Biology":{topics:[
-{name:"DNA replication",nmc:"BI9.1",pr:"must-know",hy:1},
-{name:"Transcription",nmc:"BI9.2",pr:"must-know",hy:1},
-{name:"Translation",nmc:"BI9.3",pr:"must-know",hy:1},
-{name:"Gene regulation",nmc:"BI9.4",pr:"must-know",hy:1},
-{name:"Mutations & DNA repair",nmc:"BI9.5",pr:"must-know",hy:1},
-{name:"PCR & recombinant DNA",nmc:"BI9.6",pr:"must-know",hy:1}
-]},
-    "Vitamins & Minerals":{topics:[
-{name:"Fat soluble vitamins A D E K",nmc:"BI10.1",pr:"must-know",hy:1},
-{name:"Water soluble vitamins B C",nmc:"BI10.2",pr:"must-know",hy:1},
-{name:"Iron metabolism",nmc:"BI10.3",pr:"must-know",hy:1},
-{name:"Calcium & phosphorus",nmc:"BI10.4",pr:"must-know",hy:1}
-]},
-"Clinical Biochemistry":{topics:[
-{name:"Liver function tests",nmc:"BI11.1",pr:"must-know",hy:1},
-{name:"Kidney function tests",nmc:"BI11.2",pr:"must-know",hy:1},
-{name:"Acid-base disorders",nmc:"BI11.3",pr:"must-know",hy:1},
-{name:"Electrolyte imbalance",nmc:"BI11.4",pr:"must-know",hy:1},
-{name:"Tumor markers",nmc:"BI11.5",pr:"good-know",hy:1}
+{name:"DNA replication",nmc:"BI9.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"PCR & techniques",nmc:"BI9.6",pr:"must-know",hy:1,pg:1,pf:1}
 ]}
 }}
 }},
 "2nd Year":{subjects:{
 "Pathology":{icon:"🔬",color:"#8b5cf6",chapters:{
 "Cell Injury":{topics:[
-{name:"Cell injury causes & mechanisms",nmc:"PA1.1",pr:"must-know",hy:1},
-{name:"Necrosis vs apoptosis",nmc:"PA1.2",pr:"must-know",hy:1},
-{name:"Cellular adaptations",nmc:"PA2.1",pr:"must-know",hy:1},
-{name:"Intracellular accumulations",nmc:"PA2.2",pr:"must-know",hy:1},
-{name:"Calcification",nmc:"PA2.3",pr:"must-know",hy:1},
-{name:"Amyloidosis",nmc:"PA2.4",pr:"must-know",hy:1}
+{name:"Cell injury mechanisms",nmc:"PA1.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Necrosis vs apoptosis",nmc:"PA1.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Cellular adaptations",nmc:"PA2.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Amyloidosis",nmc:"PA2.4",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Inflammation":{topics:[
-{name:"Acute inflammation",nmc:"PA3.1",pr:"must-know",hy:1},
-{name:"Chemical mediators",nmc:"PA3.2",pr:"must-know",hy:1},
-{name:"Chronic inflammation",nmc:"PA3.3",pr:"must-know",hy:1},
-{name:"Granulomatous inflammation",nmc:"PA3.4",pr:"must-know",hy:1},
-{name:"Wound healing & repair",nmc:"PA4.1",pr:"must-know",hy:1}
+{name:"Acute inflammation",nmc:"PA3.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Chemical mediators",nmc:"PA3.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Chronic inflammation",nmc:"PA3.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Granulomatous inflammation",nmc:"PA3.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Wound healing",nmc:"PA4.1",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"Hemodynamic Disorders":{topics:[
-{name:"Edema",nmc:"PA5.1",pr:"must-know",hy:1},
-{name:"Thrombosis",nmc:"PA5.2",pr:"must-know",hy:1},
-{name:"Embolism",nmc:"PA5.3",pr:"must-know",hy:1},
-{name:"Infarction",nmc:"PA5.4",pr:"must-know",hy:1},
-{name:"Shock",nmc:"PA5.5",pr:"must-know",hy:1},
-{name:"DIC",nmc:"PA5.6",pr:"must-know",hy:1}
+"Hemodynamics":{topics:[
+{name:"Edema",nmc:"PA5.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Thrombosis",nmc:"PA5.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Embolism",nmc:"PA5.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Infarction",nmc:"PA5.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Shock",nmc:"PA5.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"DIC",nmc:"PA5.6",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Neoplasia":{topics:[
-{name:"Growth disorders & neoplasia",nmc:"PA6.1",pr:"must-know",hy:1},
-{name:"Benign vs malignant tumors",nmc:"PA6.2",pr:"must-know",hy:1},
-{name:"Carcinogenesis",nmc:"PA6.3",pr:"must-know",hy:1},
-{name:"Tumor markers",nmc:"PA6.4",pr:"must-know",hy:1},
-{name:"Grading & staging",nmc:"PA6.5",pr:"must-know",hy:1},
-{name:"Paraneoplastic syndromes",nmc:"PA6.6",pr:"good-know",hy:1}
+{name:"Benign vs malignant",nmc:"PA6.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Carcinogenesis",nmc:"PA6.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Tumor markers",nmc:"PA6.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Grading & staging",nmc:"PA6.5",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-  "Hematology":{topics:[
-{name:"Iron deficiency anemia",nmc:"PA7.1",pr:"must-know",hy:1},
-{name:"Megaloblastic anemia",nmc:"PA7.2",pr:"must-know",hy:1},
-{name:"Hemolytic anemias",nmc:"PA7.3",pr:"must-know",hy:1},
-{name:"Thalassemia",nmc:"PA7.4",pr:"must-know",hy:1},
-{name:"Sickle cell disease",nmc:"PA7.5",pr:"must-know",hy:1},
-{name:"Aplastic anemia",nmc:"PA7.6",pr:"must-know",hy:1},
-{name:"Leukemias acute & chronic",nmc:"PA8.1",pr:"must-know",hy:1},
-{name:"Lymphomas",nmc:"PA8.2",pr:"must-know",hy:1},
-{name:"Multiple myeloma",nmc:"PA8.3",pr:"must-know",hy:1},
-{name:"Bleeding disorders",nmc:"PA9.1",pr:"must-know",hy:1}
+"Hematology":{topics:[
+{name:"Iron deficiency anemia",nmc:"PA7.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Megaloblastic anemia",nmc:"PA7.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Hemolytic anemias",nmc:"PA7.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Thalassemia",nmc:"PA7.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Sickle cell disease",nmc:"PA7.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Acute leukemias",nmc:"PA8.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Lymphomas",nmc:"PA8.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Multiple myeloma",nmc:"PA8.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Bleeding disorders",nmc:"PA9.1",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"Systemic Pathology":{topics:[
-{name:"Atherosclerosis",nmc:"PA10.1",pr:"must-know",hy:1},
-{name:"Rheumatic heart disease",nmc:"PA10.2",pr:"must-know",hy:1},
-{name:"Infective endocarditis",nmc:"PA10.3",pr:"must-know",hy:1},
-{name:"Myocardial infarction",nmc:"PA10.4",pr:"must-know",hy:1},
-{name:"Obstructive & restrictive lung",nmc:"PA11.1",pr:"must-know",hy:1},
-{name:"Pneumonia types",nmc:"PA11.2",pr:"must-know",hy:1},
-{name:"TB pathology",nmc:"PA11.3",pr:"must-know",hy:1},
-{name:"Lung carcinoma",nmc:"PA11.4",pr:"must-know",hy:1},
-{name:"Glomerulonephritis",nmc:"PA12.1",pr:"must-know",hy:1},
-{name:"Nephrotic vs nephritic",nmc:"PA12.2",pr:"must-know",hy:1},
-{name:"Hepatitis pathology",nmc:"PA13.1",pr:"must-know",hy:1},
-{name:"Cirrhosis",nmc:"PA13.2",pr:"must-know",hy:1},
-{name:"Peptic ulcer & gastric CA",nmc:"PA14.1",pr:"must-know",hy:1},
-{name:"Colorectal carcinoma",nmc:"PA14.2",pr:"must-know",hy:1},
-{name:"Thyroid diseases",nmc:"PA15.1",pr:"must-know",hy:1},
-{name:"Diabetes mellitus pathology",nmc:"PA15.2",pr:"must-know",hy:1},
-{name:"Breast diseases & CA",nmc:"PA16.1",pr:"must-know",hy:1},
-{name:"Cervical & endometrial CA",nmc:"PA16.2",pr:"must-know",hy:1}
+"Systemic":{topics:[
+{name:"Atherosclerosis",nmc:"PA10.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Rheumatic heart disease",nmc:"PA10.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Myocardial infarction",nmc:"PA10.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Pneumonia",nmc:"PA11.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"TB pathology",nmc:"PA11.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Lung carcinoma",nmc:"PA11.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Glomerulonephritis",nmc:"PA12.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Nephrotic vs nephritic",nmc:"PA12.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Hepatitis pathology",nmc:"PA13.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Cirrhosis",nmc:"PA13.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Peptic ulcer & gastric CA",nmc:"PA14.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Colorectal CA",nmc:"PA14.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Diabetes pathology",nmc:"PA15.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Breast CA",nmc:"PA16.1",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Immunopathology":{topics:[
-{name:"Hypersensitivity Types I-IV",nmc:"PA20.1",pr:"must-know",hy:1},
-{name:"Autoimmune diseases SLE RA",nmc:"PA20.2",pr:"must-know",hy:1},
-{name:"Immunodeficiency",nmc:"PA20.3",pr:"must-know",hy:1},
-{name:"HIV AIDS pathology",nmc:"PA20.4",pr:"must-know",hy:1},
-{name:"Transplant rejection",nmc:"PA20.5",pr:"must-know",hy:1}
+{name:"Hypersensitivity I-IV",nmc:"PA20.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"SLE & RA",nmc:"PA20.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"HIV pathology",nmc:"PA20.4",pr:"must-know",hy:1,pg:1,pf:1}
 ]}
 }},
-  "Pharmacology":{icon:"💊",color:"#f59e0b",chapters:{
-"General Pharmacology":{topics:[
-{name:"Pharmacokinetics ADME",nmc:"PH1.1",pr:"must-know",hy:1},
-{name:"Routes of administration",nmc:"PH1.2",pr:"must-know",hy:1},
-{name:"Bioavailability",nmc:"PH1.3",pr:"must-know",hy:1},
-{name:"Drug metabolism Phase I II",nmc:"PH1.5",pr:"must-know",hy:1},
-{name:"Enzyme induction & inhibition",nmc:"PH1.6",pr:"must-know",hy:1},
-{name:"Drug receptors",nmc:"PH1.7",pr:"must-know",hy:1},
-{name:"Dose-response",nmc:"PH1.8",pr:"must-know",hy:1},
-{name:"Drug interactions",nmc:"PH1.9",pr:"must-know",hy:1},
-{name:"Adverse drug reactions",nmc:"PH1.10",pr:"must-know",hy:1}
+"Pharmacology":{icon:"💊",color:"#f59e0b",chapters:{
+"General":{topics:[
+{name:"Pharmacokinetics ADME",nmc:"PH1.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Drug metabolism",nmc:"PH1.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Enzyme induction",nmc:"PH1.6",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"ADRs",nmc:"PH1.10",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"ANS Pharmacology":{topics:[
-{name:"Cholinergic drugs",nmc:"PH2.1",pr:"must-know",hy:1},
-{name:"Anticholinergics atropine",nmc:"PH2.2",pr:"must-know",hy:1},
-{name:"Adrenergic drugs",nmc:"PH2.3",pr:"must-know",hy:1},
-{name:"Adrenergic blockers",nmc:"PH2.4",pr:"must-know",hy:1},
-{name:"Skeletal muscle relaxants",nmc:"PH2.6",pr:"must-know",hy:1}
+"ANS":{topics:[
+{name:"Cholinergics",nmc:"PH2.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Anticholinergics",nmc:"PH2.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Adrenergic drugs",nmc:"PH2.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Adrenergic blockers",nmc:"PH2.4",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"CNS Pharmacology":{topics:[
-{name:"General anesthetics",nmc:"PH3.1",pr:"must-know",hy:1},
-{name:"Local anesthetics",nmc:"PH3.2",pr:"must-know",hy:1},
-{name:"Sedatives & hypnotics",nmc:"PH3.3",pr:"must-know",hy:1},
-{name:"Opioid analgesics",nmc:"PH3.4",pr:"must-know",hy:1},
-{name:"Anti-epileptics",nmc:"PH3.5",pr:"must-know",hy:1},
-{name:"Anti-parkinsonian",nmc:"PH3.6",pr:"must-know",hy:1},
-{name:"Antipsychotics",nmc:"PH3.7",pr:"must-know",hy:1},
-{name:"Antidepressants",nmc:"PH3.8",pr:"must-know",hy:1},
-{name:"Drug dependence & abuse",nmc:"PH3.9",pr:"must-know",hy:1}
+"CNS":{topics:[
+{name:"General anesthetics",nmc:"PH3.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Local anesthetics",nmc:"PH3.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Opioids",nmc:"PH3.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Anti-epileptics",nmc:"PH3.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Anti-parkinsonian",nmc:"PH3.6",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Antipsychotics",nmc:"PH3.7",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Antidepressants",nmc:"PH3.8",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"CVS Pharmacology":{topics:[
-{name:"Antihypertensives",nmc:"PH4.1",pr:"must-know",hy:1},
-{name:"Anti-anginal drugs",nmc:"PH4.2",pr:"must-know",hy:1},
-{name:"Heart failure drugs",nmc:"PH4.3",pr:"must-know",hy:1},
-{name:"Antiarrhythmics",nmc:"PH4.4",pr:"must-know",hy:1},
-{name:"Anticoagulants & antiplatelets",nmc:"PH4.5",pr:"must-know",hy:1},
-{name:"Fibrinolytics",nmc:"PH4.6",pr:"must-know",hy:1},
-{name:"Hypolipidemic drugs",nmc:"PH4.7",pr:"must-know",hy:1}
+"CVS":{topics:[
+{name:"Antihypertensives",nmc:"PH4.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Anti-anginal",nmc:"PH4.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Heart failure drugs",nmc:"PH4.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Antiarrhythmics",nmc:"PH4.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Anticoagulants",nmc:"PH4.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Hypolipidemics",nmc:"PH4.7",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-    "Autacoids & NSAIDs":{topics:[
-{name:"Histamine & antihistaminics",nmc:"PH5.1",pr:"must-know",hy:1},
-{name:"Prostaglandins & NSAIDs",nmc:"PH5.3",pr:"must-know",hy:1},
-{name:"Drugs for gout",nmc:"PH5.4",pr:"must-know",hy:1},
-{name:"DMARDs",nmc:"PH5.5",pr:"must-know",hy:1}
+"Autacoids":{topics:[
+{name:"Antihistaminics",nmc:"PH5.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"NSAIDs",nmc:"PH5.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Drugs for gout",nmc:"PH5.4",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"Renal & GI Pharma":{topics:[
-{name:"Diuretics",nmc:"PH6.1",pr:"must-know",hy:1},
-{name:"Anti-ulcer drugs PPIs H2",nmc:"PH6.2",pr:"must-know",hy:1},
-{name:"Antiemetics",nmc:"PH6.3",pr:"must-know",hy:1}
+"Renal/GI":{topics:[
+{name:"Diuretics",nmc:"PH6.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"PPIs & H2 blockers",nmc:"PH6.2",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-"Endocrine Pharma":{topics:[
-{name:"Insulin & oral hypoglycemics",nmc:"PH7.1",pr:"must-know",hy:1},
-{name:"Thyroid & antithyroid",nmc:"PH7.2",pr:"must-know",hy:1},
-{name:"Corticosteroids",nmc:"PH7.3",pr:"must-know",hy:1},
-{name:"Oral contraceptives",nmc:"PH7.5",pr:"must-know",hy:1},
-{name:"Oxytocin & uterine drugs",nmc:"PH7.7",pr:"must-know",hy:1}
+"Endocrine":{topics:[
+{name:"Insulin & oral hypoglycemics",nmc:"PH7.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Thyroid drugs",nmc:"PH7.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Corticosteroids",nmc:"PH7.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Oral contraceptives",nmc:"PH7.5",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Chemotherapy":{topics:[
-{name:"Principles of chemotherapy",nmc:"PH8.1",pr:"must-know",hy:1},
-{name:"Beta-lactams penicillins cephalosporins",nmc:"PH8.3",pr:"must-know",hy:1},
-{name:"Aminoglycosides",nmc:"PH8.4",pr:"must-know",hy:1},
-{name:"Macrolides",nmc:"PH8.5",pr:"must-know",hy:1},
-{name:"Fluoroquinolones",nmc:"PH8.6",pr:"must-know",hy:1},
-{name:"Tetracyclines",nmc:"PH8.7",pr:"must-know",hy:1},
-{name:"Anti-tubercular drugs",nmc:"PH8.8",pr:"must-know",hy:1},
-{name:"Anti-fungal drugs",nmc:"PH8.10",pr:"must-know",hy:1},
-{name:"Anti-viral drugs",nmc:"PH8.11",pr:"must-know",hy:1},
-{name:"Anti-malarial drugs",nmc:"PH8.12",pr:"must-know",hy:1},
-{name:"Anti-amoebic drugs",nmc:"PH8.13",pr:"must-know",hy:1},
-{name:"Anti-helminthic drugs",nmc:"PH8.14",pr:"must-know",hy:1},
-{name:"Anti-cancer drugs",nmc:"PH8.15",pr:"must-know",hy:1}
+{name:"Beta-lactams",nmc:"PH8.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Aminoglycosides",nmc:"PH8.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Macrolides",nmc:"PH8.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Fluoroquinolones",nmc:"PH8.6",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Anti-TB drugs",nmc:"PH8.8",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Anti-malarials",nmc:"PH8.12",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Anti-cancer drugs",nmc:"PH8.15",pr:"must-know",hy:1,pg:1,pf:1}
 ]}
 }},
-  "Microbiology":{icon:"🦠",color:"#06b6d4",chapters:{
-"General Micro":{topics:[
-{name:"Microscopy & staining",nmc:"MI1.1",pr:"must-know",hy:1},
-{name:"Bacterial morphology",nmc:"MI1.2",pr:"must-know",hy:1},
-{name:"Culture media",nmc:"MI1.3",pr:"must-know",hy:1},
-{name:"Sterilization & disinfection",nmc:"MI1.4",pr:"must-know",hy:1},
-{name:"Bacterial genetics",nmc:"MI1.5",pr:"must-know",hy:1}
+"Microbiology":{icon:"🦠",color:"#06b6d4",chapters:{
+"General":{topics:[
+{name:"Microscopy & staining",nmc:"MI1.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Bacterial morphology",nmc:"MI1.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Sterilization",nmc:"MI1.4",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Immunology":{topics:[
-{name:"Innate & adaptive immunity",nmc:"MI2.1",pr:"must-know",hy:1},
-{name:"Antigens & antibodies",nmc:"MI2.2",pr:"must-know",hy:1},
-{name:"Complement system",nmc:"MI2.3",pr:"must-know",hy:1},
-{name:"Hypersensitivity reactions",nmc:"MI2.4",pr:"must-know",hy:1},
-{name:"Autoimmunity",nmc:"MI2.5",pr:"must-know",hy:1},
-{name:"Immunodeficiency",nmc:"MI2.6",pr:"must-know",hy:1},
-{name:"Vaccines & immunization",nmc:"MI2.7",pr:"must-know",hy:1}
+{name:"Innate & adaptive immunity",nmc:"MI2.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Antigens & antibodies",nmc:"MI2.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Hypersensitivity",nmc:"MI2.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Vaccines",nmc:"MI2.7",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Bacteriology":{topics:[
-{name:"Staphylococcus",nmc:"MI3.1",pr:"must-know",hy:1},
-{name:"Streptococcus",nmc:"MI3.2",pr:"must-know",hy:1},
-{name:"Pneumococcus",nmc:"MI3.3",pr:"must-know",hy:1},
-{name:"Neisseria",nmc:"MI3.4",pr:"must-know",hy:1},
-{name:"Corynebacterium diphtheriae",nmc:"MI3.5",pr:"must-know",hy:1},
-{name:"Clostridium species",nmc:"MI3.7",pr:"must-know",hy:1},
-{name:"Mycobacterium tuberculosis",nmc:"MI3.8",pr:"must-know",hy:1},
-{name:"Mycobacterium leprae",nmc:"MI3.9",pr:"must-know",hy:1},
-{name:"Salmonella typhi",nmc:"MI4.1",pr:"must-know",hy:1},
-{name:"Shigella",nmc:"MI4.2",pr:"must-know",hy:1},
-{name:"E coli pathotypes",nmc:"MI4.3",pr:"must-know",hy:1},
-{name:"Vibrio cholerae",nmc:"MI4.4",pr:"must-know",hy:1},
-{name:"Helicobacter pylori",nmc:"MI4.7",pr:"must-know",hy:1},
-{name:"Treponema syphilis",nmc:"MI5.1",pr:"must-know",hy:1},
-{name:"Chlamydia",nmc:"MI5.3",pr:"must-know",hy:1},
-{name:"Rickettsia",nmc:"MI5.4",pr:"must-know",hy:1},
-{name:"Mycoplasma",nmc:"MI5.5",pr:"must-know",hy:1}
+{name:"Staphylococcus",nmc:"MI3.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Streptococcus",nmc:"MI3.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Neisseria",nmc:"MI3.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Corynebacterium",nmc:"MI3.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Clostridium",nmc:"MI3.7",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"M. tuberculosis",nmc:"MI3.8",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"M. leprae",nmc:"MI3.9",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Salmonella typhi",nmc:"MI4.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"E. coli pathotypes",nmc:"MI4.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"V. cholerae",nmc:"MI4.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"H. pylori",nmc:"MI4.7",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Treponema syphilis",nmc:"MI5.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Chlamydia",nmc:"MI5.3",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
-    "Virology":{topics:[
-{name:"General virology",nmc:"MI6.1",pr:"must-know",hy:1},
-{name:"DNA viruses Herpes HBV",nmc:"MI6.2",pr:"must-know",hy:1},
-{name:"RNA viruses Influenza Measles",nmc:"MI6.3",pr:"must-know",hy:1},
-{name:"Hepatitis viruses A B C D E",nmc:"MI6.4",pr:"must-know",hy:1},
-{name:"HIV AIDS",nmc:"MI6.5",pr:"must-know",hy:1},
-{name:"Arboviruses Dengue Chiku JE",nmc:"MI6.6",pr:"must-know",hy:1},
-{name:"Rabies virus",nmc:"MI6.7",pr:"must-know",hy:1},
-{name:"Polio & enteroviruses",nmc:"MI6.8",pr:"must-know",hy:1},
-{name:"COVID-19 SARS-CoV-2",nmc:"MI6.9",pr:"must-know",hy:1}
+"Virology":{topics:[
+{name:"DNA viruses",nmc:"MI6.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"RNA viruses",nmc:"MI6.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Hepatitis viruses",nmc:"MI6.4",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"HIV",nmc:"MI6.5",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Arboviruses",nmc:"MI6.6",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Rabies",nmc:"MI6.7",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Mycology":{topics:[
-{name:"Dermatophytes ringworm",nmc:"MI7.1",pr:"must-know",hy:1},
-{name:"Candida",nmc:"MI7.2",pr:"must-know",hy:1},
-{name:"Aspergillus",nmc:"MI7.3",pr:"must-know",hy:1},
-{name:"Cryptococcus",nmc:"MI7.4",pr:"must-know",hy:1},
-{name:"Mucormycosis",nmc:"MI7.5",pr:"must-know",hy:1}
+{name:"Candida",nmc:"MI7.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Aspergillus",nmc:"MI7.3",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Mucormycosis",nmc:"MI7.5",pr:"must-know",hy:1,pg:1,pf:1}
 ]},
 "Parasitology":{topics:[
-{name:"Entamoeba histolytica",nmc:"MI8.1",pr:"must-know",hy:1},
-{name:"Plasmodium malaria",nmc:"MI8.2",pr:"must-know",hy:1},
-{name:"Leishmania",nmc:"MI8.3",pr:"must-know",hy:1},
-{name:"Giardia & Trichomonas",nmc:"MI8.5",pr:"must-know",hy:1},
-{name:"Toxoplasma",nmc:"MI8.6",pr:"must-know",hy:1},
-{name:"Ascaris Hookworm",nmc:"MI9.1",pr:"must-know",hy:1},
-{name:"Wuchereria filariasis",nmc:"MI9.2",pr:"must-know",hy:1},
-{name:"Tapeworms Taenia",nmc:"MI9.3",pr:"must-know",hy:1}
+{name:"Plasmodium",nmc:"MI8.2",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Entamoeba",nmc:"MI8.1",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Toxoplasma",nmc:"MI8.6",pr:"must-know",hy:1,pg:1,pf:1},
+{name:"Filariasis",nmc:"MI9.2",pr:"must-know",hy:1,pg:1,pf:1}
 ]}
 }}
 }},
 "3rd Year":{subjects:{
-"Forensic Medicine":{icon:"⚖️",color:"#64748b",chapters:{"Coming Soon":{topics:[{name:"Will be added later",nmc:"FM1.1",pr:"nice-know",hy:0}]}}},
-"Community Medicine":{icon:"🏥",color:"#0ea5e9",chapters:{"Coming Soon":{topics:[{name:"Will be added later",nmc:"CM1.1",pr:"nice-know",hy:0}]}}},
-"ENT":{icon:"👂",color:"#f97316",chapters:{"Coming Soon":{topics:[{name:"Will be added later",nmc:"EN1.1",pr:"nice-know",hy:0}]}}},
-"Ophthalmology":{icon:"👁️",color:"#14b8a6",chapters:{"Coming Soon":{topics:[{name:"Will be added later",nmc:"OP1.1",pr:"nice-know",hy:0}]}}}
+"Forensic Medicine":{icon:"⚖️",color:"#64748b",chapters:{"Coming Soon":{topics:[{name:"Will be added",nmc:"FM1.1",pr:"nice-know",hy:0,pg:0,pf:0}]}}},
+"Community Medicine":{icon:"🏥",color:"#0ea5e9",chapters:{"Coming Soon":{topics:[{name:"Will be added",nmc:"CM1.1",pr:"nice-know",hy:0,pg:0,pf:0}]}}},
+"ENT":{icon:"👂",color:"#f97316",chapters:{"Coming Soon":{topics:[{name:"Will be added",nmc:"EN1.1",pr:"nice-know",hy:0,pg:0,pf:0}]}}},
+"Ophthalmology":{icon:"👁️",color:"#14b8a6",chapters:{"Coming Soon":{topics:[{name:"Will be added",nmc:"OP1.1",pr:"nice-know",hy:0,pg:0,pf:0}]}}}
 }},
 "Final Year":{subjects:{
-"Medicine":{icon:"🩺",color:"#6366f1",chapters:{"Coming Soon":{topics:[{name:"Will be added later",nmc:"IM1.1",pr:"nice-know",hy:0}]}}},
-"Surgery":{icon:"🔪",color:"#ef4444",chapters:{"Coming Soon":{topics:[{name:"Will be added later",nmc:"SU1.1",pr:"nice-know",hy:0}]}}},
-"OBG":{icon:"🤰",color:"#ec4899",chapters:{"Coming Soon":{topics:[{name:"Will be added later",nmc:"OG1.1",pr:"nice-know",hy:0}]}}},
-"Pediatrics":{icon:"👶",color:"#f59e0b",chapters:{"Coming Soon":{topics:[{name:"Will be added later",nmc:"PE1.1",pr:"nice-know",hy:0}]}}}
+"Medicine":{icon:"🩺",color:"#6366f1",chapters:{"Coming Soon":{topics:[{name:"Will be added",nmc:"IM1.1",pr:"nice-know",hy:0,pg:0,pf:0}]}}},
+"Surgery":{icon:"🔪",color:"#ef4444",chapters:{"Coming Soon":{topics:[{name:"Will be added",nmc:"SU1.1",pr:"nice-know",hy:0,pg:0,pf:0}]}}},
+"OBG":{icon:"🤰",color:"#ec4899",chapters:{"Coming Soon":{topics:[{name:"Will be added",nmc:"OG1.1",pr:"nice-know",hy:0,pg:0,pf:0}]}}},
+"Pediatrics":{icon:"👶",color:"#f59e0b",chapters:{"Coming Soon":{topics:[{name:"Will be added",nmc:"PE1.1",pr:"nice-know",hy:0,pg:0,pf:0}]}}}
 }}
 }};
-  var S={
-user:null,theme:'light',page:'dash',
-selYears:['2nd Year'],curSub:null,curYear:null,
-curFilter:'all',revTab:'overdue',goalTab:'daily',
+
+// ============= STATE =============
+var S={user:null,theme:'light',page:'dash',mode:'daily',
+selYears:['2nd Year'],curSub:null,curYear:null,curFilter:'all',
+revTab:'overdue',goalTab:'daily',obStep:0,
 calMon:new Date().getMonth(),calYear:new Date().getFullYear(),
-tp:{},goals:[],log:{},streak:0,lastStudy:null
+tp:{},goals:[],log:{},streak:0,lastStudy:null,
+profile:{name:'',college:'ASMC Gonda',uni:'ABV Medical University',year:'2nd Year'},
+dates:{terminal:'2025-05-18',preprof:'2025-08-15',prof:'2025-09-15'}
 };
 
-function sv(){try{localStorage.setItem('mt3',JSON.stringify(S))}catch(e){}}
-function ld(){try{var x=localStorage.getItem('mt3');if(x){var p=JSON.parse(x);S=Object.assign(S,p)}}catch(e){}}
+// ============= STORAGE =============
+function sv(){try{localStorage.setItem('mtp_v2',JSON.stringify(S))}catch(e){}}
+function ld(){try{var x=localStorage.getItem('mtp_v2');if(x){S=Object.assign(S,JSON.parse(x))}}catch(e){}}
 
-function nrd(n,d){
-var iv=[1,3,7,14,30,60];
-var i=iv[Math.min(n-1,iv.length-1)];
-var dt=new Date(d);dt.setDate(dt.getDate()+i);
-return dt.toISOString().split('T')[0];
+// ============= UTILS =============
+function nrd(n,d){var iv=[1,3,7,14,30,60];var i=iv[Math.min(n-1,iv.length-1)];var dt=new Date(d);dt.setDate(dt.getDate()+i);return dt.toISOString().split('T')[0]}
+function toast(m,t){var c=document.getElementById('TC');var el=document.createElement('div');el.className='tst '+(t==='er'?'er':'ok2');el.innerHTML='<i class="fas fa-'+(t==='er'?'exclamation-circle':'check-circle')+'" style="color:var(--'+(t==='er'?'dn':'ok')+')"></i><span>'+m+'</span>';c.appendChild(el);setTimeout(function(){el.remove()},3000)}
+function dDiff(d){var t=new Date();t.setHours(0,0,0,0);var dt=new Date(d);dt.setHours(0,0,0,0);return Math.round((dt-t)/86400000)}
+function greet(){var h=new Date().getHours();if(h<12)return'Good morning';if(h<17)return'Good afternoon';return'Good evening'}
+
+// ============= ONBOARDING =============
+function obNext(s){
+if(s===1){
+var n=document.getElementById('obName').value.trim();
+var p=document.getElementById('obPin').value.trim();
+if(!n||p.length!==4){toast('Enter name & 4-digit PIN','er');return}
+S.user={name:n,pin:p};
+document.getElementById('ob1').classList.add('h');
+document.getElementById('ob2').classList.remove('h');
+document.getElementById('od1').classList.remove('on');
+document.getElementById('od2').classList.add('on');
+S.obStep=1;
+}else if(s===2){
+S.profile.year=document.getElementById('obYear').value;
+S.profile.college=document.getElementById('obCollege').value;
+S.profile.uni=document.getElementById('obUni').value;
+S.selYears=[S.profile.year];
+document.getElementById('ob2').classList.add('h');
+document.getElementById('ob3').classList.remove('h');
+document.getElementById('od2').classList.remove('on');
+document.getElementById('od3').classList.add('on');
+S.obStep=2;
+}
+sv();
+}
+function obFinish(){
+S.dates.terminal=document.getElementById('obTerm').value;
+S.dates.preprof=document.getElementById('obPre').value;
+S.dates.prof=document.getElementById('obProf').value;
+S.obStep=3;
+sv();
+document.getElementById('OB').classList.add('h');
+launchApp();
 }
 
-function toast(m,t){
-var c=document.getElementById('TC');
-var el=document.createElement('div');
-el.className='tst '+(t==='er'?'er':'ok2');
-el.innerHTML='<i class="fas fa-'+(t==='er'?'exclamation-circle':'check-circle')+'" style="color:var(--'+(t==='er'?'dn':'ok')+')"></i><span>'+m+'</span>';
-c.appendChild(el);
-setTimeout(function(){el.remove()},3000);
-}
-
+// ============= AUTH =============
 function doLogin(){
-var n=document.getElementById('LN').value.trim();
-var p=document.getElementById('LP').value.trim();
-if(!n||p.length!==4){toast('Enter name & 4 digit PIN','er');return}
-if(S.user&&S.user.pin&&S.user.pin!==p){toast('Wrong PIN!','er');return}
-S.user={name:n,pin:p};sv();
-document.getElementById('LS').style.display='none';
-document.getElementById('APP').className='app on';
-document.getElementById('UNM').textContent=n;
-document.getElementById('UAV').textContent=n.charAt(0).toUpperCase();
-initApp();
+var p=document.getElementById('lgPin').value.trim();
+if(p!==S.user.pin){toast('Wrong PIN!','er');return}
+document.getElementById('LG').classList.add('h');
+launchApp();
 }
 
-function chkAuth(){
+function resetAll(){
+if(confirm('This will delete all your data. Are you sure?')){
+localStorage.removeItem('mtp_v2');
+location.reload();
+}
+}
+
+function confirmReset(){resetAll()}
+
+function startApp(){
 ld();
-if(S.user){document.getElementById('LN').value=S.user.name||'';}
-if(S.theme==='dark'){
-document.documentElement.setAttribute('data-theme','dark');
-document.getElementById('THI').className='fas fa-sun';
+if(!S.user||S.obStep<3){
+document.getElementById('OB').classList.remove('h');
+return;
 }
+document.getElementById('LG').classList.remove('h');
+document.getElementById('lgWelcome').textContent='Hi '+S.user.name+', enter your PIN';
+document.getElementById('lgPin').focus();
 }
 
-function initApp(){
-if(S.theme==='dark'){
-document.documentElement.setAttribute('data-theme','dark');
-document.getElementById('THI').className='fas fa-sun';
-}
+function launchApp(){
+document.getElementById('APP').classList.add('on');
+document.getElementById('UNM').textContent=S.user.name;
+document.getElementById('UAV').textContent=S.user.name.charAt(0).toUpperCase();
+document.getElementById('URole').textContent=S.profile.year+' • '+S.profile.college;
+document.getElementById('sbsCollege').textContent=S.profile.college;
+if(S.theme==='dark'){document.documentElement.setAttribute('data-theme','dark');document.getElementById('THI').className='fas fa-sun'}
 updStreak();
 rndrYS();
 go(S.page||'dash');
-document.getElementById('QL').style.display='flex';
-}
-  function tgTH(){
-S.theme=S.theme==='dark'?'light':'dark';
-document.documentElement.setAttribute('data-theme',S.theme==='dark'?'dark':'');
-document.getElementById('THI').className=S.theme==='dark'?'fas fa-sun':'fas fa-moon';
-sv();
 }
 
-function tgSB(){
-document.getElementById('SB').classList.toggle('open');
-document.getElementById('SBO').classList.toggle('on');
-}
+// ============= THEME =============
+function tgTH(){S.theme=S.theme==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',S.theme==='dark'?'dark':'');document.getElementById('THI').className=S.theme==='dark'?'fas fa-sun':'fas fa-moon';sv()}
 
+// ============= SIDEBAR =============
+function tgSB(){document.getElementById('SB').classList.toggle('open');document.getElementById('SBO').classList.toggle('on')}
+
+// ============= NAVIGATION =============
 function go(pg){
 S.page=pg;sv();
 document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on')});
 document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on')});
-var pel=document.getElementById('pg-'+pg);
-if(pel)pel.classList.add('on');
-var nel=document.querySelector('.ni[data-p="'+pg+'"]');
-if(nel)nel.classList.add('on');
-var titles={dash:'Dashboard',subs:'Subjects','det':S.curSub||'Subject',
-revs:'Revisions',goals:'Goals',cal:'Calendar',hy:'High Yield',share:'Share'};
+var pel=document.getElementById('pg-'+pg);if(pel)pel.classList.add('on');
+var nel=document.querySelector('.ni[data-p="'+pg+'"]');if(nel)nel.classList.add('on');
+var titles={dash:'Dashboard',subs:'Subjects',det:S.curSub||'Subject',revs:'Revisions',goals:'Goals',cal:'Calendar',hy:'High Yield',share:'Share',set:'Settings'};
 document.getElementById('PT').textContent=titles[pg]||'MedTrack';
 if(pg==='dash')rndrDash();
 else if(pg==='subs')rndrSubs();
@@ -923,28 +943,31 @@ document.getElementById('SB').classList.remove('open');
 document.getElementById('SBO').classList.remove('on');
 }
 
+function setMode(m,el){
+S.mode=m;
+document.querySelectorAll('.mti').forEach(function(x){x.classList.remove('on')});
+if(el)el.classList.add('on');
+sv();rndrSubs();
+}
+
+// ============= STREAK =============
 function updStreak(){
 var td=new Date().toISOString().split('T')[0];
 var yd=new Date(Date.now()-86400000).toISOString().split('T')[0];
 if(S.lastStudy&&S.lastStudy!==td&&S.lastStudy!==yd)S.streak=0;
 document.getElementById('SK').textContent=S.streak;
-document.getElementById('s-str').textContent=S.streak;
 }
 
 function recStudy(){
 var td=new Date().toISOString().split('T')[0];
 var yd=new Date(Date.now()-86400000).toISOString().split('T')[0];
-if(S.lastStudy!==td){
-if(S.lastStudy===yd)S.streak++;
-else S.streak=1;
-S.lastStudy=td;
-}
+if(S.lastStudy!==td){if(S.lastStudy===yd)S.streak++;else S.streak=1;S.lastStudy=td}
 if(!S.log[td])S.log[td]=[];
 document.getElementById('SK').textContent=S.streak;
-document.getElementById('s-str').textContent=S.streak;
 sv();
 }
 
+// ============= DATA HELPERS =============
 function getAll(){
 var out=[];
 Object.keys(D.years).forEach(function(yr){
@@ -953,7 +976,7 @@ var sub=D.years[yr].subjects[sn];
 Object.keys(sub.chapters).forEach(function(ch){
 sub.chapters[ch].topics.forEach(function(t){
 var k=sn+'||'+ch+'||'+t.nmc;
-var p=S.tp[k]||{rd:0,rv:0,ls:null,nr:null,hy:t.hy};
+var p=S.tp[k]||{rd:0,rv:0,ls:null,nr:null,hy:t.hy,st:0};
 out.push(Object.assign({},t,{k:k,sub:sn,ch:ch,yr:yr,p:p}));
 });
 });
@@ -961,7 +984,8 @@ out.push(Object.assign({},t,{k:k,sub:sn,ch:ch,yr:yr,p:p}));
 });
 return out;
 }
-  function getSelSubs(){
+
+function getSelSubs(){
 var out=[];
 S.selYears.forEach(function(yr){
 if(!D.years[yr])return;
@@ -976,112 +1000,110 @@ return out;
 function getSubProg(sn){
 var tot=0,don=0;
 Object.keys(D.years).forEach(function(yr){
-var sub=D.years[yr].subjects[sn];
-if(!sub)return;
+var sub=D.years[yr].subjects[sn];if(!sub)return;
 Object.keys(sub.chapters).forEach(function(ch){
 sub.chapters[ch].topics.forEach(function(t){
-tot++;
-var k=sn+'||'+ch+'||'+t.nmc;
-if(S.tp[k]&&S.tp[k].rd)don++;
+tot++;var k=sn+'||'+ch+'||'+t.nmc;if(S.tp[k]&&S.tp[k].rd)don++;
 });
 });
 });
 return{tot:tot,don:don,pct:tot?Math.round((don/tot)*100):0};
 }
 
+// ============= DASHBOARD =============
 function rndrDash(){
 var all=getAll();
 var td=new Date().toISOString().split('T')[0];
 var don=all.filter(function(t){return t.p.rd}).length;
 var rev=all.filter(function(t){return t.p.nr&&t.p.nr<=td}).length;
 var hy=all.filter(function(t){return t.p.hy}).length;
+var goals=(S.goals||[]).filter(function(g){return g.type==='daily'&&!g.done}).length;
+
+document.getElementById('heroGreet').textContent=greet()+', '+S.user.name+'!';
+document.getElementById('heroGoals').textContent=goals+' goals today';
+document.getElementById('heroRev').textContent=rev+' revisions';
+document.getElementById('heroStreak').textContent=S.streak+' day streak';
+
 document.getElementById('s-tot').textContent=all.length;
 document.getElementById('s-don').textContent=don;
 document.getElementById('s-rev').textContent=rev;
-document.getElementById('s-str').textContent=S.streak;
 document.getElementById('s-hy').textContent=hy;
 document.getElementById('RB').textContent=rev;
-var subs=getSelSubs();
-var h='';
+
+var cd='';
+[{label:'Terminal',date:S.dates.terminal,note:'Internal'},
+{label:'Pre-Prof',date:S.dates.preprof,note:'University'},
+{label:'Prof',date:S.dates.prof,note:'Final'}].forEach(function(d){
+var diff=dDiff(d.date);
+var v=diff>0?diff:diff===0?'TODAY':'PAST';
+cd+='<div class="cdi"><div class="cdv">'+v+'</div><div class="cdl">'+d.label+(diff>0?' in days':'')+'</div><div class="cdn">'+d.date+'</div></div>';
+});
+document.getElementById('cdGrid').innerHTML=cd;
+
+var subs=getSelSubs(),h='';
 subs.forEach(function(s){
 var p=getSubProg(s.name);
-h+='<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-weight:600;font-size:12px">'+s.icon+' '+s.name+'</span><span style="font-size:11px;color:var(--tx3);font-weight:600">'+p.pct+'%</span></div><div class="pbc"><div class="pbf" style="width:'+p.pct+'%;background:'+s.color+'"></div></div><div style="font-size:10px;color:var(--tx3);margin-top:2px">'+p.don+'/'+p.tot+' topics</div></div>';
+h+='<div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-weight:600;font-size:13px">'+s.icon+' '+s.name+'</span><span style="font-size:12px;color:var(--tx3);font-weight:600">'+p.pct+'%</span></div><div class="pbc"><div class="pbf" style="width:'+p.pct+'%;background:'+s.color+'"></div></div><div style="font-size:11px;color:var(--tx3);margin-top:3px">'+p.don+'/'+p.tot+' topics</div></div>';
 });
-document.getElementById('DP').innerHTML=h||'<div class="es"><p>Select years to see progress</p></div>';
-var due=all.filter(function(t){return t.p.nr&&t.p.nr<=td}).slice(0,6);
-if(!due.length){
-document.getElementById('DR').innerHTML='<div class="es"><i class="fas fa-check-circle"></i><h3>All caught up!</h3></div>';
-}else{
-document.getElementById('DR').innerHTML=due.map(function(t){
-var ov=t.p.nr<td;
-return '<div class="ri '+(ov?'ov':'td2')+'"><div class="rb r'+Math.min(t.p.rv,3)+'">'+t.p.rv+'R</div><div style="flex:1"><div style="font-size:12px;font-weight:600">'+t.name+'</div><div style="font-size:10px;color:var(--tx3)">'+t.sub+'</div></div><span class="db '+(ov?'ov':'td')+'">'+(ov?'Overdue':'Today')+'</span></div>';
-}).join('');
-}
-  }
-  function rndrYS(){
-var h=Object.keys(D.years).map(function(y){
-return '<div class="yc'+(S.selYears.indexOf(y)>=0?' on':'')+'" onclick="tgY(\''+y+'\')">'+y+'</div>';
-}).join('');
-document.getElementById('YS').innerHTML=h;
+document.getElementById('DP').innerHTML=h||'<div class="es"><p>No subjects selected</p></div>';
+
+var due=all.filter(function(t){return t.p.nr&&t.p.nr<=td}).slice(0,5);
+if(!due.length){document.getElementById('DR').innerHTML='<div class="es"><i class="fas fa-check-circle"></i><h3>All caught up!</h3></div>'}
+else{document.getElementById('DR').innerHTML=due.map(function(t){var ov=t.p.nr<td;return '<div class="ri '+(ov?'ov':'td2')+'"><div class="rb r'+Math.min(t.p.rv,3)+'">'+t.p.rv+'R</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">'+t.name+'</div><div style="font-size:11px;color:var(--tx3)">'+t.sub+'</div></div><span class="dbb '+(ov?'ov':'td')+'">'+(ov?'Overdue':'Today')+'</span></div>'}).join('')}
 }
 
-function tgY(y){
-var i=S.selYears.indexOf(y);
-if(i>=0)S.selYears.splice(i,1);
-else S.selYears.push(y);
-sv();rndrYS();rndrSubs();
+// ============= YEAR SELECTOR =============
+function rndrYS(){
+document.getElementById('YS').innerHTML=Object.keys(D.years).map(function(y){return '<div class="yc'+(S.selYears.indexOf(y)>=0?' on':'')+'" onclick="tgY(\''+y+'\')">'+y+'</div>'}).join('');
 }
+function tgY(y){var i=S.selYears.indexOf(y);if(i>=0)S.selYears.splice(i,1);else S.selYears.push(y);sv();rndrYS();rndrSubs()}
 
+// ============= SUBJECTS =============
 function rndrSubs(){
 var subs=getSelSubs();
-if(!subs.length){
-document.getElementById('SG').innerHTML='<div class="es"><i class="fas fa-graduation-cap"></i><h3>No year selected</h3></div>';
-return;
-}
+if(!subs.length){document.getElementById('SG').innerHTML='<div class="es"><i class="fas fa-graduation-cap"></i><h3>No year selected</h3></div>';return}
 document.getElementById('SG').innerHTML=subs.map(function(s){
 var p=getSubProg(s.name);
 var tc=Object.keys(s.chapters).length;
-var mk=Object.values(s.chapters).reduce(function(a,c){return a+c.topics.filter(function(t){return t.pr==='must-know'}).length},0);
-return '<div class="xc" onclick="opnSub(\''+s.name+'\',\''+s.year+'\')"><div class="xh"><div class="xi" style="background:'+s.color+'18">'+s.icon+'</div><span style="font-size:10px;color:var(--tx3);background:var(--bg);padding:2px 8px;border-radius:20px">'+s.year+'</span></div><div class="xn">'+s.name+'</div><div class="xm">'+tc+' chapters • '+p.tot+' topics</div><div class="pbc"><div class="pbf" style="width:'+p.pct+'%;background:'+s.color+'"></div></div><div class="pt"><span>'+p.don+' done</span><span>'+p.pct+'%</span></div><div class="ptg"><span class="ptc mk">'+mk+' Must Know</span></div></div>';
+return '<div class="xc" onclick="opnSub(\''+s.name+'\',\''+s.year+'\')"><div class="xh"><div class="xi" style="background:'+s.color+'18">'+s.icon+'</div><span style="font-size:11px;color:var(--tx3);background:var(--bg3);padding:3px 10px;border-radius:20px;font-weight:600">'+s.year+'</span></div><div class="xn">'+s.name+'</div><div class="xm">'+tc+' chapters • '+p.tot+' topics</div><div class="pbc"><div class="pbf" style="width:'+p.pct+'%;background:'+s.color+'"></div></div><div class="ppt"><span>'+p.don+' done</span><span>'+p.pct+'%</span></div></div>';
 }).join('');
 }
 
+// ============= SUBJECT DETAIL =============
 function opnSub(sn,yr){
 S.curSub=sn;S.curYear=yr;S.curFilter='all';sv();
-var sub=D.years[yr].subjects[sn];
-var p=getSubProg(sn);
-document.getElementById('DH').innerHTML='<div class="cph" style="background:linear-gradient(135deg,'+sub.color+','+sub.color+'aa)"><h2>'+sub.icon+' '+sn+'</h2><p>'+yr+' • NMC Competency • ABV Medical University</p><div class="pbc"><div class="pbf" style="width:'+p.pct+'%"></div></div><div style="display:flex;justify-content:space-between;margin-top:4px;font-size:11px;opacity:.8"><span>'+p.don+'/'+p.tot+'</span><span>'+p.pct+'%</span></div></div>';
+var sub=D.years[yr].subjects[sn];var p=getSubProg(sn);
+document.getElementById('DH').innerHTML='<div class="cph" style="background:linear-gradient(135deg,'+sub.color+','+sub.color+'cc)"><h2>'+sub.icon+' '+sn+'</h2><p>'+yr+' • NMC Curriculum • '+S.profile.uni+'</p><div class="pbc"><div class="pbf" style="width:'+p.pct+'%"></div></div><div style="display:flex;justify-content:space-between;margin-top:5px;font-size:12px;opacity:.85;position:relative;z-index:1"><span>'+p.don+'/'+p.tot+'</span><span>'+p.pct+'%</span></div></div>';
 document.querySelectorAll('.fc').forEach(function(c){c.classList.remove('on')});
-var af=document.querySelector('.fc[data-f="all"]');
-if(af)af.classList.add('on');
+var af=document.querySelector('.fc[data-f="all"]');if(af)af.classList.add('on');
 if(document.getElementById('TS'))document.getElementById('TS').value='';
-rndrTopics(sn,yr);
-go('det');
-document.getElementById('PT').textContent=sn;
+rndrTopics(sn,yr);go('det');document.getElementById('PT').textContent=sn;
 }
-  function rndrTopics(sn,yr){
-var sub=D.years[yr]?D.years[yr].subjects[sn]:null;
-if(!sub)return;
+
+function rndrTopics(sn,yr){
+var sub=D.years[yr]?D.years[yr].subjects[sn]:null;if(!sub)return;
 var sr=(document.getElementById('TS')?document.getElementById('TS').value:'').toLowerCase();
-var f=S.curFilter;
-var h='';
+var f=S.curFilter,h='';
 Object.keys(sub.chapters).forEach(function(ch){
 var tops=sub.chapters[ch].topics;
 if(sr)tops=tops.filter(function(t){return t.name.toLowerCase().indexOf(sr)>=0||t.nmc.toLowerCase().indexOf(sr)>=0||ch.toLowerCase().indexOf(sr)>=0});
-if(f==='incomplete')tops=tops.filter(function(t){var k=sn+'||'+ch+'||'+t.nmc;return !(S.tp[k]&&S.tp[k].rd)});
+if(f==='incomplete')tops=tops.filter(function(t){var k=sn+'||'+ch+'||'+t.nmc;return!(S.tp[k]&&S.tp[k].rd)});
 else if(f==='high-yield')tops=tops.filter(function(t){var k=sn+'||'+ch+'||'+t.nmc;var p=S.tp[k];return p?p.hy:t.hy});
 else if(f!=='all')tops=tops.filter(function(t){return t.pr===f});
 if(!tops.length)return;
 var dn=tops.filter(function(t){var k=sn+'||'+ch+'||'+t.nmc;return S.tp[k]&&S.tp[k].rd}).length;
-h+='<div class="tg"><div class="tgh on" onclick="this.classList.toggle(\'on\');this.nextElementSibling.classList.toggle(\'on\')"><span>'+ch+' <span style="color:var(--tx3);font-weight:400">('+dn+'/'+tops.length+')</span></span><i class="fas fa-chevron-right"></i></div><div class="tl on">';
+h+='<div class="tgrp"><div class="tgh on" onclick="this.classList.toggle(\'on\');this.nextElementSibling.classList.toggle(\'on\')"><span>'+ch+' <span style="color:var(--tx3);font-weight:500">('+dn+'/'+tops.length+')</span></span><i class="fas fa-chevron-right"></i></div><div class="tlst on">';
 tops.forEach(function(t){
 var k=sn+'||'+ch+'||'+t.nmc;
-var p=S.tp[k]||{rd:0,rv:0,ls:null,nr:null,hy:t.hy};
+var p=S.tp[k]||{rd:0,rv:0,ls:null,nr:null,hy:t.hy,st:0};
 var ishy=p.hy!==undefined?p.hy:t.hy;
-h+='<div class="ti"><div class="tcb'+(p.rd?' ok':'')+'" onclick="tgTop(\''+k+'\',\''+sn+'\',\''+yr+'\')"></div><div class="tin" onclick="opnM(\''+k+'\',\''+t.name.replace(/'/g,'`')+'\',\''+sn+'\',\''+ch+'\',\''+t.nmc+'\',\''+t.pr+'\')"><div class="tn'+(p.rd?' done':'')+'">'+t.name+'</div><div class="td"><span class="nmc">'+t.nmc+'</span><span class="ptc '+(t.pr==='must-know'?'mk':'gk')+'" style="font-size:9px">'+(t.pr==='must-know'?'🔴Must':'🟡Good')+'</span>';
-if(p.ls)h+='<span class="tdt"><i class="fas fa-calendar"></i>'+p.ls+'</span>';
-if(p.nr)h+='<span class="tdt"><i class="fas fa-redo"></i>'+p.nr+'</span>';
-h+='</div></div><div class="ta"><div class="rb r'+Math.min(p.rv,3)+'">'+p.rv+'R</div><i class="fas fa-star hys'+(ishy?' on':'')+'" onclick="tgHY(\''+k+'\',\''+sn+'\',\''+yr+'\')"></i></div></div>';
+h+='<div class="tit"><div class="tcb'+(p.rd?' ok':'')+'" onclick="tgTop(\''+k+'\',\''+sn+'\',\''+yr+'\')"></div><div class="tin" onclick="opnM(\''+k+'\',\''+t.name.replace(/\'/g,'`')+'\',\''+sn+'\',\''+ch+'\',\''+t.nmc+'\',\''+t.pr+'\')"><div class="tnm'+(p.rd?' dn':'')+'">'+t.name+'</div><div class="tdt"><span class="nmc">'+t.nmc+'</span>';
+if(t.pg)h+='<span class="tag pg">PG</span>';
+if(t.pf)h+='<span class="tag pf">Prof</span>';
+h+='<span class="tag '+(t.pr==='must-know'?'mk':t.pr==='good-know'?'gk':'nk')+'">'+(t.pr==='must-know'?'Must':t.pr==='good-know'?'Good':'Nice')+'</span>';
+if(p.ls)h+='<span class="tdi"><i class="fas fa-calendar"></i>'+p.ls+'</span>';
+if(p.nr)h+='<span class="tdi"><i class="fas fa-redo"></i>'+p.nr+'</span>';
+h+='</div></div><div class="tac"><span class="rb r'+Math.min(p.rv,3)+'">'+p.rv+'R</span><i class="fas fa-star hys'+(ishy?' on':'')+'" onclick="tgHY(\''+k+'\',\''+sn+'\',\''+yr+'\')"></i></div></div>';
 });
 h+='</div></div>';
 });
@@ -1089,51 +1111,28 @@ document.getElementById('TL').innerHTML=h||'<div class="es"><i class="fas fa-sea
 }
 
 function fltT(){if(S.curSub&&S.curYear)rndrTopics(S.curSub,S.curYear)}
+function setF(f,el){S.curFilter=f;document.querySelectorAll('.fc').forEach(function(c){c.classList.remove('on')});if(el)el.classList.add('on');fltT()}
 
-function setF(f,el){
-S.curFilter=f;
-document.querySelectorAll('.fc').forEach(function(c){c.classList.remove('on')});
-if(el)el.classList.add('on');
-fltT();
- }
-  function tgTop(k,sn,yr){
+function tgTop(k,sn,yr){
 var td=new Date().toISOString().split('T')[0];
-if(!S.tp[k])S.tp[k]={rd:0,rv:0,ls:null,nr:null,hy:0};
+if(!S.tp[k])S.tp[k]={rd:0,rv:0,ls:null,nr:null,hy:0,st:0};
 var p=S.tp[k];
-if(!p.rd){
-p.rd=1;p.ls=td;p.rv=1;
-p.nr=nrd(1,td);
-recStudy();
-if(!S.log[td])S.log[td]=[];
-S.log[td].push({k:k,a:'completed'});
-toast('✅ Read! Rev: '+p.nr);
-}else{
-p.rd=0;p.rv=0;p.ls=null;p.nr=null;
-}
+if(!p.rd){p.rd=1;p.ls=td;p.rv=1;p.nr=nrd(1,td);recStudy();if(!S.log[td])S.log[td]=[];S.log[td].push({k:k,a:'completed'});toast('Read! Next: '+p.nr);}
+else{p.rd=0;p.rv=0;p.ls=null;p.nr=null}
 sv();rndrTopics(sn,yr);
 }
 
-function tgHY(k,sn,yr){
-if(!S.tp[k])S.tp[k]={rd:0,rv:0,ls:null,nr:null,hy:0};
-S.tp[k].hy=S.tp[k].hy?0:1;
-sv();rndrTopics(sn,yr);
-}
+function tgHY(k,sn,yr){if(!S.tp[k])S.tp[k]={rd:0,rv:0,ls:null,nr:null,hy:0,st:0};S.tp[k].hy=S.tp[k].hy?0:1;sv();rndrTopics(sn,yr)}
 
 function opnM(k,nm,sn,ch,nmc,pr){
-var p=S.tp[k]||{rd:0,rv:0,ls:null,nr:null};
+var p=S.tp[k]||{rd:0,rv:0,ls:null,nr:null,st:0};
+var stars='';for(var i=1;i<=5;i++)stars+='<i class="fas fa-star'+(i<=(p.st||0)?' on':'')+'" onclick="setStar(\''+k+'\','+i+')" style="font-size:22px;cursor:pointer;color:'+(i<=(p.st||0)?'#f59e0b':'var(--tx3)')+';margin:0 2px"></i>';
 document.getElementById('MN').textContent=nm;
-document.getElementById('MB').innerHTML=
-'<div style="margin-bottom:14px"><span class="nmc">'+nmc+'</span> <span class="ptc '+(pr==='must-know'?'mk':'gk')+'" style="margin-left:6px">'+pr+'</span></div>'+
-'<div style="font-size:12px;color:var(--tx2);margin-bottom:16px"><b>'+sn+'</b> → '+ch+'</div>'+
-'<div class="fg"><label>Status</label><select class="fi" id="MS"><option value="0"'+(p.rd?'':' selected')+'>Not Read</option><option value="1"'+(p.rd?' selected':'')+'>Read</option></select></div>'+
-'<div class="fg"><label>Revision Count</label><input type="number" class="fi" id="MR" value="'+p.rv+'" min="0" max="20"></div>'+
-'<div class="fg"><label>Last Study Date</label><input type="date" class="fi" id="ML" value="'+(p.ls||'')+'"></div>'+
-'<div class="fg"><label>Next Revision (Leitner auto)</label><input type="date" class="fi" id="MNR" value="'+(p.nr||'')+'"></div>'+
-'<input type="hidden" id="MK" value="'+k+'">'+
-'<input type="hidden" id="MSN" value="'+sn+'">'+
-'<input type="hidden" id="MYR" value="'+(S.curYear||'')+'">'; 
+document.getElementById('MB').innerHTML='<div style="margin-bottom:14px"><span class="nmc">'+nmc+'</span> <span class="tag '+(pr==='must-know'?'mk':pr==='good-know'?'gk':'nk')+'" style="margin-left:6px">'+pr+'</span></div><div style="font-size:12px;color:var(--tx2);margin-bottom:18px"><b>'+sn+'</b> → '+ch+'</div><div class="fg"><label>Confidence Level</label><div style="display:flex;gap:2px;justify-content:center;padding:10px 0">'+stars+'</div></div><div class="fg"><label>Status</label><select class="fi" id="MS"><option value="0"'+(p.rd?'':' selected')+'>Not Read</option><option value="1"'+(p.rd?' selected':'')+'>Read</option></select></div><div class="fg"><label>Revisions</label><input type="number" class="fi" id="MR" value="'+p.rv+'" min="0" max="20"></div><div class="fg"><label>Last Study</label><input type="date" class="fi" id="ML" value="'+(p.ls||'')+'"></div><div class="fg"><label>Next Revision</label><input type="date" class="fi" id="MNR" value="'+(p.nr||'')+'"></div><input type="hidden" id="MK" value="'+k+'"><input type="hidden" id="MSN" value="'+sn+'"><input type="hidden" id="MYR" value="'+(S.curYear||'')+'">';
 document.getElementById('TM').classList.add('on');
 }
+
+function setStar(k,n){if(!S.tp[k])S.tp[k]={rd:0,rv:0,ls:null,nr:null,hy:0,st:0};S.tp[k].st=n;sv();var stars=document.querySelectorAll('#MB .str i, #MB .fg i.fa-star');stars.forEach(function(s,i){if(i<n){s.classList.add('on');s.style.color='#f59e0b'}else{s.classList.remove('on');s.style.color='var(--tx3)'}});toast(n+' star confidence saved')}
 
 function clM(){document.getElementById('TM').classList.remove('on')}
 
@@ -1143,225 +1142,105 @@ var rd=document.getElementById('MS').value==='1'?1:0;
 var rv=parseInt(document.getElementById('MR').value)||0;
 var ls=document.getElementById('ML').value||null;
 var nr=document.getElementById('MNR').value||(ls&&rv?nrd(rv,ls):null);
-if(!S.tp[k])S.tp[k]={rd:0,rv:0,ls:null,nr:null,hy:0};
+if(!S.tp[k])S.tp[k]={rd:0,rv:0,ls:null,nr:null,hy:0,st:0};
 S.tp[k].rd=rd;S.tp[k].rv=rv;S.tp[k].ls=ls;S.tp[k].nr=nr;
 if(rd&&ls)recStudy();
-sv();clM();toast('Topic updated!');
-var sn=document.getElementById('MSN').value;
-var yr=document.getElementById('MYR').value;
+sv();clM();toast('Updated!');
+var sn=document.getElementById('MSN').value,yr=document.getElementById('MYR').value;
 if(sn&&yr)rndrTopics(sn,yr);
 }
-  function rndrRevs(){
-var all=getAll();
-var td=new Date().toISOString().split('T')[0];
-var we=new Date(Date.now()+7*86400000).toISOString().split('T')[0];
-var tops;
-var tab=S.revTab;
-if(tab==='overdue')tops=all.filter(function(t){return t.p.nr&&t.p.nr<td});
-else if(tab==='today')tops=all.filter(function(t){return t.p.nr===td});
-else if(tab==='week')tops=all.filter(function(t){return t.p.nr&&t.p.nr>=td&&t.p.nr<=we});
-else tops=all.filter(function(t){return t.p.nr&&t.p.nr>=td}).sort(function(a,b){return a.p.nr.localeCompare(b.p.nr)});
-if(!tops.length){
-document.getElementById('RL').innerHTML='<div class="es"><i class="fas fa-check-circle"></i><h3>Nothing here!</h3><p>Keep studying!</p></div>';
-return;
-}
-document.getElementById('RL').innerHTML=tops.map(function(t){
-var ov=t.p.nr<td,tod=t.p.nr===td;
-return '<div class="ri '+(ov?'ov':tod?'td2':'')+'"><div class="rb r'+Math.min(t.p.rv,3)+'">'+t.p.rv+'R</div><div style="flex:1;min-width:0"><div style="font-size:12px;font-weight:600">'+t.name+'</div><div style="font-size:10px;color:var(--tx3)">'+t.sub+' • <span class="nmc">'+t.nmc+'</span></div></div><span class="db '+(ov?'ov':tod?'td':'up')+'">'+(ov?'Overdue':tod?'Today':t.p.nr)+'</span><button class="btn bs bsm" onclick="mrkRev(\''+t.k+'\')"><i class="fas fa-check"></i></button></div>';
-}).join('');
+
+// ============= REVISIONS =============
+function rndrRevs(){
+var all=getAll();var td=new Date().toISOString().split('T')[0];var we=new Date(Date.now()+7*86400000).toISOString().split('T')[0];
+var tops,t=S.revTab;
+if(t==='overdue')tops=all.filter(function(x){return x.p.nr&&x.p.nr<td});
+else if(t==='today')tops=all.filter(function(x){return x.p.nr===td});
+else if(t==='week')tops=all.filter(function(x){return x.p.nr&&x.p.nr>=td&&x.p.nr<=we});
+else tops=all.filter(function(x){return x.p.nr&&x.p.nr>=td}).sort(function(a,b){return a.p.nr.localeCompare(b.p.nr)});
+if(!tops.length){document.getElementById('RL').innerHTML='<div class="es"><i class="fas fa-check-circle"></i><h3>All clear!</h3></div>';return}
+document.getElementById('RL').innerHTML=tops.map(function(x){var ov=x.p.nr<td,tod=x.p.nr===td;return '<div class="ri '+(ov?'ov':tod?'td2':'')+'"><div class="rb r'+Math.min(x.p.rv,3)+'">'+x.p.rv+'R</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:600">'+x.name+'</div><div style="font-size:11px;color:var(--tx3)">'+x.sub+' • <span class="nmc">'+x.nmc+'</span></div></div><span class="dbb '+(ov?'ov':tod?'td':'up')+'">'+(ov?'Overdue':tod?'Today':x.p.nr)+'</span><button class="bt bs bx" onclick="mrkRev(\''+x.k+'\')"><i class="fas fa-check"></i></button></div>'}).join('');
 }
 
-function mrkRev(k){
-var td=new Date().toISOString().split('T')[0];
-if(!S.tp[k])return;
-S.tp[k].rv++;
-S.tp[k].ls=td;
-S.tp[k].nr=nrd(S.tp[k].rv,td);
-recStudy();
-if(!S.log[td])S.log[td]=[];
-S.log[td].push({k:k,a:'revised'});
-sv();rndrRevs();
-toast('Revised! Next: '+S.tp[k].nr);
-}
+function mrkRev(k){var td=new Date().toISOString().split('T')[0];if(!S.tp[k])return;S.tp[k].rv++;S.tp[k].ls=td;S.tp[k].nr=nrd(S.tp[k].rv,td);recStudy();if(!S.log[td])S.log[td]=[];S.log[td].push({k:k,a:'revised'});sv();rndrRevs();toast('Revised! Next: '+S.tp[k].nr)}
 
-function setRT(t,el){
-S.revTab=t;
-document.querySelectorAll('#pg-revs .tab').forEach(function(x){x.classList.remove('on')});
-if(el)el.classList.add('on');
-rndrRevs();
-}
+function setRT(t,el){S.revTab=t;document.querySelectorAll('#pg-revs .tab').forEach(function(x){x.classList.remove('on')});if(el)el.classList.add('on');rndrRevs()}
 
+// ============= GOALS =============
 function rndrGoals(){
 var gs=(S.goals||[]).filter(function(g){return g.type===S.goalTab});
-if(!gs.length){
-document.getElementById('GL').innerHTML='<div class="es"><i class="fas fa-bullseye"></i><h3>No goals yet</h3></div>';
-return;
-}
-document.getElementById('GL').innerHTML=gs.map(function(g,i){
-return '<div class="gi"><div class="gc'+(g.done?' ok':'')+'" onclick="tgG('+i+')"></div><span class="gt'+(g.done?' done':'')+'">'+g.text+'</span><span style="font-size:10px;color:var(--tx3)">'+(g.type==='daily'?'Today':'Week')+'</span><button class="btn bs bsm" onclick="delG('+i+')" style="padding:4px 8px"><i class="fas fa-trash" style="font-size:10px"></i></button></div>';
-}).join('');
-}
-  function addG(){
-var t=document.getElementById('GI').value.trim();
-var ty=document.getElementById('GTY').value;
-if(!t)return;
-if(!S.goals)S.goals=[];
-S.goals.push({text:t,type:ty,done:false,date:new Date().toISOString().split('T')[0]});
-document.getElementById('GI').value='';
-sv();rndrGoals();toast('Goal added!');
+if(!gs.length){document.getElementById('GL').innerHTML='<div class="es"><i class="fas fa-bullseye"></i><h3>No goals yet</h3></div>';return}
+document.getElementById('GL').innerHTML=gs.map(function(g,i){return '<div class="gi"><div class="gc'+(g.done?' ok':'')+'" onclick="tgG('+i+')"></div><span class="gt'+(g.done?' dn':'')+'">'+g.text+'</span><button class="bt bs bx" onclick="delG('+i+')"><i class="fas fa-trash" style="font-size:11px"></i></button></div>'}).join('');
 }
 
-function tgG(i){
-var gs=(S.goals||[]).filter(function(g){return g.type===S.goalTab});
-var ri=S.goals.indexOf(gs[i]);
-S.goals[ri].done=!S.goals[ri].done;
-if(S.goals[ri].done)recStudy();
-sv();rndrGoals();
-}
+function addG(){var t=document.getElementById('GI').value.trim();var ty=document.getElementById('GTY').value;if(!t)return;if(!S.goals)S.goals=[];S.goals.push({text:t,type:ty,done:false,date:new Date().toISOString().split('T')[0]});document.getElementById('GI').value='';sv();rndrGoals();toast('Goal added!')}
 
-function delG(i){
-var gs=(S.goals||[]).filter(function(g){return g.type===S.goalTab});
-var ri=S.goals.indexOf(gs[i]);
-S.goals.splice(ri,1);
-sv();rndrGoals();
-}
+function tgG(i){var gs=(S.goals||[]).filter(function(g){return g.type===S.goalTab});var ri=S.goals.indexOf(gs[i]);S.goals[ri].done=!S.goals[ri].done;if(S.goals[ri].done)recStudy();sv();rndrGoals()}
 
-function setGT(t,el){
-S.goalTab=t;
-document.querySelectorAll('#pg-goals .tab').forEach(function(x){x.classList.remove('on')});
-if(el)el.classList.add('on');
-rndrGoals();
-}
+function delG(i){var gs=(S.goals||[]).filter(function(g){return g.type===S.goalTab});var ri=S.goals.indexOf(gs[i]);S.goals.splice(ri,1);sv();rndrGoals()}
 
+function setGT(t,el){S.goalTab=t;document.querySelectorAll('#pg-goals .tab').forEach(function(x){x.classList.remove('on')});if(el)el.classList.add('on');rndrGoals()}
+
+// ============= CALENDAR =============
 function rndrCal(){
 var ms=['January','February','March','April','May','June','July','August','September','October','November','December'];
 var y=S.calYear,m=S.calMon;
 document.getElementById('CMT').textContent=ms[m]+' '+y;
-var fd=new Date(y,m,1).getDay(), dim=new Date(y,m+1,0).getDate();
+var fd=new Date(y,m,1).getDay(),dim=new Date(y,m+1,0).getDate();
 var td=new Date().toISOString().split('T')[0];
 var h=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(function(d){return '<div class="chc">'+d+'</div>'}).join('');
 for(var i=0;i<fd;i++)h+='<div class="cc em"></div>';
 for(var d=1;d<=dim;d++){
 var ds=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
-var it=ds===td, hs=S.log[ds]&&S.log[ds].length>0;
+var it=ds===td,hs=S.log[ds]&&S.log[ds].length>0;
 h+='<div class="cc '+(it?'to':'')+' '+(hs?'hs':'')+'" onclick="shDay(\''+ds+'\')">'+d+(hs?'<div class="cdt"></div>':'')+'</div>';
 }
 document.getElementById('CG').innerHTML=h;
-  }
-  function shDay(ds){
-var log=S.log[ds]||[];
-document.getElementById('CDT').textContent='Activity on '+ds;
-if(!log.length){
-document.getElementById('CDD').innerHTML='<div class="es"><i class="fas fa-calendar-times"></i><h3>No activity</h3></div>';
-return;
-}
-document.getElementById('CDD').innerHTML=log.map(function(e){
-var pts=e.k.split('||');
-return '<div style="padding:9px 0;border-bottom:1px solid var(--br);font-size:12px"><strong>'+(pts[0]||'Log')+'</strong> → '+(pts[1]||e.k)+' <span style="color:var(--'+(e.a==='completed'?'ok':'in')+');font-size:10px;font-weight:700">'+e.a+'</span></div>';
-}).join('');
 }
 
-function chM(d){
-S.calMon+=d;
-if(S.calMon>11){S.calMon=0;S.calYear++;}
-if(S.calMon<0){S.calMon=11;S.calYear--;}
-rndrCal();
-}
+function shDay(ds){var log=S.log[ds]||[];document.getElementById('CDT').textContent='Activity on '+ds;if(!log.length){document.getElementById('CDD').innerHTML='<div class="es"><i class="fas fa-calendar-times"></i><h3>No activity</h3></div>';return}document.getElementById('CDD').innerHTML=log.map(function(e){var pts=e.k.split('||');return '<div style="padding:10px 0;border-bottom:1px solid var(--br);font-size:13px"><strong>'+(pts[0]||'Log')+'</strong> → '+(pts[1]||e.k)+' <span style="color:var(--'+(e.a==='completed'?'ok':'in')+');font-size:10px;font-weight:700;margin-left:6px">'+e.a+'</span></div>'}).join('')}
 
+function chM(d){S.calMon+=d;if(S.calMon>11){S.calMon=0;S.calYear++}if(S.calMon<0){S.calMon=11;S.calYear--}rndrCal()}
+
+// ============= HIGH YIELD =============
 function rndrHY(){
-var all=getAll();
-var hy=all.filter(function(t){return t.p.hy!==undefined?t.p.hy:t.hy});
-var subs=[...new Set(hy.map(function(t){return t.sub}))];
-document.getElementById('HYF').innerHTML=
-'<div class="fc on" onclick="fltHY(\'all\',this)">All ('+hy.length+')</div>'+
-subs.map(function(s){return '<div class="fc" onclick="fltHY(\''+s+'\',this)">'+s+'</div>'}).join('');
+var all=getAll();var hy=all.filter(function(t){return t.p.hy!==undefined?t.p.hy:t.hy});
+var subs=Array.from(new Set(hy.map(function(t){return t.sub})));
+document.getElementById('HYF').innerHTML='<div class="fc on" onclick="fltHY(\'all\',this)">All ('+hy.length+')</div>'+subs.map(function(s){return '<div class="fc" onclick="fltHY(\''+s+'\',this)">'+s+'</div>'}).join('');
 rndrHYL(hy);
 }
 
 function rndrHYL(tops){
-if(!tops.length){
-document.getElementById('HYL').innerHTML='<div class="es"><i class="fas fa-star"></i><h3>No high yield marked</h3></div>';
-return;
-}
-var grp={};
-tops.forEach(function(t){if(!grp[t.sub])grp[t.sub]=[];grp[t.sub].push(t)});
-var h='';
-Object.keys(grp).forEach(function(s){
-h+='<h3 style="margin:14px 0 8px;font-size:13px;color:var(--tx2)">'+s+' ('+grp[s].length+')</h3>';
-h+=grp[s].map(function(t){
-return '<div class="ri"><div class="rb r'+Math.min(t.p.rv,3)+'">'+t.p.rv+'R</div><div style="flex:1"><div style="font-size:12px;font-weight:600">'+t.name+'</div><div style="font-size:10px;color:var(--tx3)">'+t.ch+' • <span class="nmc">'+t.nmc+'</span></div></div>'+(t.p.rd?'<span style="color:var(--ok);font-size:11px;font-weight:700">✓Done</span>':'<span style="color:var(--dn);font-size:11px;font-weight:700">✗Pending</span>')+'</div>';
-}).join('');
-});
+if(!tops.length){document.getElementById('HYL').innerHTML='<div class="es"><i class="fas fa-star"></i><h3>No high yield marked</h3></div>';return}
+var grp={};tops.forEach(function(t){if(!grp[t.sub])grp[t.sub]=[];grp[t.sub].push(t)});
+var h='';Object.keys(grp).forEach(function(s){h+='<h3 style="margin:14px 0 8px;font-size:13px;color:var(--tx2);font-weight:700">'+s+' ('+grp[s].length+')</h3>';h+=grp[s].map(function(t){return '<div class="ri"><div class="rb r'+Math.min(t.p.rv,3)+'">'+t.p.rv+'R</div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+t.name+'</div><div style="font-size:11px;color:var(--tx3)">'+t.ch+' • <span class="nmc">'+t.nmc+'</span></div></div>'+(t.p.rd?'<span style="color:var(--ok);font-size:11px;font-weight:700">✓Done</span>':'<span style="color:var(--dn);font-size:11px;font-weight:700">✗Pending</span>')+'</div>'}).join('')});
 document.getElementById('HYL').innerHTML=h;
 }
 
-function fltHY(s,el){
-document.querySelectorAll('#HYF .fc').forEach(function(c){c.classList.remove('on')});
-if(el)el.classList.add('on');
-var all=getAll();
-var hy=all.filter(function(t){return t.p.hy!==undefined?t.p.hy:t.hy});
-if(s!=='all')hy=hy.filter(function(t){return t.sub===s});
-rndrHYL(hy);
-}
-  function qLog(){
-var inp=document.getElementById('QLI');
-var t=inp.value.trim();
-if(!t)return;
-var td=new Date().toISOString().split('T')[0];
-if(!S.log[td])S.log[td]=[];
-S.log[td].push({k:'QuickLog||'+t+'||QL',a:'logged'});
-recStudy();inp.value='';sv();
-toast('Logged: '+t);
-}
+function fltHY(s,el){document.querySelectorAll('#HYF .fc').forEach(function(c){c.classList.remove('on')});if(el)el.classList.add('on');var all=getAll();var hy=all.filter(function(t){return t.p.hy!==undefined?t.p.hy:t.hy});if(s!=='all')hy=hy.filter(function(t){return t.sub===s});rndrHYL(hy)}
 
+// ============= QUICK LOG =============
+function qLog(){var inp=document.getElementById('QLI');var t=inp.value.trim();if(!t)return;var td=new Date().toISOString().split('T')[0];if(!S.log[td])S.log[td]=[];S.log[td].push({k:'QuickLog||'+t+'||QL',a:'logged'});recStudy();inp.value='';sv();toast('Logged: '+t)}
+
+// ============= SHARE =============
 function genShare(){
 var subs=getSelSubs();
-var txt='📊 MedTrack Progress\n';
-txt+='👤 '+(S.user?S.user.name:'Student')+'\n';
-txt+='🏥 ASMC Gonda | 2nd Year MBBS\n';
-txt+='🔥 '+S.streak+' Day Streak\n';
-txt+='─────────────────────\n\n';
-subs.forEach(function(s){
-var p=getSubProg(s.name);
-var bar='';
-for(var i=0;i<10;i++)bar+=i<Math.round(p.pct/10)?'█':'░';
-txt+=s.icon+' '+s.name+'\n'+bar+' '+p.pct+'% ('+p.don+'/'+p.tot+')\n\n';
-});
-txt+='─────────────────────\n';
-txt+='Generated by MedTrack Pro';
-document.getElementById('SO').innerHTML=
-'<div style="background:var(--bg);border-radius:var(--r);padding:16px;margin-top:14px">'+
-'<pre style="font-size:12px;white-space:pre-wrap;font-family:inherit;line-height:1.8">'+txt+'</pre></div>'+
-'<button class="btn bs bsm" style="margin-top:10px" onclick="navigator.clipboard.writeText(`'+txt.replace(/`/g,"'")+"`).then(function(){toast('Copied!')})\">"+'<i class="fas fa-copy"></i> Copy</button>';
+var txt='📊 MedTrack Progress\n👤 '+S.user.name+'\n🏥 '+S.profile.college+' | '+S.profile.year+'\n🔥 '+S.streak+' Day Streak\n─────────────────────\n\n';
+subs.forEach(function(s){var p=getSubProg(s.name);var bar='';for(var i=0;i<10;i++)bar+=i<Math.round(p.pct/10)?'█':'░';txt+=s.icon+' '+s.name+'\n'+bar+' '+p.pct+'% ('+p.don+'/'+p.tot+')\n\n'});
+txt+='─────────────────────\nGenerated by MedTrack Pro';
+document.getElementById('SO').innerHTML='<div style="background:var(--bg3);border-radius:var(--r);padding:16px;margin-top:14px"><pre style="font-size:12px;white-space:pre-wrap;font-family:inherit;line-height:1.8;margin:0">'+txt+'</pre></div><button class="bt bs bsm" style="margin-top:10px" onclick="copyShare(`'+txt.replace(/`/g,"'")+"`)\"><i class=\"fas fa-copy\"></i> Copy</button>";
 }
+function copyShare(t){if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){toast('Copied!')})}else{toast('Copy not supported')}}
 
-chkAuth();
+// ============= SETTINGS =============
+function editProfile(){var n=prompt('Your name:',S.user.name);if(n){S.user.name=n;document.getElementById('UNM').textContent=n;document.getElementById('UAV').textContent=n.charAt(0).toUpperCase();sv();toast('Updated!')}}
+function editDates(){toast('Coming soon — edit in onboarding for now')}
+function changePin(){var n=prompt('New 4-digit PIN:');if(n&&n.length===4){S.user.pin=n;sv();toast('PIN changed!')}}
+function exportData(){var d=JSON.stringify(S);var b=new Blob([d],{type:'application/json'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='medtrack-backup-'+new Date().toISOString().split('T')[0]+'.json';a.click();toast('Downloaded!')}
+function importData(){toast('Coming soon')}
+
+// ============= INIT =============
+startApp();
 </script>
- <button id="HMB" onclick="document.getElementById('SB').classList.toggle('open');document.getElementById('SBO').classList.toggle('on')" style="display:none;position:fixed;top:15px;left:15px;z-index:999;width:48px;height:48px;border-radius:50%;background:#6366f1;color:white;border:none;font-size:20px;box-shadow:0 4px 12px rgba(0,0,0,0.3);cursor:pointer">☰</button>
-
-<style>
-.sb{transform:translateX(-100%)!important;z-index:998!important}
-.sb.open{transform:translateX(0)!important}
-.mc{margin-left:0!important}
-.ql{left:0!important}
-.tb{padding-left:75px!important}
-</style>
-
-<script>
-setInterval(function(){
-var app=document.getElementById('APP');
-var hmb=document.getElementById('HMB');
-if(app && app.classList.contains('on')){hmb.style.display='flex';hmb.style.alignItems='center';hmb.style.justifyContent='center'}
-else{hmb.style.display='none'}
-},500);
-</script> 
-
-<style>
-.sb{transform:translateX(-100%)!important;z-index:998!important}
-.sb.open{transform:translateX(0)!important}
-.mc{margin-left:0!important}
-.ql{left:0!important}
-.tb{padding-left:75px!important}
-</style>
 </body>
 </html>
