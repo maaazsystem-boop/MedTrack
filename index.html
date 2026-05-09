@@ -1,9 +1,441 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MedPath</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+body { background: #000; color: #fff; min-height: 100vh; padding-bottom: 80px; }
+.container { max-width: 500px; margin: 0 auto; padding: 20px; }
+
+/* Header */
+.header { padding: 40px 20px 20px; }
+.greeting { color: #888; font-size: 14px; }
+.name { font-size: 28px; font-weight: 800; margin-top: 4px; }
+
+/* Cards */
+.card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 20px; margin-bottom: 16px; }
+.card-gold { background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(245,158,11,0.05)); border: 1px solid rgba(245,158,11,0.3); }
+
+/* Streak */
+.streak-row { display: flex; align-items: center; justify-content: space-between; }
+.streak-num { font-size: 56px; font-weight: 900; line-height: 1; }
+.streak-emoji { font-size: 40px; margin-left: 8px; }
+.streak-label { color: #888; font-size: 13px; margin-bottom: 8px; }
+.streak-best { background: rgba(245,158,11,0.15); padding: 12px 16px; border-radius: 16px; text-align: center; }
+.streak-best-num { color: #f59e0b; font-weight: 700; font-size: 20px; }
+
+/* Progress */
+.progress-bar { height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; margin: 12px 0; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #fcd34d); border-radius: 4px; transition: width 1s ease; }
+
+/* Subjects */
+.subject-item { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 16px; margin-bottom: 12px; cursor: pointer; transition: transform 0.2s; }
+.subject-item:active { transform: scale(0.98); }
+.subject-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.subject-name { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.subject-icon { font-size: 24px; }
+.subject-percent { font-weight: 700; color: #f59e0b; }
+
+/* Button */
+.btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #f59e0b, #fcd34d); color: #000; border: none; border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer; }
+.btn:active { opacity: 0.8; }
+
+/* Bottom Nav */
+.bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 12px 0; display: flex; justify-content: space-around; z-index: 100; }
+.nav-item { background: none; border: none; color: #666; font-size: 11px; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; padding: 4px 12px; }
+.nav-item.active { color: #f59e0b; }
+.nav-icon { font-size: 22px; }
+
+/* Onboarding */
+.onboard { min-height: 100vh; display: flex; flex-direction: column; padding: 40px 24px; }
+.onboard-header { padding-top: 60px; text-align: center; }
+.logo { font-size: 80px; margin-bottom: 20px; }
+.app-name { font-size: 42px; font-weight: 900; margin-bottom: 8px; }
+.tagline { color: #888; font-size: 16px; margin-bottom: 60px; }
+.input { width: 100%; padding: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; color: #fff; font-size: 16px; margin-bottom: 16px; }
+.input:focus { outline: none; border-color: #f59e0b; }
+
+/* Pages */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.3s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Stats grid */
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 16px; }
+.stat-label { color: #888; font-size: 12px; }
+.stat-value { font-size: 24px; font-weight: 800; margin-top: 4px; }
+
+/* Topic */
+.topic-item { padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.03); margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+.topic-check { width: 24px; height: 24px; border: 2px solid rgba(245,158,11,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.topic-check.done { background: #f59e0b; border-color: #f59e0b; color: #000; }
+.topic-name { flex: 1; font-size: 14px; }
+.topic-tier { font-size: 11px; padding: 2px 8px; border-radius: 6px; }
+.tier-essential { background: rgba(239,68,68,0.2); color: #ef4444; }
+.tier-pg { background: rgba(249,115,22,0.2); color: #f97316; }
+.tier-prof { background: rgba(234,179,8,0.2); color: #eab308; }
+
+/* Section title */
+.section-title { font-size: 18px; font-weight: 700; margin: 24px 0 12px; padding: 0 20px; }
+</style>
 </head>
-<body style="background: gold; color: black; font-size: 50px; text-align: center; padding: 100px;">
-✅ IT WORKS!
+<body>
+
+<!-- ONBOARDING -->
+<div id="onboarding" class="onboard">
+  <div class="onboard-header">
+    <div class="logo">🧭</div>
+    <div class="app-name">MedPath</div>
+    <div class="tagline">Your path through medicine,<br>perfectly tracked</div>
+  </div>
+  <div style="margin-top: auto;">
+    <input type="text" class="input" id="userName" placeholder="What's your name?">
+    <input type="text" class="input" id="userCollege" placeholder="Your college (optional)">
+    <select class="input" id="userYear">
+      <option value="1st Year">1st Year MBBS</option>
+      <option value="2nd Year" selected>2nd Year MBBS</option>
+      <option value="3rd Year">3rd Year MBBS</option>
+      <option value="Final Year">Final Year MBBS</option>
+    </select>
+    <button class="btn" onclick="completeOnboarding()">Start My Journey 🚀</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:none;">
+
+  <!-- Dashboard -->
+  <div id="page-home" class="page active">
+    <div class="header">
+      <div class="greeting" id="greeting">Good morning</div>
+      <div class="name" id="userNameDisplay">Welcome 👋</div>
+    </div>
+
+    <div class="container">
+      <!-- Streak -->
+      <div class="card">
+        <div class="streak-row">
+          <div>
+            <div class="streak-label">Current streak</div>
+            <div style="display: flex; align-items: center;">
+              <span class="streak-num" id="streakNum">0</span>
+              <span class="streak-emoji">🔥</span>
+            </div>
+          </div>
+          <div class="streak-best">
+            <div class="streak-best-num" id="bestStreak">0</div>
+            <div style="color:#888; font-size:11px;">Best</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Plan -->
+      <div class="card card-gold">
+        <div style="color:#f59e0b; font-size:11px; font-weight:700; letter-spacing:2px; margin-bottom:8px;">TODAY'S PLAN 🧠</div>
+        <div style="font-size:18px; font-weight:700;">3 topics suggested</div>
+        <div style="color:#888; font-size:13px; margin-top:4px;">Based on your weak areas</div>
+      </div>
+
+      <!-- Progress -->
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-weight:600;">Overall Progress</div>
+          <div style="color:#f59e0b; font-weight:700; font-size:20px;" id="overallPercent">0%</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="overallBar" style="width: 0%;"></div>
+        </div>
+        <div style="color:#888; font-size:13px;" id="progressMsg">Start your journey!</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Topics Done</div>
+          <div class="stat-value" id="topicsDone">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">In Progress</div>
+          <div class="stat-value" id="topicsProgress">0</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subjects -->
+  <div id="page-subjects" class="page">
+    <div class="header">
+      <div class="greeting">Your vast ocean</div>
+      <div class="name">Subjects 📚</div>
+    </div>
+    <div class="container" id="subjectsList"></div>
+  </div>
+
+  <!-- Topics (when subject clicked) -->
+  <div id="page-topics" class="page">
+    <div class="header">
+      <button onclick="showPage('subjects')" style="background:none;border:none;color:#f59e0b;font-size:14px;margin-bottom:8px;">← Back</button>
+      <div class="name" id="currentSubjectName">Subject</div>
+    </div>
+    <div class="container" id="topicsList"></div>
+  </div>
+
+  <!-- Settings -->
+  <div id="page-settings" class="page">
+    <div class="header">
+      <div class="name">Settings ⚙️</div>
+    </div>
+    <div class="container">
+      <div class="card">
+        <div style="font-weight:600; margin-bottom:12px;" id="settingsName">Your Profile</div>
+        <div style="color:#888; font-size:14px;" id="settingsCollege">College</div>
+        <div style="color:#888; font-size:14px;" id="settingsYear">Year</div>
+      </div>
+      <button class="btn" style="background:#ef4444; color:#fff;" onclick="resetApp()">Reset All Data</button>
+      <div style="text-align:center; color:#444; font-size:12px; margin-top:24px;">MedPath V3.0 Lite</div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="showPage('home')">
+      <div class="nav-icon">🏠</div>
+      <div>Home</div>
+    </button>
+    <button class="nav-item" id="nav-subjects" onclick="showPage('subjects')">
+      <div class="nav-icon">📚</div>
+      <div>Subjects</div>
+    </button>
+    <button class="nav-item" id="nav-settings" onclick="showPage('settings')">
+      <div class="nav-icon">⚙️</div>
+      <div>Settings</div>
+    </button>
+  </div>
+</div>
+
+<script>
+// State
+let state = {
+  onboarded: false,
+  user: { name: '', college: '', year: '2nd Year' },
+  streak: { current: 0, best: 0, lastDate: null },
+  topics: {}
+};
+
+// Subjects data
+const subjects = [
+  { id: 'anatomy', name: 'Anatomy', icon: '🦴', topics: [
+    { id: 'a1', name: 'Shoulder Joint', tier: 'essential' },
+    { id: 'a2', name: 'Brachial Plexus', tier: 'pg' },
+    { id: 'a3', name: 'Cubital Fossa', tier: 'essential' },
+    { id: 'a4', name: 'Femoral Triangle', tier: 'essential' },
+    { id: 'a5', name: 'Knee Joint', tier: 'essential' },
+    { id: 'a6', name: 'Heart Chambers', tier: 'essential' },
+    { id: 'a7', name: 'Mediastinum', tier: 'prof' }
+  ]},
+  { id: 'physio', name: 'Physiology', icon: '⚡', topics: [
+    { id: 'p1', name: 'Blood Groups', tier: 'essential' },
+    { id: 'p2', name: 'Hemoglobin', tier: 'essential' },
+    { id: 'p3', name: 'Cardiac Cycle', tier: 'essential' },
+    { id: 'p4', name: 'Cardiac Output', tier: 'essential' },
+    { id: 'p5', name: 'Action Potential', tier: 'essential' }
+  ]},
+  { id: 'biochem', name: 'Biochemistry', icon: '🧬', topics: [
+    { id: 'b1', name: 'Glycolysis', tier: 'essential' },
+    { id: 'b2', name: 'Krebs Cycle', tier: 'essential' },
+    { id: 'b3', name: 'Electron Transport', tier: 'pg' },
+    { id: 'b4', name: 'Enzyme Kinetics', tier: 'essential' }
+  ]},
+  { id: 'patho', name: 'Pathology', icon: '🔬', topics: [
+    { id: 'pa1', name: 'Inflammation', tier: 'essential' },
+    { id: 'pa2', name: 'Cell Injury', tier: 'essential' },
+    { id: 'pa3', name: 'Healing & Repair', tier: 'essential' },
+    { id: 'pa4', name: 'Neoplasia', tier: 'pg' },
+    { id: 'pa5', name: 'Hemodynamics', tier: 'essential' }
+  ]},
+  { id: 'micro', name: 'Microbiology', icon: '🦠', topics: [
+    { id: 'm1', name: 'Staphylococcus', tier: 'essential' },
+    { id: 'm2', name: 'Streptococcus', tier: 'essential' },
+    { id: 'm3', name: 'Mycobacterium TB', tier: 'pg' },
+    { id: 'm4', name: 'HIV', tier: 'essential' }
+  ]},
+  { id: 'pharma', name: 'Pharmacology', icon: '💊', topics: [
+    { id: 'ph1', name: 'Pharmacokinetics', tier: 'essential' },
+    { id: 'ph2', name: 'Pharmacodynamics', tier: 'essential' },
+    { id: 'ph3', name: 'Cholinergic Drugs', tier: 'essential' },
+    { id: 'ph4', name: 'Adrenergic Drugs', tier: 'pg' }
+  ]}
+];
+
+let currentSubject = null;
+
+// Load
+function load() {
+  const saved = localStorage.getItem('medpath');
+  if (saved) {
+    try { state = JSON.parse(saved); } catch(e) {}
+  }
+  if (state.onboarded) {
+    showApp();
+  }
+}
+
+function save() {
+  localStorage.setItem('medpath', JSON.stringify(state));
+}
+
+function completeOnboarding() {
+  const name = document.getElementById('userName').value.trim();
+  if (!name) {
+    alert('Please enter your name');
+    return;
+  }
+  state.user.name = name;
+  state.user.college = document.getElementById('userCollege').value.trim();
+  state.user.year = document.getElementById('userYear').value;
+  state.onboarded = true;
+  save();
+  showApp();
+}
+
+function showApp() {
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  
+  // Greeting
+  const hour = new Date().getHours();
+  let g = 'Good morning';
+  if (hour >= 12 && hour < 17) g = 'Good afternoon';
+  if (hour >= 17) g = 'Good evening';
+  document.getElementById('greeting').textContent = g;
+  document.getElementById('userNameDisplay').textContent = state.user.name + ' 👋';
+  
+  // Settings
+  document.getElementById('settingsName').textContent = state.user.name;
+  document.getElementById('settingsCollege').textContent = state.user.college || 'No college set';
+  document.getElementById('settingsYear').textContent = state.user.year;
+  
+  updateStats();
+  renderSubjects();
+}
+
+function updateStats() {
+  const done = Object.values(state.topics).filter(t => t === 'done').length;
+  const progress = Object.values(state.topics).filter(t => t === 'progress').length;
+  const total = subjects.reduce((acc, s) => acc + s.topics.length, 0);
+  const percent = Math.round((done / total) * 100);
+  
+  document.getElementById('topicsDone').textContent = done;
+  document.getElementById('topicsProgress').textContent = progress;
+  document.getElementById('overallPercent').textContent = percent + '%';
+  document.getElementById('overallBar').style.width = percent + '%';
+  document.getElementById('streakNum').textContent = state.streak.current;
+  document.getElementById('bestStreak').textContent = state.streak.best;
+  
+  let msg = 'Start your journey!';
+  if (done > 0 && done < 10) msg = 'Building your foundation 🌱';
+  else if (done >= 10 && done < 30) msg = 'Great pace! Keep going 🚀';
+  else if (done >= 30) msg = 'You\'re crushing it! 🔥';
+  document.getElementById('progressMsg').textContent = msg;
+}
+
+function renderSubjects() {
+  const container = document.getElementById('subjectsList');
+  container.innerHTML = subjects.map(s => {
+    const done = s.topics.filter(t => state.topics[t.id] === 'done').length;
+    const percent = Math.round((done / s.topics.length) * 100);
+    return `
+      <div class="subject-item" onclick="openSubject('${s.id}')">
+        <div class="subject-row">
+          <div class="subject-name">
+            <span class="subject-icon">${s.icon}</span>
+            <span>${s.name}</span>
+          </div>
+          <div class="subject-percent">${percent}%</div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${percent}%"></div>
+        </div>
+        <div style="color:#666; font-size:12px; margin-top:4px;">${done}/${s.topics.length} topics</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openSubject(id) {
+  currentSubject = subjects.find(s => s.id === id);
+  document.getElementById('currentSubjectName').textContent = currentSubject.icon + ' ' + currentSubject.name;
+  renderTopics();
+  showPage('topics');
+}
+
+function renderTopics() {
+  const container = document.getElementById('topicsList');
+  const tierLabels = { essential: '🔴 Essential', pg: '🟠 PG Focus', prof: '🟡 Prof' };
+  container.innerHTML = currentSubject.topics.map(t => {
+    const done = state.topics[t.id] === 'done';
+    return `
+      <div class="topic-item" onclick="toggleTopic('${t.id}')">
+        <div class="topic-check ${done ? 'done' : ''}">${done ? '✓' : ''}</div>
+        <div class="topic-name" style="${done ? 'text-decoration:line-through;color:#666;' : ''}">${t.name}</div>
+        <span class="topic-tier tier-${t.tier}">${tierLabels[t.tier]}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleTopic(id) {
+  if (state.topics[id] === 'done') {
+    delete state.topics[id];
+  } else {
+    state.topics[id] = 'done';
+    updateStreak();
+  }
+  save();
+  renderTopics();
+  updateStats();
+  renderSubjects();
+}
+
+function updateStreak() {
+  const today = new Date().toDateString();
+  if (state.streak.lastDate === today) return;
+  
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  
+  if (state.streak.lastDate === yesterday.toDateString()) {
+    state.streak.current++;
+  } else {
+    state.streak.current = 1;
+  }
+  
+  if (state.streak.current > state.streak.best) {
+    state.streak.best = state.streak.current;
+  }
+  state.streak.lastDate = today;
+}
+
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const nav = document.getElementById('nav-' + page);
+  if (nav) nav.classList.add('active');
+}
+
+function resetApp() {
+  if (confirm('Delete ALL your progress?')) {
+    localStorage.removeItem('medpath');
+    location.reload();
+  }
+}
+
+load();
+</script>
+
 </body>
 </html>
